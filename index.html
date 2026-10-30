@@ -17,10 +17,12 @@
   color-scheme:light;
   --navy:#062a44; --navy2:#041c30; --navy3:#0a3a5c;
   --teal:#0fb9c6; --teal2:#35d3dc; --teal-dark:#078794;
+  --coral:#ff7a59; --sun:#f0a868; --lime:#b8e986;
   --bg:#ffffff; --bg2:#eef9fa; --bg3:#e2f4f6;
   --ink:#0b2438; --muted:#476173; --line:#d7e8ec;
   --card:#ffffff; --chip:#e6f7f8;
   --shadow:0 18px 50px rgba(6,42,68,.14);
+  --shadow-lg:0 32px 80px rgba(6,42,68,.22);
   --radius:22px;
 }
 *{box-sizing:border-box} html{scroll-behavior:smooth}
@@ -52,11 +54,10 @@ button{font:inherit;cursor:pointer}
 @keyframes floaty{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-14px) rotate(var(--r,0deg))}}
 @keyframes waveMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* header */
-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.985);border-bottom:1px solid #cfe6ea;box-shadow:0 10px 30px rgba(6,42,68,.08);color:#0b2438}
-.nav{max-width:1240px;margin:0 auto;padding:10px clamp(16px,4vw,24px);display:flex;align-items:center;gap:14px}
+/* header — floating pill bar */
+header{position:sticky;top:0;z-index:100;background:transparent;border-bottom:0;box-shadow:none;color:#0b2438;padding:12px clamp(10px,2vw,20px) 0;pointer-events:none}
+.nav{max-width:1240px;margin:0 auto;padding:8px 10px 8px 16px;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.9);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(215,232,236,.9);border-radius:999px;box-shadow:0 12px 36px rgba(6,42,68,.12);position:relative;pointer-events:auto}
 .logo-btn{background:none;border:0;border-radius:0;padding:4px 2px;display:flex;align-items:center;flex-shrink:0;transition:transform .25s}
 .logo-btn:hover{transform:translateY(-1px)}
 .logo-btn img{height:46px;width:auto}
@@ -84,7 +85,7 @@ section{padding:84px 0;position:relative}
 .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--chip);border:1px solid var(--line);color:var(--teal-dark);font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;padding:7px 13px;border-radius:999px}
 .kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
-.lede{color:var(--muted);font-size:1.13rem;max-width:62ch}
+.lede{color:var(--muted);font-size:1.13rem;max-width:56ch}
 .btn{display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:14px 26px;font-weight:700;text-decoration:none;border:0;transition:transform .2s,box-shadow .2s,background .2s;font-size:1rem}
 .btn-primary{background:var(--teal);color:#032630;box-shadow:0 10px 28px rgba(15,185,198,.35)}
 .btn-primary:hover{transform:translateY(-2px) scale(1.01);background:var(--teal2)}
@@ -114,8 +115,8 @@ body.vid-on .hero-vid{opacity:1}
 .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(255,255,255,.66),rgba(255,255,255,.4) 46%,rgba(255,255,255,.82));pointer-events:none}
 .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;position:relative;z-index:2}
 @media(max-width:900px){.hero .wrap{grid-template-columns:1fr}}
-.hero h1{font-size:clamp(2.9rem,7.5vw,5.4rem);font-weight:800}
-.hero h1 em{font-style:normal;color:var(--teal-dark)}
+.hero h1{font-size:clamp(3.2rem,8.5vw,6.6rem);font-weight:800;line-height:.94;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;color:var(--teal-dark);position:relative}
 /* WAVES — a gentle rolling undulation across the letters: transform-only,
    so each letter runs on the compositor and never forces a repaint of the
    hero video beneath it. Amplitudes are in em so the swell stays tiny at
@@ -254,9 +255,6 @@ body.vid-on .hero-vid{opacity:1}
 .wave-div{position:relative;height:52px;overflow:hidden;pointer-events:none;color:var(--bg2)}
 .wave-div.tint{color:var(--bg3)}
 .wave-div .wave-track svg{height:52px}
-.marquee{background:var(--navy2);color:#fff;overflow:hidden;padding:14px 0;border-top:1px solid rgba(255,255,255,.08)}
-.marquee .track{display:flex;gap:0;width:max-content;animation:marquee 30s linear infinite;font-family:"Bricolage Grotesque";font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.9rem;white-space:nowrap}
-.marquee span{padding:0 22px}.marquee i{color:var(--teal);font-style:normal}
 
 /* before/after — two full website mockups of the same restaurant in browser
    frames, compared with a swipe/drag handle (mouse, touch, and keyboard) */
@@ -603,7 +601,6 @@ details.faq p{margin:0;padding:0 18px 16px;color:var(--muted);font-size:.95rem}
 .btn-primary{position:relative;overflow:hidden}
 .btn-primary::after{content:"";position:absolute;top:0;bottom:0;width:36%;left:-50%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:left .55s cubic-bezier(.22,1,.36,1)}
 .btn-primary:hover::after{left:120%}
-.marquee:hover .track{animation-play-state:paused}
 /* ===== MOBILE POLISH — phone-first pass (Oct 30) =====
    Desktop layout, hero video playback, WAVES undulation, concept builds and
    Automagic logic are untouched. This layer only reflows, rescales and
@@ -690,7 +687,6 @@ img,video,svg{max-width:100%}
   .waves{height:52px;margin-top:28px}
   .waves svg{height:52px}
   .wave-div{height:40px}.wave-div .wave-track svg{height:40px}
-  .marquee{padding:11px 0}.marquee .track{font-size:.8rem}.marquee span{padding:0 14px}
   /* before / after */
   .ba-stage{height:540px}
   .ba-tag{top:40px;font-size:.6rem;padding:5px 9px}
@@ -789,6 +785,118 @@ img,video,svg{max-width:100%}
   /* the WAVES undulation is fully off — letters sit perfectly still */
   .wave-letter{animation:none!important;transform:none!important}
 }
+/* ============================================================
+   WOW LAYER — mind-blowing pass (Oct 30)
+   Editorial scale, depth, light play and a dark climax.
+   All motion transform/opacity only; hero video untouched —
+   nothing new animates over the hero while vid-on.
+   ============================================================ */
+.hero{padding-top:54px}
+.hero .sub{font-size:clamp(1.3rem,2.6vw,1.75rem);line-height:1.3}
+.hero p{font-size:1.06rem}
+.kicker{box-shadow:0 6px 18px rgba(15,185,198,.12)}
+.btn{letter-spacing:.01em}
+.btn-primary{background:linear-gradient(120deg,var(--teal) 0%,var(--teal2) 55%,#5eead4 100%);box-shadow:0 14px 34px rgba(15,185,198,.42)}
+.btn-primary:hover{box-shadow:0 20px 44px rgba(15,185,198,.5)}
+.cta-btn{background:linear-gradient(120deg,var(--teal),var(--teal2));box-shadow:0 10px 26px rgba(15,185,198,.4)}
+/* scroll cue under hero CTAs */
+.scroll-cue{display:flex;align-items:center;gap:10px;margin-top:28px;color:var(--teal-dark);font-size:.82rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.scroll-cue i{display:block;width:22px;height:36px;border:2px solid rgba(7,135,148,.45);border-radius:999px;position:relative;font-style:normal}
+.scroll-cue i::after{content:"";position:absolute;left:50%;top:7px;width:5px;height:8px;margin-left:-2.5px;border-radius:99px;background:var(--teal);animation:cueDrop 2.2s ease-in-out infinite}
+@keyframes cueDrop{0%{transform:translateY(0);opacity:1}60%{transform:translateY(12px);opacity:0}100%{transform:translateY(0);opacity:0}}
+body.vid-on .scroll-cue i::after{animation-play-state:paused}
+/* stage depth */
+.stage-glow{opacity:.5;filter:blur(6px)}
+.mock{box-shadow:0 36px 80px rgba(4,28,48,.34)}
+.mock.main{box-shadow:0 44px 90px rgba(4,28,48,.38)}
+/* MANIFESTO — dark cinematic interlude */
+.manifesto{background:radial-gradient(120% 140% at 15% 0%,#0d4a6e 0%,var(--navy) 42%,var(--navy2) 78%);color:#fff;overflow:hidden;padding:110px 0 96px;position:relative}
+.manifesto::before{content:"";position:absolute;inset:0;background:radial-gradient(560px 300px at 82% 18%,rgba(53,211,220,.22),transparent 65%),radial-gradient(480px 280px at 8% 88%,rgba(240,168,104,.16),transparent 65%);pointer-events:none}
+.manifesto .wrap{position:relative;z-index:1}
+.manifesto .kicker{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:#a5f3fc}
+.manifesto .kicker .dot{background:var(--teal2)}
+.manifesto h2{font-size:clamp(2.5rem,6.2vw,4.6rem);line-height:1.02;letter-spacing:-.03em;max-width:18ch;margin:22px 0 0}
+.manifesto h2 .w{display:inline-block;opacity:1;transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.manifesto h2.armed .w{opacity:.14;transform:translateY(10px)}
+.manifesto h2.armed .w.lit{opacity:1;transform:translateY(0)}
+.manifesto h2 .hl{color:var(--teal2)}
+.manifesto h2 .hl2{color:var(--sun)}
+.manifesto p{color:#c7dde8;max-width:58ch;font-size:1.12rem;margin:26px 0 0}
+.mani-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:52px}
+@media(max-width:860px){.mani-stats{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.mani-stats{grid-template-columns:1fr}}
+.mani-stats div{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);border-radius:18px;padding:20px}
+.mani-stats strong{display:block;font-family:"Bricolage Grotesque";font-size:2rem;line-height:1;color:#fff}
+.mani-stats strong em{font-style:normal;color:var(--teal2)}
+.mani-stats span{display:block;margin-top:8px;color:#a9c6d4;font-size:.92rem;line-height:1.5}
+/* cards with light-play */
+.svc{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,border-color .35s}
+.svc::after{content:"";position:absolute;top:0;left:24px;right:24px;height:3px;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--teal2),var(--sun));opacity:0;transition:opacity .3s}
+.svc:hover{transform:translateY(-10px);box-shadow:var(--shadow-lg);border-color:#a8dfe5}
+.svc:hover::after{opacity:1}
+.svc .num{font-size:2.9rem;background:linear-gradient(130deg,var(--teal-dark),var(--teal2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.step{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.step:hover{transform:translateY(-8px) rotate(-.6deg);box-shadow:var(--shadow-lg)}
+.step .n{background:linear-gradient(135deg,var(--navy),var(--navy3));box-shadow:0 10px 22px rgba(6,42,68,.3)}
+.work-card{transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;will-change:transform}
+.work-card:hover{transform:translateY(-10px);box-shadow:var(--shadow-lg)}
+.am-card{box-shadow:0 22px 54px rgba(6,42,68,.12)}
+.am-card:first-child{border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,var(--teal),var(--teal2),var(--sun)) border-box}
+/* section headlines get editorial scale */
+section h2{letter-spacing:-.028em}
+/* dark climax band */
+.band-dark{background:radial-gradient(120% 160% at 12% 0%,#0d4a6e 0%,var(--navy) 48%,var(--navy2) 100%)!important;color:#fff!important;border-color:rgba(255,255,255,.12)!important}
+.band-dark p{color:#c7dde8!important}
+.band-dark .band-vid{opacity:.16}
+.band-dark h2 em{font-style:normal;color:var(--teal2)}
+/* giant footer wordmark */
+.foot-giant{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(3.4rem,13.5vw,10.5rem);line-height:.88;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1.5px rgba(7,135,148,.35);text-align:center;margin:54px 0 6px;user-select:none;white-space:nowrap;overflow:hidden}
+.foot-giant b{color:var(--teal);-webkit-text-stroke:0;font-weight:800}
+/* tilt targets get a soft sheen */
+.tilt{transform-style:preserve-3d}
+@media(max-width:620px){
+  .hero{padding-top:26px}
+  .hero h1{font-size:clamp(2.7rem,13vw,3.4rem)}
+  .manifesto{padding:72px 0 64px}
+  .manifesto h2{font-size:clamp(2.1rem,9.5vw,2.7rem)}
+  .scroll-cue{display:none}
+  .foot-giant{font-size:clamp(2.6rem,15vw,4rem);margin-top:40px}
+  header{padding-top:8px}
+  .nav{border-radius:22px}
+  nav.main{border-radius:16px}
+}
+/* ============================================================
+   FACELIFT — less talk, more brand (Oct 30)
+   Copy is cut roughly in half site-wide; the layout answers
+   with air: tighter section rhythm, bigger display type,
+   and the hero left to breathe around one idea.
+   ============================================================ */
+section{padding:76px 0}
+.hero{padding-top:64px}
+.hero-quick{margin-top:22px}
+.manifesto{padding:96px 0 84px}
+.manifesto p{font-size:1.18rem;max-width:52ch}
+.svc p{font-size:1.02rem;line-height:1.55}
+.work-card p{line-height:1.55}
+.am-feats{margin-top:20px}
+.impact-note{max-width:56ch}
+/* services go deep-water: the "What we do" section drops into the same
+   navy as the manifesto, so the page rhythm reads light → deep → light
+   → deep, and the white service cards float on open water */
+.wave-div.svc-wave{color:var(--navy2)}
+.svc-dark{background:radial-gradient(120% 140% at 85% 0%,#0d4a6e 0%,var(--navy) 45%,var(--navy2) 82%);color:#fff}
+.svc-dark h2{color:#fff}
+.svc-dark .lede{color:#c7dde8}
+.svc-dark .kicker{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:#a5f3fc}
+.svc-dark .kicker .dot{background:var(--teal2)}
+.svc-dark .btn-ghost{color:#fff;border-color:rgba(255,255,255,.38)}
+.svc-dark .btn-ghost:hover{border-color:var(--teal2);color:#a5f3fc}
+.svc-dark .svc{box-shadow:0 22px 50px rgba(0,0,0,.28)}
+@media(max-width:620px){
+  section{padding:50px 0}
+  .manifesto{padding:66px 0 58px}
+  .hero{padding-top:28px}
+}
 </style>
 </head>
 <body>
@@ -831,18 +939,17 @@ img,video,svg{max-width:100%}
         <span class="kicker hero-kicker"><span class="dot"></span> A creative web studio in Hawai'i</span>
         <h1 style="margin-top:20px" aria-label="Let’s Make WAVES.">Let’s Make<br/><em class="waves-word" aria-hidden="true"><span class="wave-letter">W</span><span class="wave-letter">A</span><span class="wave-letter">V</span><span class="wave-letter">E</span><span class="wave-letter">S</span><span class="wave-letter">.</span></em></h1>
         <p class="sub">Great businesses have stories worth telling. We bring them to life online.</p>
-        <p>REEFRESH is a creative web design studio helping small businesses express what makes them extraordinary — through thoughtful design, digital storytelling, and beautiful websites. Picture yours looking this good: a site you’re proud to share, that feels like you the moment it loads.</p>
         <div class="hero-ctas">
           <button class="btn btn-primary" data-scrollto="automagic">Start with Automagic ✦ <span class="arr">→</span></button>
           <button class="btn" data-go="work" style="background:rgba(255,255,255,.55);color:var(--navy);border:1.5px solid rgba(7,135,148,.45)">See What Yours Could Look Like</button>
         </div>
-        <p class="hero-reassure"><strong>Start with just your business name.</strong> About 2 minutes, no tech skills, no commitment — watch a live preview take shape as you answer, in your colours and your words.</p>
         <div class="hero-quick">
           <input type="text" id="heroBiz" placeholder="Your business name…" aria-label="Your business name — start Automagic"/>
           <button type="button" id="heroBizGo">Build it with Automagic ✦</button>
         </div>
-        <p class="hero-quick-note">Type it, tap it — the chat below picks it up and the building starts. That’s the whole setup.</p>
-        <div class="hero-meta"><span>People before pixels</span><span>Independent &amp; story-first</span><span>Made to be shared</span></div>
+        <p class="hero-quick-note">Just your name. Two minutes, no tech skills — watch a live preview take shape.</p>
+        <div class="hero-meta"><span>Independent &amp; story-first</span><span>Made to be shared</span></div>
+        <div class="scroll-cue" aria-hidden="true"><i></i> Scroll — the good stuff is below</div>
       </div>
       <div class="stage" id="stage" aria-label="Animated website concept mockups — desktop, phone, and up-next preview, all in sync">
         <div class="stage-glow" id="stageGlow" aria-hidden="true"></div>
@@ -864,16 +971,27 @@ img,video,svg{max-width:100%}
     </div>
   </section>
 
-  <div class="marquee" aria-hidden="true"><div class="track" id="marqueeTrack"></div></div>
+  <section class="manifesto" id="manifesto">
+    <div class="wrap">
+      <span class="kicker"><span class="dot"></span> The REEFRESH belief</span>
+      <h2 id="maniHead">Your business already has the magic. We make it <span class="hl">impossible</span> to <span class="hl2">miss.</span></h2>
+      <p>Most studios start with a template and fill in your name. We start with your story — and build until a stranger feels it in three seconds, on a phone, mid-scroll.</p>
+      <div class="mani-stats">
+        <div><strong>2 <em>min</em></strong><span>Business name to live preview. That’s the whole Automagic setup.</span></div>
+        <div><strong>3 <em>ways</em></strong><span>Three real design directions, early. You react to options, not a blank plan.</span></div>
+        <div><strong>1 <em>action</em></strong><span>Every page points at one thing: book, call, buy, visit.</span></div>
+        <div><strong>1 <em>reef</em></strong><span>Every project gives a portion of proceeds to Hawaiʻi reef protection.</span></div>
+      </div>
+    </div>
+  </section>
 
   <section>
     <div class="wrap split">
       <div class="rv">
         <span class="kicker"><span class="dot"></span> The opportunity</span>
-        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 16px">Some businesses are too good to have forgettable websites.</h2>
-        <p class="lede">You know the ones. The little restaurant with unforgettable food. The local shop filled with things you won’t find anywhere else. The talented professional who genuinely loves what they do.</p>
-        <p class="lede">Great businesses have a way of leaving an impression. But sometimes their websites don’t. We believe discovering a business online should feel like discovering it in person.</p>
-        <p class="lede"><strong style="color:var(--ink)">That’s where we come in.</strong> Swipe or drag across the mockups — same restaurant, same story, completely different first impression.</p>
+        <h2 style="font-size:clamp(2.2rem,5vw,3.5rem);margin:18px 0 16px">Some businesses are too good to have forgettable websites.</h2>
+        <p class="lede">The little restaurant with unforgettable food. The shop full of things you won’t find anywhere else. Great in person — invisible online.</p>
+        <p class="lede"><strong style="color:var(--ink)">That’s where we come in.</strong> Drag across the mockup: same restaurant, same story, completely different first impression.</p>
       </div>
       <div class="rv d1">
         <div class="ba" id="baBox" style="--split:55%">
@@ -932,12 +1050,12 @@ img,video,svg{max-width:100%}
     </div>
   </section>
 
-  <div class="wave-div" aria-hidden="true"><div class="wave-track back"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg></div><div class="wave-track front"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg></div></div>
-  <section style="background:var(--bg2)">
+  <div class="wave-div svc-wave" aria-hidden="true"><div class="wave-track back"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg></div><div class="wave-track front"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg></div></div>
+  <section class="svc-dark">
     <div class="wrap">
       <div class="rv" style="max-width:720px"><span class="kicker"><span class="dot"></span> What we do</span>
-      <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 14px">Good design tells a story. Great design makes you feel it.</h2>
-      <p class="lede">We combine creativity, storytelling, and modern web technology to help businesses create meaningful digital experiences.</p></div>
+      <h2 style="font-size:clamp(2.2rem,5vw,3.5rem);margin:18px 0 14px">Good design tells a story. Great design makes you feel it.</h2>
+      <p class="lede">Four services. One goal: a website people feel — and act on.</p></div>
       <div class="grid g2" style="margin-top:36px" id="homeServices"></div>
       <p style="margin-top:26px" class="rv"><button class="btn btn-ghost" data-go="services">See services in detail <span class="arr">→</span></button></p>
     </div>
@@ -946,8 +1064,8 @@ img,video,svg{max-width:100%}
   <section class="process">
     <div class="wrap">
       <div class="rv" style="max-width:720px"><span class="kicker"><span class="dot"></span> Our approach</span>
-      <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 14px">First, we find the magic. Then, we make it visible.</h2>
-      <p class="lede">Every great website starts with understanding the business behind it. Our process is collaborative, creative, and built around what makes each business unique.</p></div>
+      <h2 style="font-size:clamp(2.2rem,5vw,3.5rem);margin:18px 0 14px">First, we find the magic. Then, we make it visible.</h2>
+      <p class="lede">Four steps, built around what makes your business yours.</p></div>
       <svg class="wave-line" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 Q150 2 300 22 T600 22 T900 22 T1200 22" fill="none" stroke="#0fb9c6" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 8"/></svg>
       <div class="steps" id="steps"></div>
       <p style="margin-top:30px" class="rv"><button class="btn btn-primary" data-go="contact">Let’s Create Something Great <span class="arr">→</span></button></p>
@@ -960,16 +1078,14 @@ img,video,svg{max-width:100%}
     <div class="wrap">
       <div class="rv" style="max-width:840px">
         <span class="kicker"><span class="dot"></span> Cutting-edge tools, local stories</span>
-        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 16px">Bringing <span class="ai-hl">AI</span> tools to haw<span class="ai-hl">AI</span>i businesses — and keeping them cutting edge.</h2>
-        <p class="lede">We’re bringing the newest AI tools home to Hawai'i, and putting them to work for the small businesses that make these islands special. In the studio, AI helps us move faster and aim higher: exploring more creative directions sooner, sharpening copy, testing layouts, and polishing the small details that make a site feel finished.</p>
-        <p class="lede">And it pairs beautifully with the human side of the work — the listening, the choosing, the storytelling. Your regulars, your recipes, your craft: that’s the material. AI helps us shape it into a website that feels current, personal, and unmistakably <em>yours</em>.</p>
+        <h2 style="font-size:clamp(2.2rem,5vw,3.5rem);margin:18px 0 16px">Bringing <span class="ai-hl">AI</span> tools to haw<span class="ai-hl">AI</span>i businesses — and keeping them cutting edge.</h2>
+        <p class="lede">The newest AI tools, put to work for the small businesses that make these islands special. AI speeds up the making. The story — your regulars, your recipes, your craft — stays human, and stays <em>yours</em>.</p>
         <div class="ai-points">
-          <div class="value"><h3>More directions, sooner</h3><p>AI helps us sketch and compare creative routes quickly, so you get to choose from real options, early.</p></div>
-          <div class="value"><h3>Sharper words</h3><p>We draft and refine copy with AI’s help, shaping every line around your voice, your customers, and your story.</p></div>
-          <div class="value"><h3>Layouts, tested</h3><p>We try arrangements fast and keep what works best for your visitors — on phones first.</p></div>
-          <div class="value"><h3>Polish that shows</h3><p>The time AI saves goes straight into the details: spacing, rhythm, imagery, and the little moments that make people linger.</p></div>
+          <div class="value"><h3>More directions, sooner</h3><p>Real options to choose from, early — not one template, late.</p></div>
+          <div class="value"><h3>Sharper words</h3><p>Copy shaped around your voice and your customers.</p></div>
+          <div class="value"><h3>Layouts, tested</h3><p>We try arrangements fast and keep what works — phones first.</p></div>
+          <div class="value"><h3>Polish that shows</h3><p>The time saved goes into the details that make people linger.</p></div>
         </div>
-        <p class="lede" style="margin-top:20px"><strong style="color:var(--ink)">New tools. Local stories. Websites that feel ahead of the curve — and completely yours.</strong></p>
       </div>
     </div>
   </section>
@@ -979,9 +1095,8 @@ img,video,svg{max-width:100%}
     <div class="wrap">
       <div class="rv" style="max-width:820px">
         <span class="kicker"><span class="dot"></span> New · Automagic ✦</span>
-        <h2 style="font-size:clamp(2rem,4.8vw,3.3rem);margin:18px 0 14px">Meet <span style="color:var(--teal-dark)">Automagic</span> — chat your way through. Boom, your site starts.</h2>
-        <p class="lede">No forms. No blank page. No settings panels. You just chat — like texting a friend who happens to build websites. Automagic asks, you answer in your own words, and a live preview of your site assembles itself beside the conversation as you go: your name in the headline, your colours and type applied everywhere at once, your sections stacking into place.</p>
-        <p class="lede">Tap a vibe, pick favourite colours (or mix your own), flip between three design directions, tweak anything in plain words, and drop in your current website, Google, or Facebook link so we can review what’s already out there. At the end: boom — a working draft preview and one copyable brief. Nothing is sent or stored, and your links are saved in the brief for our review when we build, not fetched live in this preview.</p>
+        <h2 style="font-size:clamp(2.2rem,5.2vw,3.6rem);margin:18px 0 14px">Meet <span style="color:var(--teal-dark)">Automagic</span> — chat your way through. Boom, your site starts.</h2>
+        <p class="lede">No forms. No blank page. Chat like you’re texting a friend who builds websites — answer in your own words, and a live preview assembles beside you: your name, your colours, your #1 action. Drop in your current site, Google, or Facebook link and we’ll review it when we build.</p>
         <div class="am-feats"><span><b>✦ Chat-first</b> — talk, don’t configure</span><span><b>✦ Live build</b> — watch it assemble</span><span><b>✦ Brand sync</b> — one pick, everywhere</span><span><b>✦ Plain-words edits</b> — just say the tweak</span></div>
       </div>
 
@@ -1001,18 +1116,18 @@ img,video,svg{max-width:100%}
             <button type="button" class="btn btn-primary" id="amNext">Continue <span class="arr">→</span></button>
             <button type="button" class="btn btn-ghost" id="amSkip">Skip this one</button>
           </div>
-          <p class="small" style="margin-top:14px">This chat is a live preview — your answers stay in this tab and become a brief you can copy. We don’t pull live data from your links yet; we save the links in the brief so we can review them when we build.</p>
+          <p class="small" style="margin-top:14px">A live preview — answers stay in this tab and become a brief you can copy. Links are saved to the brief for our review; this preview doesn’t fetch them live.</p>
         </div>
 
         <div class="am-card rv d1">
           <div class="am-preview-head"><span class="dotlive"></span><strong style="font-family:'Bricolage Grotesque'">Live preview — your site, building itself</strong></div>
-          <div class="am-boom" id="amBoom"><strong>Boom! Your draft just came together ✦</strong><p>That’s your story, your colours, your type, and your #1 action — assembled from a two-minute chat. Copy the brief below and we turn this preview into the real, human-polished site.</p></div>
+          <div class="am-boom" id="amBoom"><strong>Boom! Your draft just came together ✦</strong><p>Your story, colours, type, and #1 action — from a two-minute chat. Copy the brief and we turn it into the real, human-polished site.</p></div>
           <div class="am-mini" id="amMini">
             <div class="am-mini-bar" id="amMiniBar" style="background:#062a44"><span id="amMiniBiz" style="font-family:'Bricolage Grotesque';font-weight:800">Your Business</span> <span style="opacity:.85;font-size:.85rem">· Home &nbsp; Services &nbsp; About</span></div>
             <div class="am-mini-body">
               <span style="font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark)" id="amMiniVibe">Warm &amp; welcoming</span>
               <h4 id="amMiniHead">Tell your story, beautifully.</h4>
-              <p id="amMiniSub">Answer the interview and watch this headline, colours, and call-to-action update to sound like you.</p>
+              <p id="amMiniSub">Answer the chat — watch this become you.</p>
               <span class="am-mini-cta" id="amMiniCta" style="background:#0fb9c6">Book Now →</span>
               <div class="swatches" id="amMiniSwatches" style="margin-top:16px"><i style="background:#062a44"></i><i style="background:#0fb9c6"></i><i style="background:#f0a868"></i></div>
               <div class="am-blocks">
@@ -1023,21 +1138,21 @@ img,video,svg{max-width:100%}
             </div>
           </div>
           <h3 style="font-size:1rem;margin:18px 0 4px">Three directions, from your answers</h3>
-          <p class="small" style="margin:0">Same story, three feels — tap one and the preview above follows it. Real options, early, instead of one template.</p>
+          <p class="small" style="margin:0">Same story, three feels — tap one, the preview follows.</p>
           <div class="am-directions" role="group" aria-label="Choose a design direction">
             <button type="button" class="dir-card on" data-dir="bold"><span class="dir-bar" data-dirbar style="background:#062a44"></span><strong>Bold &amp; Direct</strong><span>Dark header, big headline, action up front.</span></button>
             <button type="button" class="dir-card" data-dir="light"><span class="dir-bar" data-dirbar style="background:#e2f4f6"></span><strong>Light &amp; Airy</strong><span>Bright and open — the REEFRESH home feel.</span></button>
             <button type="button" class="dir-card" data-dir="warm"><span class="dir-bar" data-dirbar style="background:#f0a868"></span><strong>Warm &amp; Welcoming</strong><span>Accent-led and friendly, hospitality-style.</span></button>
           </div>
           <h3 style="font-size:1rem;margin:18px 0 4px">Edit it in plain words</h3>
-          <p class="small" style="margin:0">No settings panels. Type a tweak the way you’d say it — “make the headline friendlier” — and it’s added to your brief for the build.</p>
+          <p class="small" style="margin:0">Type a tweak the way you’d say it — it’s added to your brief.</p>
           <div class="am-edit">
             <input type="text" id="amTweak" placeholder="e.g. Make it calmer, add online booking…" aria-label="Describe a tweak in plain words"/>
             <button type="button" class="btn btn-ghost" id="amTweakBtn" style="padding:11px 18px">Add to Brief</button>
           </div>
           <p class="small" id="amTweakNote" style="margin:8px 0 0;font-weight:700;color:var(--teal-dark)"></p>
           <h3 style="font-size:1.05rem;margin:20px 0 6px">Your Automagic Brief</h3>
-          <p class="small" style="margin:0">Updates as you answer. When you finish, copy it and send it with your enquiry — or paste it into the Contact form.</p>
+          <p class="small" style="margin:0">Updates as you answer. Copy it, send it with your enquiry.</p>
           <div class="am-brief" id="amBrief">Your brief will appear here as you answer…</div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
             <button type="button" class="btn btn-primary" id="amCopy">Copy My Brief</button>
@@ -1052,25 +1167,18 @@ img,video,svg{max-width:100%}
             <li data-build="brief"><span class="tick">✓</span> Brief ready — copy it, send it, we polish it human-led</li>
           </ul>
           <div class="perf-strip" style="grid-template-columns:1fr 1fr">
-            <div><strong>Why a chat?</strong><span>Talking beats configuring. You answer like you’d talk — we handle structure, wording, and design.</span></div>
-            <div><strong>What happens next?</strong><span>We review your brief + links, then design a human-led first draft in your colours, your type, and your chosen direction.</span></div>
+            <div><strong>Why a chat?</strong><span>Talking beats configuring. You answer like you’d talk — we handle the rest.</span></div>
+            <div><strong>What happens next?</strong><span>We review your brief and links, then design a human-led first draft. You react to something real.</span></div>
           </div>
         </div>
       </div>
 
-      <div class="perf-strip rv">
-        <div><strong>Start with just a name</strong><span>One answer gets you moving — the interview fills in the rest, step by step, with progress you can see.</span></div>
-        <div><strong>See it as you answer</strong><span>Headline, colours, type, and call-to-action update live beside the questions. No imagining, no surprises.</span></div>
-        <div><strong>Your brand, applied everywhere</strong><span>Pick colours and a type pairing once — the whole preview follows instantly, header to button.</span></div>
-        <div><strong>Built around one action</strong><span>Book, call, shop, visit — every page points at the one thing that turns a visitor into a customer.</span></div>
-      </div>
-
       <div class="rv" style="max-width:820px;margin-top:38px">
         <h3 style="font-size:1.35rem">Questions people ask before they start</h3>
-        <details class="faq"><summary>I don’t know my colours or style yet — is that a problem?</summary><p>No — that’s what the interview is for. Try the palettes and type pairings in the live preview, compare the three directions, and pick what feels like your place in person. You can change your mind; nothing is locked in by a preview.</p></details>
-        <details class="faq"><summary>I already have a website. Can Automagic use it?</summary><p>Yes — drop the link in Step 6, along with your Google or Facebook link if you have them. They’re saved in your brief so we can review what’s already out there when we build your refreshed site.</p></details>
-        <details class="faq"><summary>What do I actually need to get started?</summary><p>Just your business name and a line about what you do. Automagic takes about two minutes from there, and the Contact form only asks for your story in your own words — no briefs, specs, or tech knowledge needed.</p></details>
-        <details class="faq"><summary>What happens after I copy my brief?</summary><p>Send it with your enquiry on the Contact page. We review your brief and links, then design a human-led first draft in your colours and chosen direction — you react to something real, instead of approving a blank plan.</p></details>
+        <details class="faq"><summary>I don’t know my colours or style yet — is that a problem?</summary><p>No — that’s what the interview is for. Try palettes and directions in the live preview and pick what feels like your place. Nothing is locked in.</p></details>
+        <details class="faq"><summary>I already have a website. Can Automagic use it?</summary><p>Yes — drop the link in Step 6, plus Google or Facebook if you have them. They’re saved in your brief for our review when we build.</p></details>
+        <details class="faq"><summary>What do I actually need to get started?</summary><p>Your business name and one line about what you do. About two minutes from there.</p></details>
+        <details class="faq"><summary>What happens after I copy my brief?</summary><p>Send it with your enquiry on the Contact page. We design a human-led first draft in your colours and direction — something real to react to.</p></details>
       </div>
     </div>
   </section>
@@ -1080,10 +1188,9 @@ img,video,svg{max-width:100%}
     <div class="wrap split">
       <div class="rv">
         <span class="kicker"><span class="dot"></span> Why REEFRESH?</span>
-        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 16px">A little different, by design.</h2>
-        <p class="lede">We’re not interested in making every business look the same. We’re interested in discovering what makes each one different.</p>
-        <p class="lede">That means asking questions, paying attention to details, and approaching each project with curiosity. We bring an artist’s perspective to website design — visual creativity, plus the practical needs of a modern business.</p>
-        <p class="lede">The result is a collaborative experience focused on creating something that feels right for you. <strong style="color:var(--ink)">We don’t want to reinvent who you are. We want to show the world who you are.</strong></p>
+        <h2 style="font-size:clamp(2.2rem,5vw,3.5rem);margin:18px 0 16px">A little different, by design.</h2>
+        <p class="lede">We’re not here to make every business look the same. We ask questions, chase details, and build around what’s different about yours.</p>
+        <p class="lede"><strong style="color:var(--ink)">We don’t reinvent who you are. We show the world who you are.</strong></p>
       </div>
       <div class="grid g2 rv d1" id="valuesGrid"></div>
     </div>
@@ -1093,8 +1200,8 @@ img,video,svg{max-width:100%}
     <div class="wrap">
       <div class="rv" style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap">
         <div><span class="kicker"><span class="dot"></span> Our work</span>
-        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 10px">Made to be seen.</h2>
-        <p class="lede">Creative concept projects exploring how thoughtful design can bring different businesses — and personalities — to life.</p></div>
+        <h2 style="font-size:clamp(2.2rem,5vw,3.5rem);margin:18px 0 10px">Made to be seen.</h2>
+        <p class="lede">Concept projects — three businesses, three personalities, brought to life.</p></div>
         <button class="btn btn-ghost" data-go="work">View all concept work <span class="arr">→</span></button>
       </div>
       <div class="grid g3" style="margin-top:34px" id="homeWork"></div>
@@ -1107,7 +1214,7 @@ img,video,svg{max-width:100%}
       <div class="shade"></div>
       <div class="copy">
         <h2>Picture your customers landing here.</h2>
-        <p>That small pause — the <em>oh, this is good</em> feeling — is exactly what a REEFRESH site is built to create for your business. First impressions you don’t have to apologize for. A link you can’t wait to share.</p>
+        <p>That pause — the <em>oh, this is good</em> feeling — is what we build for your business. A link you can’t wait to share.</p>
         <button class="btn btn-primary" data-go="contact" style="margin-top:10px">Let’s Tell Your Story <span class="arr">→</span></button>
       </div>
     </div></div>
@@ -1118,9 +1225,8 @@ img,video,svg{max-width:100%}
       <figure class="photo-frame rv" style="margin:0"><img data-plx src="asset-14.jpg" alt="Aerial view of turquoise ocean waves meeting a sandy Hawaii shoreline"/><figcaption>Born in Hawaii · Inspired by everywhere</figcaption></figure>
       <div class="rv d1">
         <span class="kicker"><span class="dot"></span> About the studio</span>
-        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 16px">Creative by nature.<br/>Digital by design.</h2>
-        <p class="lede">REEFRESH is an independent creative web studio born in Hawaii — inspired by the natural world, fascinated by technology, and most excited by the people behind great small businesses.</p>
-        <p class="lede">The makers. The dreamers. The people who care deeply about their craft. Their stories deserve the same creativity that went into building their businesses.</p>
+        <h2 style="font-size:clamp(2.2rem,5vw,3.5rem);margin:18px 0 16px">Creative by nature.<br/>Digital by design.</h2>
+        <p class="lede">An independent studio born in Hawaii — inspired by the natural world, powered by technology, obsessed with the people behind great small businesses.</p>
         <p class="lede"><strong style="color:var(--ink)">Get curious. Find what makes it special. Create something worth seeing.</strong></p>
         <button class="btn btn-ghost" data-go="about" style="margin-top:8px">More about REEFRESH <span class="arr">→</span></button>
       </div>
@@ -1134,27 +1240,26 @@ img,video,svg{max-width:100%}
           <svg class="coral-mark" viewBox="0 0 100 100" fill="none" stroke="#078794" stroke-width="3" aria-hidden="true"><circle cx="20" cy="80" r="6"/><circle cx="38" cy="58" r="6"/><circle cx="55" cy="78" r="6"/><circle cx="70" cy="50" r="6"/><path d="M20 80V40m0 0c0-10-8-12-8-22m8 22c2-8 10-10 12-18m6 36V30m0 0c-2-8-10-10-11-18m28 66V44m15 6V26"/></svg>
           <span class="kicker"><span class="dot"></span> Our impact</span>
           <h2 style="font-size:clamp(1.9rem,4.2vw,2.9rem);margin:18px 0 16px">Good work goes back to <em>the reef.</em></h2>
-          <p class="lede"><strong style="color:var(--ink)">Let’s build a better world</strong> — starting with the businesses around us. Every business we help stand out online gives back: a portion of proceeds from every REEFRESH project supports the protection and restoration of Hawaiʻi’s coral reefs.</p>
-          <p class="lede">That’s how enhancing a business becomes something bigger. Stronger businesses give back; giving back helps heal the reefs; healthier reefs make a better world. The ocean is where this studio draws its eye — the color, the movement, the patience. Giving something back to it isn’t a campaign. It’s just part of being REEFRESH.</p>
+          <p class="lede">Every business we help stand out gives back: a portion of proceeds from every project supports the protection and restoration of Hawaiʻi’s coral reefs. The ocean gives this studio its eye — giving back to it is just part of being REEFRESH.</p>
         </div>
         <figure class="photo-frame rv d1" style="margin:0"><img data-plx src="asset-15.jpg" alt="Coral reef with tropical fish, photographed underwater in Hawaiʻi" loading="lazy"/><figcaption>The reef that inspires the work</figcaption></figure>
       </div>
       <div class="grid g3 impact-points">
-        <div class="value rv"><h3>Built into every project</h3><p>Every REEFRESH project contributes — a portion of its proceeds goes toward reef protection and restoration here in Hawaiʻi. No add-on, no upsell; it’s simply part of how the studio works.</p></div>
-        <div class="value rv d1"><h3>Why Hawaiʻi’s reefs</h3><p>Coral reefs shelter the islands’ marine life, soften the force of the surf on our shorelines, and are woven into daily life and culture here. When the reef thrives, the island does too.</p></div>
-        <div class="value rv d2"><h3>Partners, in progress</h3><p>We’re currently exploring partnerships with local conservation organizations. When a partnership is finalized, we’ll name our partner here and share what our projects have contributed.</p></div>
+        <div class="value rv"><h3>Built into every project</h3><p>A portion of every project’s proceeds goes to reef protection and restoration in Hawaiʻi. No add-on, no upsell.</p></div>
+        <div class="value rv d1"><h3>Why Hawaiʻi’s reefs</h3><p>Reefs shelter marine life, soften the surf on our shores, and are woven into island life. When the reef thrives, the island does too.</p></div>
+        <div class="value rv d2"><h3>Partners, in progress</h3><p>We’re exploring partnerships with local conservation organizations — when one is finalized, we’ll name it here.</p></div>
       </div>
-      <p class="impact-note rv">This commitment sits alongside the work — it never changes what a project costs or what it includes. Supporting the reef is on us.</p>
+      <p class="impact-note rv">It never changes what a project costs or includes. Supporting the reef is on us.</p>
     </div>
   </section>
 
   <div class="wave-div tint" aria-hidden="true"><div class="wave-track back"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg></div><div class="wave-track front"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg></div></div>
   <section style="padding-top:0">
-    <div class="wrap"><div class="band rv">
+    <div class="wrap"><div class="band band-dark rv">
       <img class="band-vid still-drift" src="asset-16.jpg" alt="" aria-hidden="true"/>
       <svg class="markbg" viewBox="0 0 100 100" fill="none"><path d="M50 8a42 42 0 1 1-29.7 12.3" stroke="#078794" stroke-width="7" stroke-linecap="round"/><path d="M14 6l8 22 20-10z" fill="#078794"/><path d="M22 62c10-12 18 4 28-6 8-8 14 2 24-6" stroke="#0fb9c6" stroke-width="6" stroke-linecap="round"/></svg>
-      <h2 style="font-size:clamp(2rem,5vw,3.4rem);max-width:16ch">You’ve built something special. Let’s show the world.</h2>
-      <p style="max-width:52ch;margin:16px 0 26px">Tell us about your business, your ideas, and what makes you excited about what you do. We’d love to hear your story — it starts with a conversation, not a commitment.</p>
+      <h2 style="font-size:clamp(2.2rem,5.4vw,3.8rem);max-width:16ch">You’ve built something special. Let’s show the <em>world.</em></h2>
+      <p style="max-width:52ch;margin:16px 0 26px">Tell us about your business. It starts with a conversation, not a commitment.</p>
       <button class="btn btn-primary" data-go="contact">Start a Conversation <span class="arr">→</span></button>
     </div></div>
   </section>
@@ -1164,19 +1269,19 @@ img,video,svg{max-width:100%}
 <div class="page" id="page-services">
   <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> Services</span>
   <h1 style="margin:18px 0 14px">What we can make <span style="color:var(--teal-dark)">for you.</span></h1>
-  <p class="lede">Four focused services, done properly. No guaranteed rankings, no inflated promises — just beautiful, honest work built around your story. Every project starts the same way: <strong style="color:var(--ink)">Discover → Imagine → Create → Launch.</strong></p></div>
+  <p class="lede">Four services, done properly. No guaranteed rankings, no inflated promises — just beautiful, honest work. Every project: <strong style="color:var(--ink)">Discover → Imagine → Create → Launch.</strong></p></div>
   <section style="padding-top:36px"><div class="wrap" id="svcDetails"></div>
-  <div class="wrap"><div class="band rv"><img class="band-vid still-drift" src="asset-17.jpg" alt="" aria-hidden="true"/><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Not sure which one fits?</h2><p style="max-width:50ch;margin:14px 0 22px">That’s normal — most people aren’t. Tell us about your business and we’ll recommend the smallest right step, honestly. No pressure, no jargon — just a conversation.</p><button class="btn btn-primary" data-go="contact">Ask Us <span class="arr">→</span></button></div></div></section>
+  <div class="wrap"><div class="band rv"><img class="band-vid still-drift" src="asset-17.jpg" alt="" aria-hidden="true"/><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Not sure which one fits?</h2><p style="max-width:50ch;margin:14px 0 22px">Tell us about your business — we’ll recommend the smallest right step. No pressure, no jargon.</p><button class="btn btn-primary" data-go="contact">Ask Us <span class="arr">→</span></button></div></div></section>
 </div>
 
 <!-- ================= WORK ================= -->
 <div class="page" id="page-work">
   <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> Our work · Concept designs</span>
   <h1 style="margin:18px 0 14px">Made to be <span style="color:var(--teal-dark)">seen.</span></h1>
-  <p class="lede">These are <strong style="color:var(--ink)">concept designs</strong> — creative directions we’ve developed to show what’s possible, clearly labeled because they are not completed client projects. No invented clients, results, or testimonials. As real projects launch, they’ll live here alongside the concepts.</p></div>
+  <p class="lede"><strong style="color:var(--ink)">Concept designs</strong> — creative directions showing what’s possible, labeled honestly: not completed client projects, no invented clients or results. Real projects will live here as they launch.</p></div>
   <section style="padding-top:30px"><div class="wrap"><div class="grid g3" id="workGrid"></div>
   <div id="caseStudies" style="margin-top:40px"></div>
-  <div class="band rv" style="margin-top:44px"><img class="band-vid still-drift" src="asset-18.jpg" alt="" aria-hidden="true"/><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Imagine what we could create for you.</h2><p style="max-width:50ch;margin:14px 0 22px">Your business, your story — designed so people actually feel it. The first step is just a conversation about what you’ve built.</p><button class="btn btn-primary" data-go="contact">Start a Project <span class="arr">→</span></button></div>
+  <div class="band rv" style="margin-top:44px"><img class="band-vid still-drift" src="asset-18.jpg" alt="" aria-hidden="true"/><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Imagine what we could create for you.</h2><p style="max-width:50ch;margin:14px 0 22px">Your business, your story — designed so people feel it. It starts with a conversation.</p><button class="btn btn-primary" data-go="contact">Start a Project <span class="arr">→</span></button></div>
   </div></section>
 </div>
 
@@ -1184,13 +1289,12 @@ img,video,svg{max-width:100%}
 <div class="page" id="page-about">
   <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> About REEFRESH</span>
   <h1 style="margin:18px 0 14px">We see the extraordinary<br/>in the <span style="color:var(--teal-dark)">everyday.</span></h1>
-  <p class="lede">Some of the most interesting businesses aren’t the biggest or the loudest. They’re the ones built with genuine passion, creativity, and care. We created REEFRESH to help those businesses express what makes them special — through art, storytelling, and technology.</p></div>
+  <p class="lede">The most interesting businesses aren’t the biggest or loudest — they’re built with genuine passion and care. REEFRESH exists to help them say so online.</p></div>
   <section style="padding-top:30px"><div class="wrap">
     <div class="split">
       <div class="rv"><h2 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:16px">The stories that interest us</h2>
-      <p class="lede">Behind some of the best small businesses are incredible people, interesting stories, and a genuine passion for what they do.</p>
-      <p class="lede">The family restaurant that has perfected its recipes over generations. The artist who has spent years developing a style entirely their own. The entrepreneur who saw an opportunity to do something differently — and built a business around it.</p>
-      <p class="lede">Sometimes, the magic behind a business doesn’t translate online. We want to change that. Not just what they sell — who they are, what they believe in, and why people should care.</p></div>
+      <p class="lede">The family restaurant that perfected its recipes over generations. The artist with a style entirely their own. The entrepreneur who decided to do it differently.</p>
+      <p class="lede">Sometimes that magic doesn’t translate online. We change that — not just what you sell, but who you are, and why people should care.</p></div>
       <figure class="photo-frame rv d1" style="margin:0"><img data-plx src="asset-19.jpg" alt="An independent artist painting a large, colorful abstract canvas in her studio"/><figcaption>The makers. The dreamers.</figcaption></figure>
     </div>
     <div style="background:var(--bg2);border:1px solid var(--line);border-radius:26px;padding:30px;margin-top:44px" class="rv">
@@ -1201,9 +1305,8 @@ img,video,svg{max-width:100%}
       <img class="strip-bg still-drift" src="asset-20.jpg" alt="" aria-hidden="true"/>
       <div class="shade"></div>
       <div class="copy" style="max-width:660px"><h2 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:16px">Born in Hawaii.<br/>Inspired by everywhere.</h2>
-      <p>Our creative perspective is influenced by Hawaii’s natural beauty, artistic culture, and connection to the environment — the movement of water, organic forms, and color that shifts all day long.</p>
-      <p>But great stories aren’t limited by geography. We work with businesses wherever creativity and good ideas take us.</p>
-      <p><strong style="color:var(--ink)">Our mission:</strong> to discover what makes great small businesses special, and bring their stories to life through thoughtful design and creative technology — and to give a little back along the way, to the reef that inspires the work.</p>
+      <p>Our eye comes from Hawaii — the movement of water, organic forms, color that shifts all day. Great stories aren’t limited by geography, and neither are we.</p>
+      <p><strong style="color:var(--ink)">Our mission:</strong> find what makes great small businesses special, bring it to life online — and give a little back to the reef along the way.</p>
       <button class="btn btn-primary" data-go="contact" style="margin-top:10px">Let’s Tell Your Story <span class="arr">→</span></button></div>
     </div>
   </div></section>
@@ -1213,12 +1316,11 @@ img,video,svg{max-width:100%}
 <div class="page" id="page-contact">
   <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> Contact</span>
   <h1 style="margin:18px 0 14px">Every great project starts<br/>with a <span style="color:var(--teal-dark)">conversation.</span></h1>
-  <p class="lede">Tell us what you’re building, what you’re proud of, and what you’d love your website to become. We’d love to hear about it.</p></div>
+  <p class="lede">Tell us what you’re building and what you’d love your website to become.</p></div>
   <section style="padding-top:26px"><div class="wrap split" style="align-items:start">
     <div class="rv">
       <h2 style="font-size:1.6rem;margin-bottom:12px">A few honest notes</h2>
       <div class="value" style="margin-bottom:22px"><h3>No pressure, ever</h3><p>This is a conversation, not a sales funnel. If we’re not the right fit, we’ll say so.</p></div>
-      <div class="value" style="margin-bottom:22px"><h3>People before pixels</h3><p>The more you tell us about the humans behind the business, the better the first ideas will be.</p></div>
       <div class="value"><h3>Based in Hawai'i, working everywhere</h3><p>REEFRESH is an independent studio in Hawai'i, working with businesses near and far.</p></div>
     </div>
     <form id="contactForm" class="rv d1" novalidate>
@@ -1237,7 +1339,7 @@ img,video,svg{max-width:100%}
       <textarea id="f-story" rows="5" required placeholder="What do you do? What makes it special? What are you proud of?"></textarea>
       <label for="f-budget">Budget range <span style="font-weight:400;color:var(--muted)">(optional — helps us suggest the right scope)</span></label>
       <select id="f-budget"><option value="">Prefer to discuss</option><option>Under $1,500</option><option>$1,500 – $3,000</option><option>$3,000 – $5,000</option><option>$5,000+</option></select>
-      <p class="small" style="margin-top:16px">This form prepares a ready-to-send summary of your inquiry on this page — it doesn’t send or store anything yet. Copy it and send it however you like; a direct inbox connection is the studio’s next setup step.</p>
+      <p class="small" style="margin-top:16px">This form builds a ready-to-send summary on this page — nothing is sent or stored yet. Copy it and send it however you like.</p>
       <button type="submit" class="btn btn-primary" style="margin-top:14px;width:100%;justify-content:center">Let’s Make Something Great <span class="arr">→</span></button>
       <div id="confirm" role="status">
         <h3 style="font-size:1.25rem">Mahalo — that’s a great start. 🌊</h3>
@@ -1264,22 +1366,23 @@ img,video,svg{max-width:100%}
       <div><h4>Explore</h4><button data-go="home">Home</button><button data-go="services">Services</button><button data-go="work">Our Work</button><button data-go="about">About</button><button data-go="contact">Contact</button></div>
       <div><h4>Start here</h4><button data-go="contact">Start a Project</button><button data-go="work">See concept work</button><button data-go="services">What we do</button><p class="small" style="margin-top:14px">All portfolio pieces currently shown are clearly labeled concept designs.</p></div>
     </div>
-    <div style="border-top:1px solid var(--line);margin-top:34px;padding-top:20px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap"><span class="small">© 2026 REEFRESH · reefresh.net</span><span class="small">Let’s Make WAVES.</span></div>
+    <div class="foot-giant" aria-hidden="true">REE<b>FRESH</b></div>
+    <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:20px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap"><span class="small">© 2026 REEFRESH · reefresh.net</span><span class="small">Let’s Make WAVES.</span></div>
   </div>
 </footer>
 
 <script>
 var SERVICES=[
- {n:"01",t:"Website Design & Development",s:"A website built around the one action you want visitors to take — book, call, buy, visit — with your personality in every pixel and a first impression that earns it.",inc:["Custom design built around your story — no off-the-shelf look","Mobile-first, responsive build that works on every screen","One clear call-to-action per page, so visitors never wonder what to do next","Clear structure, fast loading, and foundational SEO basics","Easy-to-update pages you won’t be afraid to touch"],who:"New businesses, or established ones whose website no longer matches who they’ve become.",prob:"A forgettable first impression. Visitors can’t tell what makes you different, so they leave and choose whoever felt clearer."},
- {n:"02",t:"Website Refreshes",s:"Your business, updated online: clearer words, current visuals, and a shorter path from landing to booking, calling, or visiting.",inc:["A full visual refresh that keeps what already works","Clearer messaging and page structure, mapped to how visitors actually decide","Modern, mobile-friendly layouts","Imagery and typography that feel current — and like you"],who:"Businesses with a site that works, but looks and reads like an earlier version of them.",prob:"Your business grew up; your website didn’t. That gap quietly costs trust before you ever get to talk."},
- {n:"03",t:"Creative Direction",s:"Colours, type, and imagery chosen once and applied everywhere — so your site, socials, and signage all feel like the same business at a glance.",inc:["A defined color, type, and imagery direction — a pairing, not just a palette","Guidance you can reuse across your site and materials","Mood and concept exploration before anything is built","Consistency that makes a small business look intentional"],who:"Businesses that look different in every place they appear — and feel it.",prob:"Inconsistency reads as carelessness, even when the work itself is excellent."},
- {n:"04",t:"Digital Storytelling",s:"Words and visuals in your voice that turn ‘we do X’ into a reason to choose you — and a next step that’s obvious when people do.",inc:["Your story, found and shaped — interviews and questions included","Homepage and key-page copy in your voice","Photo and visual direction that supports the words","Messaging that explains why you, specifically"],who:"Businesses whose real magic is obvious in person and invisible online.",prob:"“We do X” sounds like everyone. People choose the business they feel something about."}];
-var STEPS=[["Discover","We get to know your business, your story, your customers, and what makes you different."],["Imagine","We explore creative directions that bring your personality to life through design, imagery, and messaging."],["Create","We transform those ideas into a beautiful, functional website designed around your goals."],["Launch","After review, refinement, and testing, your refreshed online presence is ready to share with the world."]];
-var VALUES=[["Creativity With Purpose","Beautiful design should communicate something meaningful."],["Personality Over Templates","Your business has its own character. Your website should reflect it."],["People Before Pixels","Understanding the people behind a business is where great design begins."],["Art Meets Technology","Imaginative ideas plus modern digital tools — experiences that look beautiful and work beautifully."]];
+ {n:"01",t:"Website Design & Development",s:"A website built around the one action you want — book, call, buy, visit — with your personality in every pixel.",inc:["Custom design around your story — no off-the-shelf look","Mobile-first build that works on every screen","One clear call-to-action per page","Fast loading, clear structure, SEO basics built in","Pages you won’t be afraid to update"],who:"New businesses — or established ones whose site no longer matches who they’ve become.",prob:"A forgettable first impression. Visitors can’t tell what makes you different, so they choose whoever felt clearer."},
+ {n:"02",t:"Website Refreshes",s:"Your business, updated online: clearer words, current visuals, a shorter path to booking.",inc:["A full visual refresh that keeps what works","Messaging and structure mapped to how visitors decide","Modern, mobile-friendly layouts","Imagery and type that feel current — and like you"],who:"Businesses with a site that works but reads like an earlier version of them.",prob:"Your business grew up; your website didn’t. That gap costs trust before you ever get to talk."},
+ {n:"03",t:"Creative Direction",s:"Colours, type, and imagery chosen once, applied everywhere — one business, at a glance, everywhere you appear.",inc:["A defined colour, type, and imagery direction","Guidance you can reuse across site, socials, and signage","Mood and concept exploration before anything is built","Consistency that makes a small business look intentional"],who:"Businesses that look different in every place they appear.",prob:"Inconsistency reads as carelessness — even when the work itself is excellent."},
+ {n:"04",t:"Digital Storytelling",s:"Words and visuals in your voice that turn “we do X” into a reason to choose you.",inc:["Your story, found and shaped — interviews included","Homepage and key-page copy in your voice","Photo and visual direction that supports the words","Messaging that explains why you, specifically"],who:"Businesses whose magic is obvious in person and invisible online.",prob:"“We do X” sounds like everyone. People choose the business they feel something about."}];
+var STEPS=[["Discover","Your business, your story, your customers — and what makes you different."],["Imagine","Creative directions that bring your personality to life."],["Create","Ideas become a beautiful, functional website built around your goals."],["Launch","Reviewed, refined, tested — ready to share with the world."]];
+var VALUES=[["Creativity With Purpose","Beautiful design that says something meaningful."],["Personality Over Templates","Your character, reflected — never templated away."],["Art Meets Technology","Imaginative ideas, modern tools — beautiful and built to work."]];
 var WORKS=[
- {img:"asset-22.jpg",alt:"Colorful tropical dishes served on banana leaves",title:"The Generational Table",cat:"Concept · Restaurant",desc:"An immersive restaurant website built on beautiful food photography, expressive typography, and a warm, inviting atmosphere — the kind of place you can almost taste before you arrive.",biz:"A family restaurant that has perfected its recipes over generations — unforgettable in person, invisible online.",opp:"A generic template with a PDF menu said nothing about the food, the family, or the feeling of being there.",dir:"Lead with the food: full-bleed photography, a story for signature dishes, and typography with the confidence of the kitchen.",fin:"A homepage that opens like a menu you can’t put down — story, dishes, and reservations in two taps."},
- {img:"asset-23.jpg",alt:"Artist painting a large colorful abstract canvas",title:"The Artist, Unframed",cat:"Concept · Independent Artist",desc:"An unconventional portfolio emphasizing artistic individuality, motion, and visual storytelling — the work leads, the website gets out of the way, then surprises you.",biz:"An independent artist who has spent years developing a style entirely their own.",opp:"A cramped, chronological grid flattened years of evolution into thumbnails that all looked the same size.",dir:"Organize by series and story, not date. Oversized canvases, generous white space, motion that echoes brushwork.",fin:"A portfolio that feels like walking into the studio — color first, explanation second, personality everywhere."},
- {img:"asset-24.webp",alt:"Calm, candlelit wellness treatment room",title:"Quiet, By Design",cat:"Concept · Boutique Wellness Studio",desc:"A calm, sophisticated website combining elegant typography, organic design, and intuitive navigation — the exhale starts on the homepage.",biz:"A boutique wellness studio whose physical space is serene — and whose website was anything but.",opp:"Cluttered pages, loud colors, and a booking path with too many steps worked against the calm they sell.",dir:"Restraint as the concept: soft neutrals, slow fades, one clear action per page, booking in as few steps as possible.",fin:"A site that lowers your heart rate a little — and makes booking feel like part of the treatment."}];
+ {img:"asset-22.jpg",alt:"Colorful tropical dishes served on banana leaves",title:"The Generational Table",cat:"Concept · Restaurant",desc:"Food photography, expressive type, a warm room you can almost taste before you arrive.",biz:"A family restaurant that perfected its recipes over generations — unforgettable in person, invisible online.",opp:"A generic template and a PDF menu said nothing about the food, the family, or the feeling.",dir:"Lead with the food: full-bleed photography, a story per signature dish, type with the kitchen’s confidence.",fin:"A homepage that opens like a menu you can’t put down — story, dishes, reservations in two taps."},
+ {img:"asset-23.jpg",alt:"Artist painting a large colorful abstract canvas",title:"The Artist, Unframed",cat:"Concept · Independent Artist",desc:"The work leads, the website gets out of the way — then surprises you.",biz:"An independent artist who spent years developing a style entirely their own.",opp:"A cramped chronological grid flattened years of evolution into same-size thumbnails.",dir:"Organize by series and story, not date. Oversized canvases, generous space, motion that echoes brushwork.",fin:"A portfolio that feels like walking into the studio — color first, personality everywhere."},
+ {img:"asset-24.webp",alt:"Calm, candlelit wellness treatment room",title:"Quiet, By Design",cat:"Concept · Boutique Wellness Studio",desc:"Elegant type, organic design, calm navigation — the exhale starts on the homepage.",biz:"A boutique wellness studio whose space is serene — and whose website was anything but.",opp:"Cluttered pages and a booking path with too many steps worked against the calm they sell.",dir:"Restraint as the concept: soft neutrals, slow fades, one action per page, booking in two taps.",fin:"A site that lowers your heart rate a little — booking feels like part of the treatment."}];
 var STYLES=[
  {img:"asset-25.jpg",url:"concept — restaurant",title:"A table worth traveling for",cap:"Restaurant concept — food first",label:"Concept style 01 — Restaurant · every screen changes together",name:"Restaurant",phoneTitle:"A table, tonight",phoneCap:"Menu + reservations",nextTitle:"The Artist",accent:"#f0a868",site:{theme:"rest",brand:"Aloha Table",domain:"alohastable.com",links:["Menu","Our Story","Visit"],eyebrow:"Family restaurant · Est. 1987",head:"Three generations. One unforgettable table.",sub:"Recipes perfected over decades, told properly — reserve in two taps.",cta:"Book a Table",strip:[["Tonight at the table","Seasonal specials, from the kitchen"],["Three generations","The story behind the recipes"],["Easy to find","Directions & parking, one tap"]]}},
  {img:"asset-26.jpg",url:"concept — artist portfolio",title:"Color, at full volume",cap:"Artist concept — work leads",label:"Concept style 02 — Artist · every screen changes together",name:"Artist",phoneTitle:"Art, up close",phoneCap:"Series + studio notes",nextTitle:"The Wellness Studio",accent:"#e77fb0",site:{theme:"art",brand:"Studio Unframed",domain:"studiounframed.com",links:["Series","Studio Notes","About"],eyebrow:"Independent artist · New series",head:"Color, at full volume.",sub:"Work organised by series and story — the art leads, the site gets out of the way.",cta:"View the Series",strip:[["Series 04 — Tide Lines","Twelve new works"],["Studio notes","Process, in her own words"],["Studio visits","By appointment"]]}},
@@ -1316,9 +1419,6 @@ document.getElementById("homeWork").innerHTML=WORKS.map(function(w,i){return wor
 document.getElementById("workGrid").innerHTML=WORKS.map(function(w,i){return workCard(w,i,i?"d"+i:"")}).join("");
 document.getElementById("caseStudies").innerHTML=WORKS.map(function(w,i){return '<details class="case rv"><summary>'+w.title+' — the concept, unpacked <span style="color:var(--muted);font-size:.85rem;font-family:Outfit">'+w.cat+'</span></summary><div class="inner"><div><h4>The Business</h4><p>'+w.biz+'</p></div><div><h4>The Opportunity</h4><p>'+w.opp+'</p></div><div><h4>The Creative Direction</h4><p>'+w.dir+'</p></div><div><h4>The Finished Experience</h4><p>'+w.fin+'</p></div></div></details>'}).join("");
 document.getElementById("svcDetails").innerHTML=SERVICES.map(function(s){return '<article class="svc-detail rv"><span class="kicker">Service '+s.n+'</span><h2>'+s.t+'</h2><p style="font-size:1.08rem;max-width:65ch">'+s.s+'</p><div class="cols"><div><h4>What it includes</h4><ul>'+s.inc.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ul></div><div><h4>Who it’s for</h4><p>'+s.who+'</p></div><div><h4>The problem it solves</h4><p>'+s.prob+'</p></div></div><p style="margin-top:20px"><button class="btn btn-primary" data-go="contact">Start With This <span class="arr">→</span></button></p></article>'}).join("");
-var words="Let’s Make WAVES ✳ People Before Pixels ✳ Great Stories, Told Well ✳ Proud To Share It ✳ ";
-document.getElementById("marqueeTrack").innerHTML="<span>"+words.replace(/✳/g,'<i>✳</i>')+"</span><span>"+words.replace(/✳/g,'<i>✳</i>')+"</span>";
-
 /* routing — with a tide transition: the veil rises over the screen
    (transform only, ~420ms), the page swaps while fully covered, then the
    tide recedes and the new page settles in with its pageIn rise. The swap
@@ -1661,8 +1761,8 @@ document.getElementById("copyBtn").addEventListener("click",function(){
     {q:"In one line, what do you do?",h:"Keep it human: “Family restaurant serving recipes from three generations.”",type:"text",key:"what",ph:"e.g. Boutique wellness studio for busy parents"},
     {q:"Who is it for?",h:"Your favourite customers — who should feel “this is for me” in 3 seconds?",type:"text",key:"who",ph:"e.g. Locals & visitors who love real, unhurried food"},
     {q:"What should it feel like?",h:"Pick the vibe closest to your place in person. You can change it anytime.",type:"chips",key:"vibe",opts:["Warm & welcoming","Bold & modern","Calm & minimal","Playful & bright"]},
-    {q:"Pick your colours and type — or create your own.",h:"Tap a palette and a type pairing to preview them live. One choice updates the whole mini-site at once — header, headline, and button together.",type:"palette"},
-    {q:"Drop your links — we’ll save them to your brief.",h:"Old website, Google Business, Facebook / Instagram — any you have. Leave blank if you’re starting fresh. We review these when we build; this preview doesn’t fetch them live yet.",type:"links"},
+    {q:"Pick your colours and type — or create your own.",h:"Tap a palette and type pairing — one choice updates the whole mini-site at once.",type:"palette"},
+    {q:"Drop your links — we’ll save them to your brief.",h:"Old website, Google Business, Facebook / Instagram — any you have. Blank is fine. We review them when we build; this preview doesn’t fetch them live.",type:"links"},
     {q:"What’s the #1 thing visitors should do?",h:"One primary action converts best. Everything else supports it.",type:"chips",key:"cta",opts:["Book Now","Call Us","Shop / Buy","Visit Us","Get a Quote"]},
     {q:"Anything else we should know?",h:"Awards, a signature dish/product, a story detail — anything that makes you, you. (Optional)",type:"textarea",key:"extra",ph:"Tell us the detail regulars love…"}
   ];
@@ -1798,6 +1898,107 @@ document.getElementById("copyBtn").addEventListener("click",function(){
 window.addEventListener("load",function(){setTimeout(function(){document.getElementById("loader").classList.add("done")},450)});
 setTimeout(function(){document.getElementById("loader").classList.add("done")},2200);
 var h=(location.hash||"").replace("#","");if(["home","services","work","about","contact"].indexOf(h)>=0)go(h);if(h==="automagic"){setTimeout(function(){var el=document.getElementById("automagic");if(el)el.scrollIntoView()},300)}
+</script>
+<script>
+/* WOW interactions — transform/opacity only, reduced-motion safe,
+   pointer-fine devices only for tilt/magnetism. Hero video untouched. */
+(function(){
+  var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine=window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  /* manifesto — split headline into words, light them on scroll */
+  var head=document.getElementById("maniHead");
+  if(head){
+    var nodes=[].slice.call(head.childNodes);
+    head.innerHTML="";
+    nodes.forEach(function(node){
+      if(node.nodeType===3){
+        node.textContent.split(/\s+/).filter(Boolean).forEach(function(word){
+          var s=document.createElement("span");s.className="w";s.textContent=word;
+          head.appendChild(s);head.appendChild(document.createTextNode(" "));
+        });
+      }else if(node.nodeType===1){
+        var w=document.createElement("span");w.className="w "+node.className;
+        w.textContent=node.textContent;
+        head.appendChild(w);head.appendChild(document.createTextNode(" "));
+      }
+    });
+    var words=[].slice.call(head.querySelectorAll(".w"));
+    function lightAll(){words.forEach(function(w,i){setTimeout(function(){w.classList.add("lit")},i*90)})}
+    if(rm){words.forEach(function(w){w.classList.add("lit")})}
+    else if("IntersectionObserver" in window){
+      head.classList.add("armed");
+      var io2=new IntersectionObserver(function(es){
+        es.forEach(function(en){
+          if(en.isIntersecting){lightAll();io2.disconnect()}
+        });
+      },{threshold:.35});
+      io2.observe(head);
+      /* fallback: the headline must end up fully readable even if the
+         observer never fires in an unusual webview */
+      setTimeout(function(){if(!words[0]||!words[0].classList.contains("lit"))lightAll()},3000);
+    }else{words.forEach(function(w){w.classList.add("lit")})}
+    /* stat count-up — leading number only, once */
+    var stats=document.querySelectorAll(".mani-stats strong");
+    function countUp(el){
+      var txt=el.firstChild;if(!txt||txt.nodeType!==3)return;
+      var target=parseInt(txt.textContent,10);if(isNaN(target))return;
+      if(rm)return;
+      var t0=null;
+      function tick(ts){
+        if(!t0)t0=ts;
+        var p=Math.min(1,(ts-t0)/900);
+        var eased=1-Math.pow(1-p,3);
+        txt.textContent=Math.round(target*eased)+" ";
+        if(p<1)requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    if("IntersectionObserver" in window&&!rm){
+      var io3=new IntersectionObserver(function(es){
+        es.forEach(function(en){if(en.isIntersecting){countUp(en.target);io3.unobserve(en.target)}});
+      },{threshold:.5});
+      stats.forEach(function(s){io3.observe(s)});
+    }
+  }
+  if(rm||!fine)return;
+  /* card tilt — rAF-throttled, gentle, clears back to CSS on leave */
+  document.querySelectorAll(".work-card").forEach(function(card){
+    var raf=null;
+    card.classList.add("tilt");
+    card.addEventListener("pointermove",function(e){
+      if(raf)return;
+      raf=requestAnimationFrame(function(){
+        raf=null;
+        var r=card.getBoundingClientRect();
+        var x=(e.clientX-r.left)/r.width-.5;
+        var y=(e.clientY-r.top)/r.height-.5;
+        card.style.transform="perspective(900px) rotateY("+(x*5).toFixed(2)+"deg) rotateX("+(-y*5).toFixed(2)+"deg) translateY(-10px)";
+      });
+    });
+    card.addEventListener("pointerleave",function(){
+      if(raf)cancelAnimationFrame(raf);raf=null;
+      card.style.transform="";
+    });
+  });
+  /* magnetic primary actions */
+  document.querySelectorAll(".hero .btn-primary,.band-dark .btn-primary").forEach(function(btn){
+    var raf2=null;
+    btn.addEventListener("pointermove",function(e){
+      if(raf2)return;
+      raf2=requestAnimationFrame(function(){
+        raf2=null;
+        var r=btn.getBoundingClientRect();
+        var x=(e.clientX-r.left)/r.width-.5;
+        var y=(e.clientY-r.top)/r.height-.5;
+        btn.style.transform="translate("+(x*7).toFixed(1)+"px,"+(y*5).toFixed(1)+"px)";
+      });
+    });
+    btn.addEventListener("pointerleave",function(){
+      if(raf2)cancelAnimationFrame(raf2);raf2=null;
+      btn.style.transform="";
+    });
+  });
+})();
 </script>
 </body>
 </html>
