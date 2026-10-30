@@ -897,6 +897,136 @@ section{padding:76px 0}
   .manifesto{padding:66px 0 58px}
   .hero{padding-top:28px}
 }
+/* ============================================================
+   CONCEPT POLISH — the three concept sites are the product
+   being sold, so their miniature builds get the richest
+   finish on the page: per-concept theming with real depth,
+   premium browser / phone frames, and gallery-grade detail
+   inside every frame. CSS only — builders and cycler logic
+   are untouched, so every screen keeps swapping in sync.
+   ============================================================ */
+/* — miniature site foundations: each concept gets its own world — */
+.msite.rest{background:linear-gradient(165deg,#fffaf1 0%,#fff5e2 55%,#fdeed2 100%)}
+.msite.well{background:linear-gradient(165deg,#fdfcf8 0%,#f4f6ec 60%,#e8f0dc 100%)}
+.msite.art{background:#101318}
+.ms-nav{background:rgba(255,255,255,.85);padding:8px 12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.65)}
+.msite.art .ms-nav{background:#14161c;border-bottom-color:rgba(255,255,255,.09)}
+.msite.art .ms-nav strong{color:#fff}
+.msite.art .ms-nav span{color:#aeb6bd}
+.ms-nav strong{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;letter-spacing:-.01em}
+.ms-nav strong::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--acc);flex:0 0 auto}
+.ms-nav span{font-weight:600;color:#476173;letter-spacing:.02em}
+.ms-nav em{box-shadow:0 4px 10px rgba(10,30,40,.2);letter-spacing:.03em}
+.ms-hero{gap:12px;padding:12px 14px 8px}
+.ms-eye{display:inline-flex;align-items:center;gap:6px}
+.ms-eye::before{content:"";width:14px;height:2px;border-radius:2px;background:var(--acc);flex:0 0 auto}
+.msite.art .ms-eye::before{background:#ffb9d6}
+.ms-copy h6{font-size:1.1rem;line-height:1.08;letter-spacing:-.015em}
+.ms-copy p{font-size:.59rem;color:#54687a}
+.ms-btn{box-shadow:0 6px 14px rgba(10,30,40,.22);padding:6px 12px;letter-spacing:.02em}
+.msite.rest .ms-btn{background:linear-gradient(120deg,#a35a17,#8a4b12)}
+.msite.well .ms-btn{background:linear-gradient(120deg,#55795f,#476b54)}
+.ms-img{position:relative;box-shadow:inset 0 0 0 1px rgba(10,30,40,.08),0 8px 18px rgba(10,30,40,.12)}
+.ms-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.1),transparent 42%,rgba(10,20,30,.1));pointer-events:none}
+.ms-img img{filter:saturate(1.09) contrast(1.04)}
+.msite.well .ms-img{border-radius:16px}
+.msite.well .ms-img img{filter:saturate(.96) contrast(1.02)}
+/* content strips read as finished cards, themed per concept */
+.ms-strip{gap:9px;padding:6px 14px 12px}
+.ms-strip b{font-size:.6rem}
+.ms-strip i{color:#687d89}
+.msite.rest .ms-strip div{background:#fffdf8;border:1px solid rgba(185,106,30,.16);border-top:3px solid #f0a868;border-radius:9px;padding:7px 9px;box-shadow:0 4px 10px rgba(140,80,20,.08)}
+.msite.well .ms-strip div{background:#fffef9;border:1px solid rgba(79,125,95,.14);border-top:3px solid #8fc7a8;border-radius:12px;padding:7px 9px;box-shadow:0 4px 10px rgba(79,125,95,.08)}
+.msite.art .ms-strip{background:#101318}
+.msite.art .ms-strip div{background:#1e2129;border:1px solid rgba(255,255,255,.08);border-top:3px solid #e77fb0;border-radius:9px;padding:7px 9px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.msite.art .ms-strip b{color:#fff}
+.msite.art .ms-strip i{color:#9aa7b0}
+/* artist hero — the canvas fills the frame, copy lands like a gallery label */
+.msite.art .ms-hero{padding:0}
+.msite.art .ms-img{box-shadow:none}
+.msite.art .ms-img::after{display:none}
+.msite.art .ms-copy{background:linear-gradient(180deg,rgba(8,10,14,.14) 0%,rgba(8,10,14,.3) 40%,rgba(8,10,14,.87) 100%);padding:12px 14px}
+.msite.art .ms-copy h6{font-size:1.36rem;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.msite.art .ms-btn{background:#fff;box-shadow:0 8px 18px rgba(0,0,0,.35)}
+/* phone builds — same polish, distilled */
+.ms-pnav{background:rgba(255,255,255,.88)}
+.ms-pnav strong{display:inline-flex;align-items:center;gap:5px}
+.ms-pnav strong::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--acc);flex:0 0 auto}
+.ms-pimg{position:relative}
+.ms-pimg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 52%,rgba(10,20,30,.2));pointer-events:none}
+.ms-pimg img{filter:saturate(1.09) contrast(1.04)}
+.ms-pcopy h6{font-size:.82rem;letter-spacing:-.01em}
+.msite.rest .ms-prows div{background:#fffdf8;border:1px solid rgba(185,106,30,.14);box-shadow:0 3px 8px rgba(140,80,20,.07)}
+.msite.art .ms-prows div{background:#fffafc;border:1px solid rgba(199,79,135,.13);box-shadow:0 3px 8px rgba(199,79,135,.07)}
+.msite.well .ms-prows div{background:#fbfdf6;border:1px solid rgba(79,125,95,.13);box-shadow:0 3px 8px rgba(79,125,95,.07)}
+/* up-next thumbnail — headline sits on a richer scrim with an accent rule */
+.ms-timg::after{background:linear-gradient(180deg,rgba(8,14,18,.06) 26%,rgba(8,14,18,.8))}
+.ms-timg img{filter:saturate(1.09) contrast(1.04)}
+.ms-thead{font-size:.78rem;text-shadow:0 2px 10px rgba(0,0,0,.45);border-bottom:3px solid var(--acc);padding-bottom:3px}
+/* — hero stage frames: real browser chrome, deeper stage presence — */
+.mock{border:1px solid rgba(255,255,255,.65);box-shadow:0 34px 74px rgba(4,28,48,.36),0 0 0 1px rgba(6,42,68,.06)}
+.mock .bar{background:linear-gradient(180deg,#f5f9fa,#e7eef0)}
+.mock .bar i:nth-child(1){background:#ff8f80}
+.mock .bar i:nth-child(2){background:#f6c453}
+.mock .bar i:nth-child(3){background:#5ec98d}
+.mock .bar b{background:#fff;border:1px solid #dde7ea;border-radius:999px;padding:3px 10px;margin-left:8px;color:#476173}
+.mock .cap strong{font-size:1.04rem}
+.mock .cap span{color:#476173}
+.next-tag{background:linear-gradient(120deg,var(--navy),var(--navy3));box-shadow:0 4px 10px rgba(6,42,68,.3)}
+/* — work cards: themed stage per concept, lifted frames, finished body — */
+.work-card:nth-child(1) .mockups{background:linear-gradient(155deg,#fdf0da,#f8ddaf)}
+.work-card:nth-child(2) .mockups{background:linear-gradient(155deg,#fdeef5,#f4cfe1)}
+.work-card:nth-child(3) .mockups{background:linear-gradient(155deg,#eef5e4,#d9eac6)}
+.mockups{padding:44px 20px 30px}
+.mockups::before{content:"";position:absolute;inset:0;background:radial-gradient(420px 200px at 18% 0%,rgba(255,255,255,.55),transparent 62%);pointer-events:none;z-index:0}
+.mockups::after{position:absolute;right:16px;top:6px;font-family:"Bricolage Grotesque";font-weight:800;font-size:2.1rem;line-height:1;color:rgba(6,42,68,.1);z-index:0;pointer-events:none}
+.work-card:nth-child(1) .mockups::after{content:"01"}
+.work-card:nth-child(2) .mockups::after{content:"02"}
+.work-card:nth-child(3) .mockups::after{content:"03"}
+.browser{position:relative;z-index:1;border-radius:14px;box-shadow:0 22px 44px rgba(6,42,68,.26);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.work-card:hover .browser{transform:translateY(-4px)}
+.browser .b-bar{background:linear-gradient(180deg,#f5f9fa,#e7eef0);padding:8px 10px}
+.browser .b-bar i:nth-child(1){background:#ff8f80}
+.browser .b-bar i:nth-child(2){background:#f6c453}
+.browser .b-bar i:nth-child(3){background:#5ec98d}
+.browser .b-bar b{background:#fff;border:1px solid #dde7ea;border-radius:999px;padding:3px 10px;margin-left:7px;color:#476173}
+.browser .b-frame{height:204px}
+.phone{width:84px;border-radius:18px;border:3px solid #101c26;box-shadow:0 20px 38px rgba(6,42,68,.4);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.work-card:hover .phone{transform:translateY(-5px) rotate(-1.2deg)}
+.phone .p-frame{height:124px}
+.concept-tag{background:linear-gradient(120deg,var(--navy),var(--navy3));box-shadow:0 8px 18px rgba(6,42,68,.3);letter-spacing:.16em}
+.work-card .body{padding:26px}
+.work-card h3{font-size:1.52rem;letter-spacing:-.02em}
+.work-card .cat{display:inline-flex;align-items:center;gap:7px}
+.work-card .cat::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.work-card:nth-child(1) .cat{color:#b96a1e}
+.work-card:nth-child(2) .cat{color:#c74f87}
+.work-card:nth-child(3) .cat{color:#4f7d5f}
+.mock-note{display:inline-flex;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:6px 12px;margin-top:14px;font-size:.78rem}
+/* — before/after "new site": the same restaurant concept, full size — */
+.new-nav strong{display:inline-flex;align-items:center;gap:7px}
+.new-nav strong::before{content:"";width:8px;height:8px;border-radius:50%;background:#f0a868;flex:0 0 auto}
+.new-nav em{background:linear-gradient(120deg,var(--teal),var(--teal2));box-shadow:0 6px 14px rgba(15,185,198,.35)}
+.new-hero img{border-radius:18px;box-shadow:0 16px 32px rgba(6,42,68,.18)}
+.new-btn{background:linear-gradient(120deg,var(--teal),var(--teal2));box-shadow:0 8px 18px rgba(15,185,198,.35)}
+.new-cards div{background:#fff;border:1px solid var(--line);border-top:3px solid var(--teal);border-radius:14px;box-shadow:0 6px 16px rgba(6,42,68,.07)}
+.ba-tag.t-after{background:linear-gradient(120deg,var(--teal),var(--teal2));box-shadow:0 6px 14px rgba(15,185,198,.4)}
+/* case studies on the Work page get the same finish */
+details.case{transition:border-color .3s,box-shadow .3s}
+details.case:hover{border-color:#a8dfe5}
+details.case[open]{box-shadow:var(--shadow)}
+details.case h4{display:flex;align-items:center;gap:7px}
+details.case h4::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);flex:0 0 auto}
+@media(max-width:620px){
+  .browser .b-frame{height:188px}
+  .phone{width:72px}
+  .phone .p-frame{height:110px}
+  .mockups{padding:38px 16px 24px}
+  .ms-copy h6{font-size:1rem}
+  .msite.art .ms-copy h6{font-size:1.2rem}
+  .ms-hero{padding:10px 12px 6px}
+  .ms-strip{padding:4px 12px 10px}
+}
 </style>
 </head>
 <body>
