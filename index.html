@@ -1,0 +1,1803 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light"/>
+<script>document.documentElement.classList.add("js")</script>
+<meta name="description" content="REEFRESH — a creative web studio in Hawai'i helping small businesses tell their stories online. Let's Make WAVES."/>
+<link rel="icon" href="asset-1.png"/>
+<title>REEFRESH — Let's Make WAVES | Creative Web Studio in Hawai'i</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="asset-2.jpg" fetchpriority="high"/>
+<link rel="preload" as="image" href="asset-3.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --navy:#062a44; --navy2:#041c30; --navy3:#0a3a5c;
+  --teal:#0fb9c6; --teal2:#35d3dc; --teal-dark:#078794;
+  --bg:#ffffff; --bg2:#eef9fa; --bg3:#e2f4f6;
+  --ink:#0b2438; --muted:#476173; --line:#d7e8ec;
+  --card:#ffffff; --chip:#e6f7f8;
+  --shadow:0 18px 50px rgba(6,42,68,.14);
+  --radius:22px;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:"Outfit",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,.display{font-family:"Bricolage Grotesque","Outfit",sans-serif;line-height:1.02;letter-spacing:-.02em;margin:0}
+a{color:var(--teal-dark)}
+img{max-width:100%;display:block}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:6px}
+
+/* loader */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;color:var(--ink);transition:opacity .6s,visibility .6s,transform .7s cubic-bezier(.16,1,.3,1)}
+#loader.done{opacity:0;visibility:hidden;transform:translateY(-18px)}
+/* page-transition tide — a wave veil that rises over the screen while the
+   page swaps underneath, then recedes. Transform-only, pointer-events off,
+   created once; it never runs during scroll, so it can't compete with the
+   background video's frame budget. */
+#veil{position:fixed;inset:-2% 0;z-index:150;pointer-events:none;background:linear-gradient(180deg,#0a3a5c,#062a44 55%,#041c30);transform:translateY(104%);will-change:transform;display:flex;align-items:flex-end;overflow:hidden}
+#veil .veil-wave{position:absolute;left:0;right:0;top:-46px;height:48px;display:flex;width:200%;animation:waveMove 7s linear infinite}
+#veil .veil-wave svg{flex:0 0 50%;width:50%;height:48px;display:block}
+#veil .veil-word{position:relative;margin:0 auto 16vh;font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(1.6rem,5vw,2.6rem);color:#fff;letter-spacing:-.01em;opacity:0}
+#veil .veil-word em{font-style:normal;color:var(--teal2)}
+/* scroll progress — a 3px tide line under the header, scaleX only, written
+   from the same batched rAF pass as the existing parallax */
+#tide{position:fixed;top:0;left:0;right:0;height:3px;z-index:120;background:linear-gradient(90deg,var(--teal),var(--teal2),#f0a868);transform:scaleX(0);transform-origin:left;pointer-events:none}
+#loader .mark{width:74px;height:74px;animation:spin 1.6s linear infinite}
+#loader p{font-family:"Bricolage Grotesque";letter-spacing:.28em;font-size:.8rem;text-transform:uppercase;color:var(--teal-dark)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-14px) rotate(var(--r,0deg))}}
+@keyframes waveMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* header */
+header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.985);border-bottom:1px solid #cfe6ea;box-shadow:0 10px 30px rgba(6,42,68,.08);color:#0b2438}
+.nav{max-width:1240px;margin:0 auto;padding:10px clamp(16px,4vw,24px);display:flex;align-items:center;gap:14px}
+.logo-btn{background:none;border:0;border-radius:0;padding:4px 2px;display:flex;align-items:center;flex-shrink:0;transition:transform .25s}
+.logo-btn:hover{transform:translateY(-1px)}
+.logo-btn img{height:46px;width:auto}
+nav.main{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap}
+nav.main button{background:none;border:0;padding:9px 13px;border-radius:999px;font-weight:600;color:#0b2438;position:relative;transition:color .2s,background .2s}
+nav.main button:hover{color:var(--teal-dark)}
+nav.main button.active{background:var(--navy);color:#fff}
+.cta-btn{background:var(--teal);color:#032630;border:0;border-radius:999px;padding:11px 20px;font-weight:700;white-space:nowrap;box-shadow:0 8px 24px rgba(15,185,198,.35);transition:transform .2s,box-shadow .2s,background .2s}
+.cta-btn:hover{transform:translateY(-2px);background:var(--teal2);box-shadow:0 14px 30px rgba(15,185,198,.45)}
+.burger{display:none;background:#e6f7f8;border:1px solid #cfe6ea;border-radius:10px;width:44px;height:44px;font-size:1.2rem;color:#0b2438}
+@media(max-width:860px){
+  nav.main{display:none;position:absolute;top:100%;left:12px;right:12px;background:#ffffff;border:1px solid #cfe6ea;border-radius:16px;padding:10px;flex-direction:column;box-shadow:0 18px 50px rgba(6,42,68,.18)}
+  nav.main.open{display:flex} nav.main button{text-align:left;padding:13px}
+  .burger{display:block;margin-left:auto} .nav .cta-btn{margin-left:0}
+  .nav{padding:10px 16px;gap:8px}
+  .nav .cta-btn{padding:10px 14px;font-size:.92rem}
+  .logo-btn img{height:32px}
+}
+
+/* pages */
+.page{display:none} .page.active{display:block;animation:pageIn .8s cubic-bezier(.16,1,.3,1)}
+@keyframes pageIn{0%{opacity:0;transform:translateY(26px) scale(.996)}55%{opacity:1}100%{opacity:1;transform:translateY(0) scale(1)}}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(24px,6vw,44px)}
+section{padding:84px 0;position:relative}
+.kicker{display:inline-flex;align-items:center;gap:8px;background:var(--chip);border:1px solid var(--line);color:var(--teal-dark);font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;padding:7px 13px;border-radius:999px}
+.kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+.lede{color:var(--muted);font-size:1.13rem;max-width:62ch}
+.btn{display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:14px 26px;font-weight:700;text-decoration:none;border:0;transition:transform .2s,box-shadow .2s,background .2s;font-size:1rem}
+.btn-primary{background:var(--teal);color:#032630;box-shadow:0 10px 28px rgba(15,185,198,.35)}
+.btn-primary:hover{transform:translateY(-2px) scale(1.01);background:var(--teal2)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal-dark);transform:translateY(-2px)}
+.btn-white{background:#fff;color:var(--navy)}
+.btn-white:hover{transform:translateY(-2px)}
+.btn .arr{transition:transform .2s}.btn:hover .arr{transform:translateX(4px)}
+
+/* reveal — content is visible by default; JS plays a smooth rise/pop via the
+   Web Animations API the first time each element scrolls into view, so the page
+   is never left blank if scripts or observers don't run. .pop = bigger rise
+   with a gentle scale settle (used on the portfolio mockups). */
+.rv{opacity:1}
+
+/* HERO */
+.hero{background:#e9f7f8;color:var(--ink);overflow:hidden;padding:64px 0 0;position:relative}
+.hero-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease;z-index:0;pointer-events:none}
+body.vid-on .hero-vid{opacity:1}
+/* the hero still (a frame of the same wave clip) sits under the video as a
+   plain placeholder while the first frame arrives. It does not animate:
+   an earlier build drifted it on a 26s cycle and retired the video to it,
+   which is what read as "barely moved" — the video now plays as itself. */
+.hero-still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+@keyframes stillDrift{from{transform:scale(1.02)}to{transform:scale(1.09) translate(-1.2%,1%)}}
+.still-drift{animation:stillDrift 30s ease-in-out infinite alternate}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(255,255,255,.66),rgba(255,255,255,.4) 46%,rgba(255,255,255,.82));pointer-events:none}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;position:relative;z-index:2}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2.9rem,7.5vw,5.4rem);font-weight:800}
+.hero h1 em{font-style:normal;color:var(--teal-dark)}
+/* WAVES — a gentle rolling undulation across the letters: transform-only,
+   so each letter runs on the compositor and never forces a repaint of the
+   hero video beneath it. Amplitudes are in em so the swell stays tiny at
+   every size (~5px at full desktop, ~2.5px on phones), the cycle is a slow
+   5.4s, and negative delays stagger the letters so a soft crest is always
+   travelling through the word rather than the whole word bouncing. */
+.waves-word{display:inline-block;white-space:nowrap}
+.wave-letter{display:inline-block;animation:waveLetter 5.4s ease-in-out infinite}
+.wave-letter:nth-child(2){animation-delay:-.45s}
+.wave-letter:nth-child(3){animation-delay:-.9s}
+.wave-letter:nth-child(4){animation-delay:-1.35s}
+.wave-letter:nth-child(5){animation-delay:-1.8s}
+.wave-letter:nth-child(6){animation-delay:-2.25s}
+@keyframes waveLetter{0%,100%{transform:translateY(0)}25%{transform:translateY(-.055em)}50%{transform:translateY(0)}75%{transform:translateY(.032em)}}
+.hero .sub{font-size:clamp(1.2rem,2.4vw,1.55rem);font-weight:600;color:var(--navy3);margin:20px 0 10px;font-family:"Bricolage Grotesque"}
+.hero p{color:#33586e;max-width:52ch}
+.kicker.hero-kicker{background:rgba(255,255,255,.65);border-color:rgba(7,135,148,.4);color:var(--teal-dark);text-transform:none;letter-spacing:.02em;font-size:.95rem;font-weight:600}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.hero-meta span{border:1px solid rgba(7,135,148,.35);border-radius:999px;padding:6px 13px;font-size:.85rem;color:var(--navy3);background:rgba(255,255,255,.55)}
+.orb{position:absolute;border-radius:50%;filter:blur(2px);opacity:.5;pointer-events:none}
+.coral{position:absolute;opacity:.16;pointer-events:none;animation:floaty 9s ease-in-out infinite}
+/* mockup stage — one concept, every screen: the desktop mockup, the phone,
+   and the "up next" preview all swap together on every cycle */
+.stage{position:relative;min-height:528px}
+@media(max-width:620px){.stage{min-height:512px}}
+.stage-glow{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:min(660px,104%);height:420px;border-radius:50%;background:radial-gradient(closest-side,var(--stage-accent,#f0a868) 0%,transparent 72%);opacity:.34;transition:background 1s ease;pointer-events:none;z-index:0}
+.mock{position:absolute;border-radius:18px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.25);background:#fff}
+.mock .bar{display:flex;gap:6px;padding:9px 12px;background:#eef4f6;align-items:center}
+.mock .bar i{width:10px;height:10px;border-radius:50%;background:#cbdbe0;display:block;flex:0 0 auto}
+.mock .bar b{font-size:.68rem;color:#5b7482;font-weight:600;margin-left:6px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* crossfade stack — two image layers per screen; the incoming layer fades in
+   over the outgoing one, so a swap never shows a blank frame or moves layout */
+.mock .xf{position:relative;height:204px;overflow:hidden;background:#e8f1f3}
+.mock .xf .xl{position:absolute;inset:0;opacity:0;transition:opacity .6s cubic-bezier(.22,1,.36,1)}
+.mock .xf .xl.on{opacity:1}
+.mock .cap{padding:12px 14px;color:#0b2438}
+.mock .cap strong{font-family:"Bricolage Grotesque";display:block;font-size:1rem;line-height:1.15}
+.mock .cap span{font-size:.82rem;color:#5b7482;display:block;margin-top:2px}
+.mock.main{width:min(470px,94%);left:50%;top:26px;transform:translateX(-50%);z-index:3}
+.mock.sideL{width:230px;left:-6px;top:190px;z-index:2;--r:-5deg;animation:floaty 8s ease-in-out infinite}
+.mock.sideR{width:150px;right:0;top:210px;z-index:4;border-radius:24px;--r:4deg;animation:floaty 10s ease-in-out infinite}
+.mock.sideL .xf{height:110px}.mock.sideR .xf{height:220px}
+.mock .next-tag{display:inline-block;background:var(--navy);color:#fff;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-bottom:5px}
+@media(max-width:620px){.mock.sideL{width:196px;top:204px}.mock.sideR{width:128px;top:222px}.mock.sideR .xf{height:186px}}
+.style-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;position:relative;z-index:5}
+.style-tabs button{display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(7,135,148,.4);background:rgba(255,255,255,.6);color:var(--navy3);border-radius:999px;padding:8px 15px;font-weight:700;font-size:.86rem;transition:all .3s cubic-bezier(.22,1,.36,1)}
+.style-tabs button span{font-family:"Bricolage Grotesque";font-size:.72rem;color:var(--teal-dark);letter-spacing:.06em;transition:color .3s}
+.style-tabs button:hover{transform:translateY(-2px);border-color:var(--teal)}
+.style-tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 10px 24px rgba(6,42,68,.28);transform:translateY(-2px)}
+.style-tabs button.on span{color:var(--teal2)}
+.cycle-progress{width:min(300px,70%);height:3px;border-radius:99px;background:rgba(7,135,148,.18);margin:12px auto 0;overflow:hidden;position:relative;z-index:5}
+.cycle-progress span{display:block;height:100%;width:100%;background:var(--teal);border-radius:99px;transform:scaleX(0);transform-origin:left}
+.stage-label{text-align:center;color:var(--teal-dark);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;position:relative;z-index:5}
+/* concept mini-sites — real miniature website builds inside the mockup
+   frames: each concept gets its own brand, nav, hero, CTA and content
+   strip, themed per concept, so a frame reads as a finished high-end
+   site design rather than a photograph dropped into a browser chrome */
+.msite{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;color:#12242f;font-family:"Outfit",sans-serif;text-align:left;overflow:hidden;--acc:#f0a868;--accd:#b96a1e;--acctext:#3a2404}
+.msite.rest{background:#fffaf1}
+.msite.art{--acc:#e77fb0;--accd:#c74f87;--acctext:#fff}
+.msite.well{--acc:#8fc7a8;--accd:#4f7d5f;--acctext:#17301f;background:#faf8f2}
+.ms-nav{display:flex;align-items:center;gap:10px;padding:7px 12px;border-bottom:1px solid rgba(10,30,40,.08);font-size:.56rem;color:#5b7482;flex:0 0 auto;background:rgba(255,255,255,.65)}
+.ms-nav strong{font-family:"Bricolage Grotesque";font-size:.72rem;color:#0b2438;margin-right:auto;white-space:nowrap}
+.ms-nav span{white-space:nowrap}
+.ms-nav em{font-style:normal;font-weight:700;background:var(--acc);color:var(--acctext);padding:4px 9px;border-radius:999px;font-size:.55rem;white-space:nowrap}
+.ms-nav.sm{padding:5px 9px;gap:7px}
+.ms-nav.sm strong{font-size:.62rem}
+.ms-nav.sm em{padding:3px 7px;font-size:.5rem}
+.ms-hero{flex:1;display:grid;grid-template-columns:1.02fr .98fr;gap:10px;padding:10px 12px 6px;min-height:0}
+.ms-copy{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.ms-eye{font-size:.5rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accd)}
+.ms-copy h6{font-family:"Bricolage Grotesque";font-size:1.02rem;line-height:1.13;margin:4px 0;color:#0b2438}
+.ms-copy p{font-size:.58rem;line-height:1.45;color:#5b7482;margin:0 0 7px}
+.ms-btn{align-self:flex-start;background:#0b2438;color:#fff;font-size:.56rem;font-weight:700;padding:5px 10px;border-radius:999px;white-space:nowrap}
+.msite.rest .ms-btn{background:#8a4b12}
+.msite.well .ms-btn{background:#476b54}
+.ms-img{border-radius:10px;overflow:hidden;min-height:0}
+.msite.well .ms-img{border-radius:16px}
+.ms-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.22,1,.36,1)}
+.ms-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:4px 12px 10px;flex:0 0 auto}
+.ms-strip div{background:#f4f8f7;border-radius:8px;padding:6px 8px;min-width:0}
+.msite.rest .ms-strip div{background:#fdf0da}
+.msite.art .ms-strip div{background:#fdf0f5}
+.msite.well .ms-strip div{background:#edf3e4}
+.ms-strip b{display:block;font-family:"Bricolage Grotesque";font-size:.58rem;color:#0b2438;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-strip i{font-style:normal;font-size:.52rem;color:#7b97a5;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* artist concept — the work fills the hero, copy sits over the canvas */
+.msite.art .ms-hero{display:block;position:relative;padding:0}
+.msite.art .ms-img{position:absolute;inset:0;border-radius:0}
+.msite.art .ms-copy{position:relative;z-index:2;height:100%;justify-content:flex-end;padding:10px 12px;background:linear-gradient(180deg,rgba(8,10,14,.22) 0%,rgba(8,10,14,.34) 42%,rgba(8,10,14,.8))}
+.msite.art .ms-copy h6{color:#fff;font-size:1.3rem}
+.msite.art .ms-copy p{color:rgba(255,255,255,.85)}
+.msite.art .ms-eye{color:#ffb9d6}
+.msite.art .ms-btn{background:#fff;color:#101418}
+/* phone build */
+.ms-pnav{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 9px;border-bottom:1px solid rgba(10,30,40,.07);flex:0 0 auto}
+.ms-pnav strong{font-family:"Bricolage Grotesque";font-size:.6rem;color:#0b2438;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-burger{display:flex;flex-direction:column;gap:2.5px;flex:0 0 auto}
+.ms-burger i{width:11px;height:2px;background:#0b2438;border-radius:2px;display:block}
+.ms-pimg{height:64px;flex:0 0 auto}
+.ms-pimg img{width:100%;height:100%;object-fit:cover;display:block}
+.msite.ph:not(.card) .ms-pimg{height:70px}
+.ms-pcopy{padding:8px 9px 2px}
+.ms-pcopy h6{font-family:"Bricolage Grotesque";font-size:.78rem;line-height:1.15;margin:0 0 2px;color:#0b2438}
+.ms-pcopy p{font-size:.54rem;color:#5b7482;margin:0 0 6px}
+.ms-pcopy .ms-btn{display:block;text-align:center;padding:6px;font-size:.58rem}
+.ms-prows{padding:4px 9px 8px;display:flex;flex-direction:column;gap:5px;margin-top:auto}
+.ms-prows div{display:flex;justify-content:space-between;align-items:baseline;gap:6px;background:#f4f8f7;border-radius:7px;padding:5px 7px;min-width:0}
+.msite.rest .ms-prows div{background:#fdf0da}
+.msite.art .ms-prows div{background:#fdf0f5}
+.msite.well .ms-prows div{background:#edf3e4}
+.ms-prows b{font-size:.52rem;font-family:"Bricolage Grotesque";color:#0b2438;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ms-prows i{font-style:normal;font-size:.5rem;color:#7b97a5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46%}
+/* work-card phone — the same build, distilled */
+.msite.ph.card .ms-pnav{padding:4px 7px}
+.msite.ph.card .ms-pnav strong{font-size:.52rem}
+.msite.ph.card .ms-pimg{height:40px}
+.msite.ph.card .ms-pcopy{padding:6px 7px 0}
+.msite.ph.card .ms-pcopy h6{font-size:.6rem}
+.msite.ph.card .ms-pcopy p{display:none}
+.msite.ph.card .ms-pcopy .ms-btn{padding:4px;font-size:.5rem}
+.msite.ph.card .ms-prows{display:none}
+/* up-next thumbnail build */
+.ms-timg{position:relative;flex:1;min-height:0}
+.ms-timg img{width:100%;height:100%;object-fit:cover;display:block}
+.ms-timg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 34%,rgba(8,14,18,.68))}
+.ms-thead{position:absolute;left:9px;right:9px;bottom:7px;z-index:2;color:#fff;font-family:"Bricolage Grotesque";font-size:.72rem;line-height:1.15}
+.waves{display:block;width:100%;height:74px;margin-top:44px;position:relative;z-index:2;overflow:hidden;color:var(--navy2)}
+.wave-track{position:absolute;left:0;bottom:0;display:flex;width:200%;animation:waveMove 20s linear infinite;will-change:transform}
+.wave-track svg{flex:0 0 50%;width:50%;height:74px;display:block}
+.wave-track.back{opacity:.25;animation-duration:36s}
+.wave-track.front{animation-duration:20s}
+/* flowing wave dividers between sections — two seamless tracks drifting at
+   different speeds, colored as the section they lead into */
+.wave-div{position:relative;height:52px;overflow:hidden;pointer-events:none;color:var(--bg2)}
+.wave-div.tint{color:var(--bg3)}
+.wave-div .wave-track svg{height:52px}
+.marquee{background:var(--navy2);color:#fff;overflow:hidden;padding:14px 0;border-top:1px solid rgba(255,255,255,.08)}
+.marquee .track{display:flex;gap:0;width:max-content;animation:marquee 30s linear infinite;font-family:"Bricolage Grotesque";font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.9rem;white-space:nowrap}
+.marquee span{padding:0 22px}.marquee i{color:var(--teal);font-style:normal}
+
+/* before/after — two full website mockups of the same restaurant in browser
+   frames, compared with a swipe/drag handle (mouse, touch, and keyboard) */
+.ba{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--card)}
+.ba-stage{position:relative;height:480px;overflow:hidden;cursor:ew-resize;touch-action:none;user-select:none;-webkit-user-select:none;background:#ddd}
+@media(max-width:620px){.ba-stage{height:560px}}
+.ba-layer{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden}
+.ba-new{clip-path:inset(0 0 0 var(--split,55%));z-index:2}
+.mock-bar{display:flex;gap:6px;padding:8px 12px;align-items:center;flex:0 0 auto}
+.mock-bar i{width:10px;height:10px;border-radius:50%;background:#c3d2d9;display:block}
+.mock-bar b{font-size:.66rem;font-weight:600;margin-left:6px;letter-spacing:.03em;white-space:nowrap;overflow:hidden}
+.mock-bar.old{background:#d8d2bd;color:#5c563f;font-family:"Times New Roman",Times,serif}
+.mock-bar.new{background:#eef4f6;color:#5b7482}
+/* the old site — dated, cluttered, cramped on purpose */
+.ba-old{background:#f2ecd8;font-family:"Times New Roman",Times,serif;color:#333}
+.old-site{padding:10px 12px;flex:1}
+.old-head{background:#7a1f1f;color:#ffe9a8;text-align:center;font-weight:700;font-size:1.02rem;padding:8px 4px;border:3px double #ffe9a8;letter-spacing:.03em;line-height:1.3}
+.old-head span{display:block;font-size:.7rem;color:#ffd2d2;font-weight:400;font-style:italic}
+.old-nav{display:flex;flex-wrap:wrap;background:#2e4a2e;margin-top:8px}
+.old-nav span{color:#e8e4c8;font-size:.6rem;padding:5px 7px;border-right:1px solid #48684a;text-decoration:underline}
+.old-cols{display:grid;grid-template-columns:1fr 118px;gap:10px;margin-top:10px}
+@media(max-width:620px){.old-cols{grid-template-columns:1fr 94px}}
+.old-main h4{font-family:"Times New Roman",Times,serif;font-size:1rem;margin:0 0 6px;color:#7a1f1f;text-decoration:underline}
+.old-main p{font-size:.7rem;line-height:1.45;margin:0 0 7px;text-align:justify}
+.old-btn{display:inline-block;background:#999;border:2px outset #ccc;color:#fff;font-family:Arial,sans-serif;font-size:.64rem;padding:5px 10px;margin-top:2px}
+.old-main p.old-tiny{font-size:.6rem;color:#777;margin-top:9px;text-align:left}
+.old-side img{width:100%;height:72px;object-fit:cover;filter:blur(.7px) saturate(.5) contrast(.92);image-rendering:pixelated;border:2px solid #7a1f1f}
+.old-side p{font-size:.63rem;font-weight:700;color:#2e4a2e;margin:6px 0;line-height:1.35}
+.old-coupon{border:2px dashed #7a1f1f;color:#7a1f1f;font-size:.6rem;text-align:center;padding:6px 4px;line-height:1.4;background:#fff8dc}
+.old-coupon span{font-size:.54rem}
+/* the new site — clean REEFRESH-style concept */
+.ba-new{background:#fff;font-family:"Outfit",sans-serif;color:#0b2438}
+.new-site{flex:1;display:flex;flex-direction:column}
+.new-nav{display:flex;align-items:center;gap:16px;padding:12px 18px;border-bottom:1px solid #e3eef1;font-size:.8rem;color:#476173}
+.new-nav strong{font-family:"Bricolage Grotesque";color:#062a44;font-size:.95rem;margin-right:auto}
+.new-nav em{font-style:normal;background:var(--teal);color:#032630;font-weight:700;padding:6px 13px;border-radius:999px;font-size:.76rem;white-space:nowrap}
+@media(max-width:620px){.new-nav span{display:none}}
+.new-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;padding:20px 18px 4px;align-items:center}
+.new-hero img{width:100%;height:148px;object-fit:cover;border-radius:16px}
+@media(max-width:620px){.new-hero{grid-template-columns:1fr;padding-top:14px}.new-hero img{height:118px}}
+.new-eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark)}
+.new-copy h4{font-family:"Bricolage Grotesque";font-size:clamp(1.25rem,2.6vw,1.7rem);line-height:1.08;margin:8px 0;color:#062a44}
+.new-copy p{font-size:.85rem;color:#476173;margin:0 0 14px;line-height:1.5}
+.new-btn{display:inline-block;background:var(--teal);color:#032630;font-weight:700;font-size:.82rem;padding:9px 18px;border-radius:999px}
+.new-note{display:block;margin-top:9px;font-size:.72rem;color:#7b97a5}
+.new-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 18px 18px;margin-top:auto}
+@media(max-width:620px){.new-cards{grid-template-columns:1fr 1fr}.new-cards div:last-child{display:none}}
+.new-cards div{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.new-cards strong{display:block;font-family:"Bricolage Grotesque";font-size:.8rem;color:#062a44}
+.new-cards span{font-size:.7rem;color:#476173;line-height:1.4;display:block}
+.ba-tag{position:absolute;top:42px;z-index:4;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:6px 11px;border-radius:999px;pointer-events:none}
+.ba-tag.t-before{left:12px;background:rgba(51,51,51,.88);color:#f2ecd8}
+.ba-tag.t-after{right:12px;background:var(--teal);color:#032630}
+.ba-handle{position:absolute;top:0;bottom:0;left:var(--split,55%);width:3px;background:#fff;box-shadow:0 0 0 1px rgba(6,42,68,.25);z-index:5;pointer-events:none}
+.ba-grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--teal);color:#032630;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:var(--shadow);border:2px solid #fff}
+.ba .ba-control{padding:12px 18px;background:var(--card);display:flex;align-items:center;gap:12px;border-top:1px solid var(--line)}
+.ba input[type=range]{flex:1;accent-color:var(--teal);height:28px;cursor:ew-resize}
+.ba-tags{display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:12px;color:var(--muted)}
+
+/* cards */
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(2,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:980px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr}}
+@media(max-width:620px){.g2,.g4{grid-template-columns:1fr}}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.svc::before{content:"";position:absolute;inset:auto -30% -60% auto;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,var(--teal) 0%,transparent 65%);opacity:0;transition:opacity .35s}
+.svc:hover{transform:translateY(-6px);box-shadow:var(--shadow)} .svc:hover::before{opacity:.18}
+.svc .num{font-family:"Bricolage Grotesque";font-weight:800;font-size:2.2rem;color:var(--teal);line-height:1}
+.svc h3{font-size:1.3rem;margin:12px 0 8px}.svc p{color:var(--muted);margin:0}
+.svc a{font-weight:700;text-decoration:none;display:inline-block;margin-top:14px}
+.svc a:hover{text-decoration:underline}
+
+/* process */
+.process{position:relative}
+.process .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:36px}
+@media(max-width:900px){.process .steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.process .steps{grid-template-columns:1fr}}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:transform .3s,box-shadow .3s}
+.step:hover{transform:translateY(-5px) rotate(-.4deg);box-shadow:var(--shadow)}
+.step .n{width:46px;height:46px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Bricolage Grotesque";font-weight:800}
+.step h3{margin:14px 0 6px;font-size:1.2rem}.step p{color:var(--muted);margin:0;font-size:.97rem}
+.wave-line{width:100%;height:40px;margin-top:10px}
+
+/* values / work */
+.value{border-top:3px solid var(--teal);padding-top:16px}
+.value h3{font-size:1.15rem;margin-bottom:6px}.value p{color:var(--muted);margin:0}
+.work-card{background:var(--card);border:1px solid var(--line);border-radius:26px;overflow:hidden;transition:transform .35s,box-shadow .35s}
+.work-card:hover{transform:translateY(-7px);box-shadow:var(--shadow)}
+.mockups{position:relative;padding:40px 18px 26px;background:linear-gradient(155deg,var(--bg2),var(--bg3));overflow:hidden}
+.mockups .concept-tag{z-index:3}
+.browser{border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 18px 36px rgba(6,42,68,.22);border:1px solid rgba(6,42,68,.08)}
+.browser .b-bar{display:flex;gap:5px;align-items:center;padding:7px 10px;background:#eef4f6}
+.browser .b-bar i{width:8px;height:8px;border-radius:50%;background:#c3d6dc;display:block}
+.browser .b-bar b{font-size:.62rem;color:#6b8593;font-weight:600;margin-left:5px;letter-spacing:.03em}
+.browser .b-frame{height:190px;position:relative;overflow:hidden;background:#fff}
+.work-card:hover .browser .ms-img img{transform:scale(1.07)}
+.phone{position:absolute;right:16px;bottom:10px;width:76px;border-radius:15px;overflow:hidden;background:#0b2438;border:3px solid #0b2438;box-shadow:0 16px 30px rgba(6,42,68,.35)}
+.phone .notch{display:block;height:10px;background:#0b2438;position:relative}
+.phone .notch::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:26px;height:4px;border-radius:99px;background:#33586e}
+.phone .p-frame{height:112px;position:relative;overflow:hidden;background:#fff}
+.work-card.in .phone{animation:floaty 7s ease-in-out infinite}
+.mock-note{font-size:.8rem;font-weight:600;color:var(--teal-dark);margin:10px 0 0}
+.concept-tag{position:absolute;top:14px;left:14px;background:var(--navy);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:7px 12px;border-radius:999px}
+.work-card .body{padding:24px}
+.work-card h3{font-size:1.45rem}.work-card .cat{color:var(--teal-dark);font-weight:700;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}
+.work-card p{color:var(--muted)}
+.mini-phones{display:flex;gap:8px;margin-top:14px}
+.mini-phones span{flex:1;border:1px solid var(--line);background:var(--bg2);border-radius:10px;padding:8px;font-size:.75rem;text-align:center;color:var(--muted);font-weight:600}
+
+/* dark band + cta */
+.band{background:linear-gradient(130deg,#eaf9fa,#d8f2f5 55%,#c6ebf1);color:var(--ink);border:1px solid var(--line);border-radius:32px;padding:52px 34px;position:relative;overflow:hidden}
+.band p{color:var(--muted)}.band .markbg{position:absolute;right:-30px;bottom:-50px;width:260px;opacity:.16;animation:spin 40s linear infinite;z-index:1}
+.band-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;z-index:0;pointer-events:none}
+.band>*:not(.band-vid):not(.markbg){position:relative;z-index:1}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+@media(max-width:880px){.split{grid-template-columns:1fr}}
+.photo-frame{border-radius:28px;overflow:hidden;box-shadow:var(--shadow);position:relative}
+.photo-frame img{width:100%;height:100%;object-fit:cover;min-height:320px;scale:1.12;will-change:translate}
+.photo-frame figcaption{position:absolute;left:14px;bottom:14px;background:rgba(4,28,48,.82);color:#fff;padding:8px 14px;border-radius:999px;font-size:.82rem;font-weight:600}
+details.case{border:1px solid var(--line);border-radius:18px;background:var(--card);margin-top:14px;overflow:hidden}
+details.case summary{cursor:pointer;padding:18px 22px;font-family:"Bricolage Grotesque";font-weight:700;font-size:1.05rem;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.case summary::-webkit-details-marker{display:none}
+details.case summary::after{content:"+";color:var(--teal-dark);font-size:1.4rem;transition:transform .3s}
+details.case[open ] summary::after{transform:rotate(45deg)}
+details.case .inner{padding:0 22px 22px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:700px){details.case .inner{grid-template-columns:1fr}}
+details.case h4{margin:0 0 4px;color:var(--teal-dark)}
+details.case p{margin:0;color:var(--muted);font-size:.96rem}
+
+/* services page */
+.svc-detail{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:34px;margin-bottom:22px}
+.svc-detail h2{font-size:clamp(1.6rem,3.4vw,2.2rem);margin:10px 0}
+.svc-detail .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:18px}
+@media(max-width:880px){.svc-detail .cols{grid-template-columns:1fr}}
+.svc-detail h4{margin:0 0 6px;font-family:"Bricolage Grotesque"}
+.svc-detail ul{margin:0;padding-left:18px;color:var(--muted)} .svc-detail p{color:var(--muted);margin:0}
+.chiprow{display:flex;gap:8px;flex-wrap:wrap}.chiprow span{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.84rem;font-weight:600}
+
+/* form */
+form{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:30px;box-shadow:var(--shadow)}
+label{font-weight:700;display:block;margin:16px 0 6px;font-size:.95rem}
+label:first-child{margin-top:0}
+input[type=text],input[type=email],input[type=url],select,textarea{width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(15,185,198,.18);outline:none}
+.radio-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
+.radio-row label{margin:0;font-weight:600}
+.radio-row input{position:absolute;opacity:0}
+.radio-row span{display:inline-block;border:1.5px solid var(--line);border-radius:999px;padding:9px 16px;transition:all .2s;cursor:pointer}
+.radio-row input:checked+span{background:var(--navy);color:#fff;border-color:var(--navy)}
+.radio-row input:focus-visible+span{outline:3px solid var(--teal);outline-offset:2px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:640px){.frow{grid-template-columns:1fr}}
+#confirm{display:none;background:#e8faf6;border:1.5px solid var(--teal);border-radius:18px;padding:24px;margin-top:20px;color:#07332e}
+#confirm.show{display:block;animation:pageIn .5s}
+#summary{white-space:pre-wrap;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:.92rem;margin:12px 0;max-height:220px;overflow:auto}
+footer{background:#f3fafb;color:var(--muted);border-top:1px solid var(--line);padding:56px 0 34px;margin-top:0}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
+@media(max-width:760px){footer .cols{grid-template-columns:1fr}}
+footer button{background:none;border:0;color:var(--muted);padding:4px 0;display:block;font-size:.98rem;text-align:left}
+footer button:hover{color:var(--navy);text-decoration:underline}
+footer h4{color:var(--ink);font-family:"Bricolage Grotesque";margin:0 0 12px}
+footer .logofoot{background:none;padding:0;display:inline-block}
+footer .logofoot img{height:40px;width:auto}
+footer .foot-tag{color:var(--teal-dark)}
+.small{font-size:.86rem;color:var(--muted)} footer .small{color:var(--muted)}
+.pagehead{padding-top:64px;padding-bottom:10px}
+.wrap.pagehead{padding-left:clamp(24px,6vw,44px);padding-right:clamp(24px,6vw,44px)}
+.pagehead h1{font-size:clamp(2.4rem,6vw,4rem)}
+/* background videos — subtle vibe only, never interactive */
+.bgvid{pointer-events:none;transform:translateZ(0)}
+.ai-sec{overflow:hidden}
+.sec-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.4;pointer-events:none}
+.sec-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(255,255,255,.84) 55%,rgba(233,247,248,.95));pointer-events:none}
+.ai-sec .wrap{position:relative;z-index:1}
+.vid-strip{position:relative;border-radius:32px;overflow:hidden;min-height:340px;display:flex;align-items:center;box-shadow:var(--shadow)}
+.vid-strip video,.vid-strip .strip-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vid-strip .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.45) 60%,rgba(255,255,255,.12))}
+.vid-strip .copy{position:relative;z-index:1;padding:44px;max-width:600px}
+.vid-strip h2{font-size:clamp(1.9rem,4.4vw,3rem)}
+.vid-strip p{color:#33586e;font-size:1.08rem;max-width:46ch}
+.ai-hl{color:var(--teal-dark)}
+.ai-points{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+@media(max-width:560px){.ai-points{grid-template-columns:1fr}}
+.ai-points .value{border-top:3px solid var(--teal)}
+
+/* impact — the reef commitment: a quiet, late-page section, deliberately
+   smaller and calmer than the services / work / CTA sections around it */
+.impact{background:linear-gradient(180deg,#ffffff,var(--bg2));border-top:1px solid var(--line)}
+.impact h2 em{font-style:normal;color:var(--teal-dark)}
+.impact .coral-mark{width:54px;height:54px;opacity:.55;margin-bottom:6px}
+.impact-points{margin-top:30px}
+.impact-points .value{border-top:3px solid var(--teal)}
+.impact-points .value:nth-child(2){border-top-color:#f0a868}
+.impact-note{margin-top:22px;font-size:.92rem;color:var(--muted);max-width:68ch}
+
+/* while the hero clip is the live player, pause the decorative animations
+   that overlap it (drifting coral, hero waves, floating mockups, pulsing
+   dots) so the phone's compositor spends its whole frame budget on the
+   video itself instead of repainting neighbours every frame */
+body.vid-on .coral,body.vid-on .hero .wave-track,body.vid-on .mock.sideL,body.vid-on .mock.sideR,body.vid-on .kicker .dot{animation-play-state:paused}
+/* portfolio mockups glide in via the .rv.pop transition (see reveal rules);
+   once revealed, the phone frame gets a gentle idle float */
+
+/* small screens — extra breathing room inside cards and panels, so text
+   never runs right up against the edge of the screen */
+@media(max-width:620px){
+  .band{padding:42px 24px}
+  .vid-strip .copy{padding:34px 24px}
+  .svc-detail{padding:28px 22px}
+  .svc{padding:26px 22px}
+  form{padding:26px 20px}
+  .mockups{padding:36px 20px 24px}
+  .ba .ba-control{padding:12px 14px}
+  /* tab pages (Services / Work / About / Contact): headers and content
+     must never run flush to the screen edge */
+  .wrap.pagehead{padding-left:24px;padding-right:24px;padding-top:48px}
+  #page-services .wrap,#page-work .wrap,#page-about .wrap,#page-contact .wrap{padding-left:24px;padding-right:24px}
+  details.case summary{padding:18px 20px}
+  details.case .inner{padding:0 20px 20px}
+}
+
+/* performance — off-screen sections skip render work until near view;
+   images decode off the main thread; layout containment on cards */
+section.cv{content-visibility:auto;contain-intrinsic-size:auto 720px}
+.svc,.step,.work-card{contain:layout style}
+img{content-visibility:auto}
+/* AUTOMAGIC — interview intake */
+.automagic{background:linear-gradient(180deg,#fff,var(--bg2));border-top:1px solid var(--line);overflow:hidden}
+.am-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:28px;align-items:start;margin-top:34px}
+@media(max-width:920px){.am-grid{grid-template-columns:1fr}}
+.am-card{background:#fff;border:1px solid var(--line);border-radius:26px;padding:26px;box-shadow:0 14px 40px rgba(6,42,68,.08)}
+.am-progress{height:7px;background:var(--bg3);border-radius:99px;overflow:hidden;margin:14px 0 18px}
+.am-progress span{display:block;height:100%;background:var(--teal);border-radius:99px;transition:width .45s cubic-bezier(.22,1,.36,1)}
+.am-bubble{background:var(--bg2);border:1px solid var(--line);border-radius:18px 18px 18px 6px;padding:16px 18px}
+.am-bubble strong{font-family:"Bricolage Grotesque";font-size:1.12rem;line-height:1.25;display:block}
+.am-bubble p{color:var(--muted);margin:6px 0 0;font-size:.96rem}
+.am-answer{margin-top:16px}
+.am-answer input[type=text],.am-answer input[type=url],.am-answer textarea{width:100%}
+.am-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
+.am-chips button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer}
+.am-chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.am-palettes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.am-palettes{grid-template-columns:1fr}}
+.palette-btn{text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:12px;cursor:pointer}
+.palette-btn.on{border-color:var(--teal-dark);box-shadow:0 0 0 3px rgba(15,185,198,.22)}
+.palette-btn strong{display:block;font-size:.92rem}
+.palette-btn small{color:var(--muted)}
+.swatches{display:flex;gap:6px;margin-top:8px}
+.swatches i{width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.18);display:block}
+.am-custom{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px;background:var(--bg2);border:1px dashed #9ecbd1;border-radius:14px;padding:12px 14px}
+.am-custom label{margin:0;display:flex;align-items:center;gap:8px;font-size:.9rem}
+.am-custom input[type=color]{width:44px;height:44px;border:0;background:none;padding:0;cursor:pointer}
+.am-nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.am-nav .btn{padding:12px 20px}
+.am-links{display:grid;gap:10px}
+.am-preview-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.am-preview-head .dotlive{width:9px;height:9px;border-radius:50%;background:var(--teal)}
+.am-mini{border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.am-mini-bar{padding:14px 16px;color:#fff;transition:background .3s}
+.am-mini-body{padding:18px;background:#fff}
+.am-mini-body h4{font-family:"Bricolage Grotesque";font-size:1.35rem;line-height:1.1;margin:0}
+.am-mini-body p{color:var(--muted);margin:8px 0 14px}
+.am-mini-cta{display:inline-block;color:#032630;font-weight:800;padding:9px 16px;border-radius:999px}
+.am-brief{white-space:pre-wrap;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:.9rem;max-height:260px;overflow:auto;margin-top:14px}
+.perf-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+@media(max-width:820px){.perf-strip{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.perf-strip{grid-template-columns:1fr}}
+.perf-strip div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.perf-strip strong{display:block;font-family:"Bricolage Grotesque";font-size:.95rem}
+.perf-strip span{font-size:.86rem;color:var(--muted);line-height:1.45;display:block;margin-top:4px}
+/* integrated best practices — outcome-first copy, guided start, live brand
+   sync, three directions, plain-language edits, always-reachable action */
+.hero-reassure{margin:14px 0 0;font-size:.92rem;color:#33586e}
+.hero-reassure strong{color:var(--navy)}
+.svc .outcome{display:block;margin-top:10px;font-size:.9rem;font-weight:700;color:var(--teal-dark)}
+.am-directions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+@media(max-width:520px){.am-directions{grid-template-columns:1fr}}
+.dir-card{border:1.5px solid var(--line);border-radius:14px;padding:10px;text-align:left;background:#fff;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.dir-card.on{border-color:var(--teal-dark);box-shadow:0 0 0 3px rgba(15,185,198,.2)}
+.dir-card .dir-bar{height:22px;border-radius:7px;margin-bottom:8px;transition:background .3s}
+.dir-card strong{display:block;font-size:.82rem;font-family:"Bricolage Grotesque";line-height:1.2}
+.dir-card span{font-size:.74rem;color:var(--muted);line-height:1.35;display:block;margin-top:2px}
+.am-edit{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.am-edit input{flex:1;min-width:180px;padding:11px 13px;border:1.5px solid var(--line);border-radius:999px;font:inherit;font-size:.92rem}
+.am-edit input:focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(15,185,198,.16);outline:none}
+.am-fontrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.am-fontrow>span{font-size:.88rem;font-weight:700;width:100%}
+.font-btn{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:.88rem}
+.font-btn.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+details.faq{border:1px solid var(--line);border-radius:16px;background:#fff;margin-top:10px;overflow:hidden}
+details.faq summary{cursor:pointer;padding:15px 18px;font-family:"Bricolage Grotesque";font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:"+";color:var(--teal-dark);font-size:1.3rem}
+details.faq[open ] summary::after{transform:rotate(45deg)}
+details.faq p{margin:0;padding:0 18px 16px;color:var(--muted);font-size:.95rem}
+.sticky-cta{display:none}
+@media(max-width:860px){
+  .sticky-cta{display:flex;gap:9px;position:fixed;left:12px;right:12px;bottom:12px;z-index:95;background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:999px;padding:8px;box-shadow:0 16px 40px rgba(6,42,68,.22)}
+  .sticky-cta button{flex:1;border-radius:999px;padding:12px 10px;font-weight:800;border:0;font-size:.94rem}
+  .sticky-cta .s-primary{background:var(--teal);color:#032630}
+  .sticky-cta .s-ghost{background:var(--bg2);color:var(--navy);border:1px solid var(--line)}
+  body{padding-bottom:74px}
+}
+/* ===== FUN PASS — chat-first Automagic, hero quick-start, boom moment =====
+   All motion is transform/opacity only and dies under reduced-motion. */
+.hero-quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;background:rgba(255,255,255,.75);border:1.5px solid rgba(7,135,148,.4);border-radius:999px;padding:7px;max-width:560px;box-shadow:0 12px 30px rgba(6,42,68,.12)}
+.hero-quick input{flex:1;min-width:180px;border:0;background:transparent;padding:10px 14px;font:inherit;font-size:.98rem;color:var(--ink)}
+.hero-quick input:focus{outline:none}
+.hero-quick input::placeholder{color:#7b97a5}
+.hero-quick button{border:0;border-radius:999px;background:var(--navy);color:#fff;font-weight:800;padding:11px 18px;white-space:nowrap;transition:transform .2s,background .2s}
+.hero-quick button:hover{transform:translateY(-1px) scale(1.02);background:var(--navy3)}
+.hero-quick-note{margin:9px 0 0;font-size:.86rem;color:#33586e}
+.am-feats{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.am-feats span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:.85rem;font-weight:700;color:var(--navy3)}
+.am-feats span b{color:var(--teal-dark)}
+.am-chat-head{display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.am-avatar{width:46px;height:46px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 8px 20px rgba(6,42,68,.25)}
+.am-avatar svg{width:28px;height:28px}
+.am-chat-head strong{font-family:"Bricolage Grotesque";font-size:1.08rem;display:block;line-height:1.15}
+.am-chat-head small{color:var(--muted);display:flex;align-items:center;gap:6px}
+.am-chat-head small i{width:8px;height:8px;border-radius:50%;background:#22c07a;display:inline-block;animation:pulse 2s infinite}
+.am-thread{display:flex;flex-direction:column;gap:9px;max-height:300px;overflow:auto;padding:4px 2px 10px;scrollbar-width:thin}
+.am-thread:empty{display:none}
+.msg{max-width:86%;padding:10px 14px;font-size:.93rem;line-height:1.45;animation:msgIn .45s cubic-bezier(.16,1,.3,1)}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.msg.a{align-self:flex-start;background:var(--bg2);border:1px solid var(--line);border-radius:16px 16px 16px 5px;color:var(--ink)}
+.msg.u{align-self:flex-end;background:var(--navy);color:#fff;border-radius:16px 16px 5px 16px;font-weight:600}
+.msg.u:empty{display:none}
+.msg.boom{align-self:stretch;max-width:100%;background:linear-gradient(120deg,var(--teal),var(--teal2));color:#032630;font-weight:800;font-family:"Bricolage Grotesque";text-align:center;border-radius:14px;font-size:1.02rem}
+.am-bubble{border-radius:16px 16px 16px 5px}
+.am-blocks{display:grid;gap:8px;margin-top:16px}
+.am-block{border:1.5px dashed #b9d6db;border-radius:12px;padding:10px 12px;font-size:.82rem;font-weight:700;color:#7b97a5;transition:background .35s,color .35s,border-color .35s}
+.am-block.live{border-style:solid;border-color:var(--line);color:var(--navy);background:var(--bg2)}
+.am-block.live small{display:block;font-weight:500;color:var(--muted);margin-top:2px}
+.am-boom{display:none;margin-bottom:14px;background:linear-gradient(120deg,var(--navy),var(--navy3));color:#fff;border-radius:16px;padding:16px 18px;position:relative;overflow:hidden}
+.am-boom.show{display:block;animation:msgIn .55s cubic-bezier(.16,1,.3,1)}
+.am-boom strong{font-family:"Bricolage Grotesque";font-size:1.25rem;display:block}
+.am-boom p{margin:4px 0 0;font-size:.92rem;color:#cfeef2}
+.am-build{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:7px}
+.am-build li{display:flex;gap:9px;align-items:center;font-size:.9rem;font-weight:600;color:#8aa5b1}
+.am-build li .tick{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.72rem;flex:0 0 auto;background:#fff;color:transparent;transition:background .3s,border-color .3s,color .3s}
+.am-build li.done{color:var(--navy)}
+.am-build li.done .tick{background:var(--teal);border-color:var(--teal);color:#032630}
+.burst-dot{position:absolute;width:9px;height:9px;border-radius:50%;pointer-events:none;z-index:5}
+.btn-primary{position:relative;overflow:hidden}
+.btn-primary::after{content:"";position:absolute;top:0;bottom:0;width:36%;left:-50%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:left .55s cubic-bezier(.22,1,.36,1)}
+.btn-primary:hover::after{left:120%}
+.marquee:hover .track{animation-play-state:paused}
+/* ===== MOBILE POLISH — phone-first pass (Oct 30) =====
+   Desktop layout, hero video playback, WAVES undulation, concept builds and
+   Automagic logic are untouched. This layer only reflows, rescales and
+   enlarges targets at small widths: no horizontal scroll, no edge-to-edge
+   text, every tap target >=44px, and 16px form text so iOS Safari never
+   auto-zooms on focus. */
+*{-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:clip}
+img,video,svg{max-width:100%}
+@media(max-width:900px){
+  section{padding:62px 0}
+  .hero{padding-top:38px}
+  .split{gap:30px}
+  .grid{gap:16px}
+}
+@media(max-width:860px){
+  /* header: logo + menu + one clear action, never crowded */
+  .nav{padding:9px 14px;gap:8px}
+  .logo-btn{padding:4px 0;min-height:44px}
+  .logo-btn img{height:30px}
+  .burger{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+  nav.main{left:10px;right:10px;top:calc(100% + 6px);max-height:calc(100dvh - 92px);overflow:auto;padding:8px;gap:2px}
+  nav.main button{min-height:48px;padding:12px 14px;font-size:1rem;border-radius:12px;text-align:left}
+  .nav .cta-btn{flex:0 0 auto;padding:10px 13px;font-size:.88rem;min-height:44px}
+  /* sticky bottom bar respects the phone's home-indicator area */
+  .sticky-cta{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));padding:7px}
+  .sticky-cta button{min-height:48px;padding:12px 8px}
+  body{padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:480px){
+  .nav .cta-btn{padding:9px 11px;font-size:.84rem}
+}
+@media(max-width:400px){
+  /* very small phones: the sticky bar below carries the same action */
+  .nav .cta-btn{display:none}
+  .logo-btn img{height:28px}
+}
+@media(max-width:620px){
+  .wrap{padding-left:20px;padding-right:20px}
+  .wrap.pagehead{padding-left:20px;padding-right:20px;padding-top:40px}
+  #page-services .wrap,#page-work .wrap,#page-about .wrap,#page-contact .wrap{padding-left:20px;padding-right:20px}
+  section{padding:52px 0}
+  .pagehead h1{font-size:clamp(2.15rem,9.5vw,2.6rem);line-height:1.04}
+  .lede{font-size:1.05rem;line-height:1.62}
+  .kicker{font-size:.7rem;letter-spacing:.12em;padding:7px 11px;max-width:100%}
+  .btn{min-height:50px;padding:13px 22px;justify-content:center}
+  /* hero */
+  .hero{padding-top:30px}
+  .hero .wrap{gap:26px}
+  .hero h1{font-size:clamp(2.55rem,12.5vw,3.1rem);line-height:1.0}
+  .hero .sub{font-size:1.16rem;line-height:1.35;margin:16px 0 8px}
+  .hero p{font-size:1rem;line-height:1.62}
+  .kicker.hero-kicker{font-size:.88rem;line-height:1.35}
+  .hero-ctas{flex-direction:column;gap:10px;margin-top:22px}
+  .hero-ctas .btn{width:100%}
+  .hero-reassure{font-size:.9rem;line-height:1.55}
+  .hero-quick{flex-direction:column;flex-wrap:nowrap;border-radius:20px;padding:8px;gap:8px;max-width:none}
+  .hero-quick input{width:100%;min-width:0;min-height:48px;font-size:16px;padding:11px 14px;border-radius:14px;background:#fff}
+  .hero-quick button{width:100%;min-height:50px;padding:13px 16px;font-size:1rem}
+  .hero-quick-note{font-size:.84rem;line-height:1.5}
+  .hero-meta{gap:7px;margin-top:20px}
+  .hero-meta span{font-size:.8rem;padding:6px 11px}
+  .coral{display:none}
+  /* hero concept stage: keep all three screens, scaled to the phone */
+  .stage{min-height:478px;margin-top:4px}
+  .stage-glow{width:108%;height:360px}
+  .mock.main{width:100%;top:8px}
+  .mock .xf{height:196px}
+  .mock .cap{padding:10px 12px}
+  .mock .cap strong{font-size:.94rem}
+  .mock.sideL{width:172px;left:0;top:196px}
+  .mock.sideL .xf{height:100px}
+  .mock.sideR{width:118px;right:0;top:208px;border-radius:20px}
+  .mock.sideR .xf{height:172px}
+  .mock.sideL .cap,.mock.sideR .cap{padding:8px 10px}
+  .ms-nav span:nth-of-type(2){display:none}
+  .ms-copy h6{font-size:.94rem}
+  .ms-strip{gap:6px;padding:4px 10px 9px}
+  .ms-strip div{padding:5px 7px}
+  .style-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:6px}
+  .style-tabs button{min-height:46px;padding:9px 6px;font-size:.82rem;justify-content:center}
+  .cycle-progress{width:82%}
+  .stage-label{font-size:.72rem;line-height:1.5;padding:0 8px}
+  .waves{height:52px;margin-top:28px}
+  .waves svg{height:52px}
+  .wave-div{height:40px}.wave-div .wave-track svg{height:40px}
+  .marquee{padding:11px 0}.marquee .track{font-size:.8rem}.marquee span{padding:0 14px}
+  /* before / after */
+  .ba-stage{height:540px}
+  .ba-tag{top:40px;font-size:.6rem;padding:5px 9px}
+  .ba-grip{width:48px;height:48px}
+  .ba .ba-control{gap:8px}
+  .ba input[type=range]{height:36px}
+  .ba-tags{font-size:.7rem;gap:10px}
+  .old-cols{gap:8px}
+  .old-main p{font-size:.68rem}
+  .new-hero{gap:12px;padding:14px 14px 2px}
+  .new-cards{gap:8px;padding:12px 14px 14px}
+  .new-cards div{padding:9px 10px}
+  /* cards, bands, strips */
+  .svc{padding:24px 20px}.svc h3{font-size:1.22rem}
+  .step{padding:22px 20px}
+  .band{border-radius:24px;padding:34px 20px}
+  .band .markbg{width:190px;right:-46px}
+  .vid-strip{border-radius:24px;min-height:0}
+  .vid-strip .copy{padding:30px 20px}
+  .vid-strip h2{line-height:1.08}
+  .photo-frame{border-radius:22px}
+  .photo-frame img{min-height:238px}
+  .photo-frame figcaption{left:10px;right:10px;bottom:10px;text-align:center;font-size:.78rem;line-height:1.4;border-radius:14px}
+  .ai-points{gap:20px}
+  .impact .coral-mark{width:44px;height:44px}
+  /* work cards + concept builds */
+  .work-card{border-radius:22px}
+  .work-card .body{padding:20px}
+  .work-card h3{font-size:1.32rem}
+  .mockups{padding:34px 14px 20px}
+  .browser .b-frame{height:178px}
+  .phone{width:66px;right:10px;bottom:8px;border-width:2px;border-radius:13px}
+  .phone .p-frame{height:100px}
+  .concept-tag{font-size:.64rem;padding:6px 10px;top:10px;left:10px}
+  details.case summary{flex-wrap:wrap;gap:6px;min-height:52px}
+  details.case summary span{flex-basis:100%}
+  /* Automagic chat */
+  .am-grid{gap:18px;margin-top:26px}
+  .am-card{padding:20px 16px;border-radius:20px}
+  .am-feats span{font-size:.8rem;padding:7px 11px}
+  .am-chat-head{flex-wrap:wrap;gap:10px}
+  .am-chat-head .small{flex-basis:100%;font-size:.8rem}
+  .am-thread{max-height:260px}
+  .msg{max-width:93%;font-size:.92rem;padding:10px 12px}
+  .am-bubble{padding:14px 15px}
+  .am-bubble strong{font-size:1.05rem}
+  .am-nav{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .am-nav .btn{width:100%;min-height:50px;padding:12px 10px;font-size:.95rem}
+  .am-nav #amNext{grid-column:1/-1;order:-1}
+  .am-chips button{min-height:46px;padding:10px 15px}
+  .palette-btn{min-height:56px;padding:13px}
+  .am-custom{gap:10px;padding:12px}
+  .am-custom label{min-height:48px}
+  .dir-card{min-height:58px;padding:12px}
+  .am-directions{gap:9px}
+  .am-edit{flex-direction:column;flex-wrap:nowrap}
+  .am-edit input{width:100%;min-width:0;min-height:50px;font-size:16px;border-radius:14px}
+  .am-edit .btn{width:100%}
+  .am-mini-bar{line-height:1.45;padding:12px 14px}
+  .am-mini-body{padding:16px 14px}
+  .am-mini-body h4{font-size:1.24rem}
+  .am-mini-cta{min-height:44px;display:inline-flex;align-items:center}
+  .am-block{padding:11px 12px;line-height:1.45}
+  .am-brief{font-size:.86rem;max-height:230px}
+  .perf-strip{gap:10px;margin-top:18px}
+  .am-card .perf-strip{grid-template-columns:1fr!important}
+  /* forms: 16px text stops iOS focus zoom; targets stay thumb-sized */
+  input[type=text],input[type=email],input[type=url],select,textarea{font-size:16px;padding:13px 14px}
+  .radio-row{gap:8px}
+  .radio-row span{display:inline-flex;align-items:center;min-height:46px;padding:9px 14px}
+  form .btn[type=submit]{min-height:54px}
+  details.faq summary{min-height:52px;padding:14px 16px}
+  details.faq p{padding:0 16px 15px}
+  /* services detail + footer */
+  .svc-detail{border-radius:22px}
+  .svc-detail .btn{width:100%}
+  footer{padding:44px 0 28px}
+  footer .cols{gap:24px}
+  footer button{min-height:44px;padding:9px 0;display:flex;align-items:center;font-size:1rem}
+  footer .logofoot img{height:36px}
+}
+@media(max-width:380px){
+  .wrap{padding-left:17px;padding-right:17px}
+  .hero h1{font-size:2.42rem}
+  .stage{min-height:462px}
+  .mock.sideL{width:158px}
+  .mock.sideR{width:108px}
+  .style-tabs button{font-size:.76rem;gap:5px}
+  .ba-stage{height:560px}
+  .am-nav .btn{font-size:.9rem}
+}
+/* light theme only — the bright, airy look is the design in every mode */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  html.js .rv{opacity:1!important;transform:none!important}
+  /* the WAVES undulation is fully off — letters sit perfectly still */
+  .wave-letter{animation:none!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+<div id="tide" aria-hidden="true"></div>
+<div id="veil" aria-hidden="true">
+  <div class="veil-wave"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="#eef9fa"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="#eef9fa"/></svg></div>
+  <p class="veil-word">Let’s Make <em>WAVES.</em></p>
+</div>
+<div id="loader" aria-hidden="true">
+  <svg class="mark" viewBox="0 0 100 100" fill="none"><path d="M50 8a42 42 0 1 1-29.7 12.3" stroke="#35d3dc" stroke-width="9" stroke-linecap="round"/><path d="M14 6l8 22 20-10z" fill="#35d3dc"/><path d="M22 62c10-12 18 4 28-6 8-8 14 2 24-6" stroke="#062a44" stroke-width="7" stroke-linecap="round"/></svg>
+  <p>Reefresh</p>
+</div>
+
+<header>
+  <div class="nav">
+    <button class="logo-btn" data-go="home" aria-label="REEFRESH home"><img src="asset-4.png" alt="REEFRESH.NET logo"/></button>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">☰</button>
+    <nav class="main" id="mainnav" aria-label="Main">
+      <button data-go="home" class="active">Home</button>
+      <button data-scrollto="automagic">Automagic ✦</button>
+      <button data-go="services">Services</button>
+      <button data-go="work">Our Work</button>
+      <button data-go="about">About</button>
+      <button data-go="contact">Contact</button>
+    </nav>
+    <button class="cta-btn" data-go="contact">Start a Project</button>
+  </div>
+</header>
+
+<main>
+<!-- ================= HOME ================= -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <img class="hero-still" src="asset-5.jpg" alt="" aria-hidden="true"/>
+    <video class="hero-vid bgvid" src="asset-6.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+    <svg class="coral" style="left:4%;top:60px;width:120px" viewBox="0 0 100 100" fill="none" stroke="#078794" stroke-width="3"><circle cx="20" cy="80" r="6"/><circle cx="38" cy="58" r="6"/><circle cx="55" cy="78" r="6"/><circle cx="70" cy="50" r="6"/><path d="M20 80V40m0 0c0-10-8-12-8-22m8 22c2-8 10-10 12-18m6 36V30m0 0c-2-8-10-10-11-18m28 66V44m15 6V26"/></svg>
+    <svg class="coral" style="right:6%;top:110px;width:90px;animation-delay:-4s" viewBox="0 0 100 100" fill="none" stroke="#0a3a5c" stroke-width="3"><path d="M50 95V45m0 0c-12 0-20-8-22-20m22 20c12 0 20-8 22-20M50 60c-10-2-16-8-18-16m18 30c10-2 16-8 18-16"/></svg>
+    <div class="wrap">
+      <div>
+        <span class="kicker hero-kicker"><span class="dot"></span> A creative web studio in Hawai'i</span>
+        <h1 style="margin-top:20px" aria-label="Let’s Make WAVES.">Let’s Make<br/><em class="waves-word" aria-hidden="true"><span class="wave-letter">W</span><span class="wave-letter">A</span><span class="wave-letter">V</span><span class="wave-letter">E</span><span class="wave-letter">S</span><span class="wave-letter">.</span></em></h1>
+        <p class="sub">Great businesses have stories worth telling. We bring them to life online.</p>
+        <p>REEFRESH is a creative web design studio helping small businesses express what makes them extraordinary — through thoughtful design, digital storytelling, and beautiful websites. Picture yours looking this good: a site you’re proud to share, that feels like you the moment it loads.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" data-scrollto="automagic">Start with Automagic ✦ <span class="arr">→</span></button>
+          <button class="btn" data-go="work" style="background:rgba(255,255,255,.55);color:var(--navy);border:1.5px solid rgba(7,135,148,.45)">See What Yours Could Look Like</button>
+        </div>
+        <p class="hero-reassure"><strong>Start with just your business name.</strong> About 2 minutes, no tech skills, no commitment — watch a live preview take shape as you answer, in your colours and your words.</p>
+        <div class="hero-quick">
+          <input type="text" id="heroBiz" placeholder="Your business name…" aria-label="Your business name — start Automagic"/>
+          <button type="button" id="heroBizGo">Build it with Automagic ✦</button>
+        </div>
+        <p class="hero-quick-note">Type it, tap it — the chat below picks it up and the building starts. That’s the whole setup.</p>
+        <div class="hero-meta"><span>People before pixels</span><span>Independent &amp; story-first</span><span>Made to be shared</span></div>
+      </div>
+      <div class="stage" id="stage" aria-label="Animated website concept mockups — desktop, phone, and up-next preview, all in sync">
+        <div class="stage-glow" id="stageGlow" aria-hidden="true"></div>
+        <div class="mock main" id="mockMain">
+          <div class="bar"><i></i><i></i><i></i><b id="mockUrl">concept — restaurant</b></div>
+          <div class="xf"><div class="xl on" id="mockSite"><div class="msite rest" aria-hidden="true"><div class="ms-nav"><strong>Aloha Table</strong><span>Menu</span><span>Our Story</span><span>Visit</span><em>Book a Table</em></div><div class="ms-hero"><div class="ms-copy"><span class="ms-eye">Family restaurant · Est. 1987</span><h6>Three generations. One unforgettable table.</h6><p>Recipes perfected over decades, told properly — reserve in two taps.</p><span class="ms-btn">Book a Table →</span></div><div class="ms-img"><img src="asset-7.jpg" alt=""/></div></div><div class="ms-strip"><div><b>Tonight at the table</b><i>Seasonal specials, from the kitchen</i></div><div><b>Three generations</b><i>The story behind the recipes</i></div><div><b>Easy to find</b><i>Directions &amp; parking, one tap</i></div></div></div></div><div class="xl" id="mockSite2"></div></div>
+          <div class="cap"><strong id="mockTitle">A table worth traveling for</strong><span id="mockCap">Restaurant concept — food first</span></div>
+        </div>
+        <div class="mock sideL" id="mockNext"><div class="bar"><i></i><i></i><i></i><b id="mockNextUrl">next — artist</b></div><div class="xf"><div class="xl on" id="mockNextSite"><div class="msite th art" aria-hidden="true"><div class="ms-nav sm"><strong>Studio Unframed</strong><em>View the Series</em></div><div class="ms-timg"><img src="asset-8.jpg" alt=""/><span class="ms-thead">Color, at full volume.</span></div></div></div><div class="xl" id="mockNextSite2"></div></div><div class="cap"><span class="next-tag">Up next</span><strong id="mockNextTitle" style="font-size:.85rem">The Artist</strong></div></div>
+        <div class="mock sideR" id="mockPhone"><div class="bar"><i></i><i></i><i></i></div><div class="xf"><div class="xl on" id="mockPhoneSite"><div class="msite ph rest" aria-hidden="true"><div class="ms-pnav"><strong>Aloha Table</strong><span class="ms-burger"><i></i><i></i><i></i></span></div><div class="ms-pimg"><img src="asset-9.jpg" alt=""/></div><div class="ms-pcopy"><h6>A table, tonight</h6><p>Menu + reservations</p><span class="ms-btn">Book a Table</span></div><div class="ms-prows"><div><b>Tonight at the table</b><i>Seasonal specials, from the kitchen</i></div><div><b>Three generations</b><i>The story behind the recipes</i></div></div></div></div><div class="xl" id="mockPhoneSite2"></div></div><div class="cap"><strong id="mockPhoneTitle" style="font-size:.85rem">A table, tonight</strong><span id="mockPhoneCap" style="font-size:.72rem">Menu + reservations</span></div></div>
+      </div>
+    </div>
+    <div class="wrap"><div class="style-tabs" role="group" aria-label="Cycle concept styles">
+      <button class="on" data-style="0" aria-label="Restaurant concept"><span>01</span>Restaurant</button><button data-style="1" aria-label="Artist concept"><span>02</span>Artist</button><button data-style="2" aria-label="Wellness concept"><span>03</span>Wellness</button>
+    </div><div class="cycle-progress" aria-hidden="true"><span id="cycleBar"></span></div><p class="stage-label" id="stageLabel">Concept style 01 — Restaurant · every screen changes together</p></div>
+    <div class="waves" aria-hidden="true">
+      <div class="wave-track back"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg></div>
+      <div class="wave-track front"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg></div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div class="track" id="marqueeTrack"></div></div>
+
+  <section>
+    <div class="wrap split">
+      <div class="rv">
+        <span class="kicker"><span class="dot"></span> The opportunity</span>
+        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 16px">Some businesses are too good to have forgettable websites.</h2>
+        <p class="lede">You know the ones. The little restaurant with unforgettable food. The local shop filled with things you won’t find anywhere else. The talented professional who genuinely loves what they do.</p>
+        <p class="lede">Great businesses have a way of leaving an impression. But sometimes their websites don’t. We believe discovering a business online should feel like discovering it in person.</p>
+        <p class="lede"><strong style="color:var(--ink)">That’s where we come in.</strong> Swipe or drag across the mockups — same restaurant, same story, completely different first impression.</p>
+      </div>
+      <div class="rv d1">
+        <div class="ba" id="baBox" style="--split:55%">
+          <div class="ba-stage" id="baStage" role="img" aria-label="Swipe comparison: an outdated restaurant website next to its refreshed REEFRESH concept design">
+            <div class="ba-layer ba-old">
+              <div class="mock-bar old"><i></i><i></i><i></i><b>aloha-table-restaurant.biz — home page</b></div>
+              <div class="old-site">
+                <div class="old-head">★ ALOHA TABLE RESTAURANT ★<span>“Family owned &amp; operated since 1987!!”</span></div>
+                <nav class="old-nav"><span>HOME</span><span>MENU (PDF)</span><span>ABOUT US</span><span>CATERING</span><span>GIFT CERTIFICATES</span><span>DIRECTIONS</span><span>PHOTOS</span><span>LINKS</span><span>GUESTBOOK</span><span>CONTACT</span></nav>
+                <div class="old-cols">
+                  <div class="old-main">
+                    <h4>Welcome To Our Official Web Site!!!</h4>
+                    <p>Thank you for visiting the Aloha Table Restaurant website on the World Wide Web. We are a family owned and operated restaurant serving the finest food in town. Our menu includes appetizers, soups, salads, entrees, desserts, beverages and much much more. Please take a moment to browse our web pages and learn about our daily specials, our catering services, our banquet room and our gift certificates which make great gifts for any occasion.</p>
+                    <p>Our hours change with the season so please call ahead. Reservations are accepted for parties of 8 or more only. For the menu please click the MENU (PDF) link at the top of this page (the file is large, please be patient while it downloads). We hope to see you soon and mahalo for visiting our website!!!</p>
+                    <span class="old-btn">CLICK HERE FOR MORE INFORMATION &gt;&gt;</span>
+                    <p class="old-tiny">You are visitor No. 004812 · Best viewed at 800 × 600 · Sign our GUESTBOOK!! · Last updated March 2011</p>
+                  </div>
+                  <div class="old-side">
+                    <img src="asset-10.jpg" alt=""/>
+                    <p>OUR FOOD IS DELICIOUS!! CALL FOR HOURS!!</p>
+                    <div class="old-coupon">★ COUPON ★<br/>5% OFF ONE ENTREE*<br/><span>*dine-in only — print this page</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ba-layer ba-new">
+              <div class="mock-bar new"><i></i><i></i><i></i><b>alohastable.com — home</b></div>
+              <div class="new-site">
+                <div class="new-nav"><strong>Aloha Table</strong><span>Menu</span><span>Our Story</span><span>Visit</span><em>Book a Table</em></div>
+                <div class="new-hero">
+                  <div class="new-copy">
+                    <span class="new-eyebrow">Family restaurant · Est. 1987</span>
+                    <h4>Three generations.<br/>One unforgettable table.</h4>
+                    <p>Recipes perfected over decades, told the way they deserve — and a table waiting for you tonight.</p>
+                    <span class="new-btn">Book a Table →</span>
+                    <span class="new-note">Open Tue–Sun · 5–10 pm · Reservations in two taps</span>
+                  </div>
+                  <img src="asset-11.jpg" alt=""/>
+                </div>
+                <div class="new-cards">
+                  <div><strong>Tonight at the table</strong><span>Seasonal specials, straight from the kitchen</span></div>
+                  <div><strong>Three generations</strong><span>The story behind the recipes</span></div>
+                  <div><strong>Easy to find</strong><span>Directions &amp; parking, one tap away</span></div>
+                </div>
+              </div>
+            </div>
+            <span class="ba-tag t-before">Before</span>
+            <span class="ba-tag t-after">After</span>
+            <div class="ba-handle"><span class="ba-grip">⇔</span></div>
+          </div>
+          <div class="ba-control"><span style="font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Before</span><input type="range" id="baRange" min="4" max="96" value="55" aria-label="Reveal the refreshed concept"/><span style="font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-dark)">After</span></div>
+        </div>
+        <div class="ba-tags"><span>← The old site</span><span>The REEFRESH concept →</span></div>
+        <p class="small" style="margin-top:8px">Illustrative concept transformation — not a completed client project.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wave-div" aria-hidden="true"><div class="wave-track back"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg></div><div class="wave-track front"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg></div></div>
+  <section style="background:var(--bg2)">
+    <div class="wrap">
+      <div class="rv" style="max-width:720px"><span class="kicker"><span class="dot"></span> What we do</span>
+      <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 14px">Good design tells a story. Great design makes you feel it.</h2>
+      <p class="lede">We combine creativity, storytelling, and modern web technology to help businesses create meaningful digital experiences.</p></div>
+      <div class="grid g2" style="margin-top:36px" id="homeServices"></div>
+      <p style="margin-top:26px" class="rv"><button class="btn btn-ghost" data-go="services">See services in detail <span class="arr">→</span></button></p>
+    </div>
+  </section>
+
+  <section class="process">
+    <div class="wrap">
+      <div class="rv" style="max-width:720px"><span class="kicker"><span class="dot"></span> Our approach</span>
+      <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 14px">First, we find the magic. Then, we make it visible.</h2>
+      <p class="lede">Every great website starts with understanding the business behind it. Our process is collaborative, creative, and built around what makes each business unique.</p></div>
+      <svg class="wave-line" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22 Q150 2 300 22 T600 22 T900 22 T1200 22" fill="none" stroke="#0fb9c6" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 8"/></svg>
+      <div class="steps" id="steps"></div>
+      <p style="margin-top:30px" class="rv"><button class="btn btn-primary" data-go="contact">Let’s Create Something Great <span class="arr">→</span></button></p>
+    </div>
+  </section>
+
+  <section class="ai-sec">
+    <img class="sec-vid still-drift" src="asset-12.jpg" alt="" aria-hidden="true"/>
+    <div class="sec-shade"></div>
+    <div class="wrap">
+      <div class="rv" style="max-width:840px">
+        <span class="kicker"><span class="dot"></span> Cutting-edge tools, local stories</span>
+        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 16px">Bringing <span class="ai-hl">AI</span> tools to haw<span class="ai-hl">AI</span>i businesses — and keeping them cutting edge.</h2>
+        <p class="lede">We’re bringing the newest AI tools home to Hawai'i, and putting them to work for the small businesses that make these islands special. In the studio, AI helps us move faster and aim higher: exploring more creative directions sooner, sharpening copy, testing layouts, and polishing the small details that make a site feel finished.</p>
+        <p class="lede">And it pairs beautifully with the human side of the work — the listening, the choosing, the storytelling. Your regulars, your recipes, your craft: that’s the material. AI helps us shape it into a website that feels current, personal, and unmistakably <em>yours</em>.</p>
+        <div class="ai-points">
+          <div class="value"><h3>More directions, sooner</h3><p>AI helps us sketch and compare creative routes quickly, so you get to choose from real options, early.</p></div>
+          <div class="value"><h3>Sharper words</h3><p>We draft and refine copy with AI’s help, shaping every line around your voice, your customers, and your story.</p></div>
+          <div class="value"><h3>Layouts, tested</h3><p>We try arrangements fast and keep what works best for your visitors — on phones first.</p></div>
+          <div class="value"><h3>Polish that shows</h3><p>The time AI saves goes straight into the details: spacing, rhythm, imagery, and the little moments that make people linger.</p></div>
+        </div>
+        <p class="lede" style="margin-top:20px"><strong style="color:var(--ink)">New tools. Local stories. Websites that feel ahead of the curve — and completely yours.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTOMAGIC -->
+  <section class="automagic cv" id="automagic">
+    <div class="wrap">
+      <div class="rv" style="max-width:820px">
+        <span class="kicker"><span class="dot"></span> New · Automagic ✦</span>
+        <h2 style="font-size:clamp(2rem,4.8vw,3.3rem);margin:18px 0 14px">Meet <span style="color:var(--teal-dark)">Automagic</span> — chat your way through. Boom, your site starts.</h2>
+        <p class="lede">No forms. No blank page. No settings panels. You just chat — like texting a friend who happens to build websites. Automagic asks, you answer in your own words, and a live preview of your site assembles itself beside the conversation as you go: your name in the headline, your colours and type applied everywhere at once, your sections stacking into place.</p>
+        <p class="lede">Tap a vibe, pick favourite colours (or mix your own), flip between three design directions, tweak anything in plain words, and drop in your current website, Google, or Facebook link so we can review what’s already out there. At the end: boom — a working draft preview and one copyable brief. Nothing is sent or stored, and your links are saved in the brief for our review when we build, not fetched live in this preview.</p>
+        <div class="am-feats"><span><b>✦ Chat-first</b> — talk, don’t configure</span><span><b>✦ Live build</b> — watch it assemble</span><span><b>✦ Brand sync</b> — one pick, everywhere</span><span><b>✦ Plain-words edits</b> — just say the tweak</span></div>
+      </div>
+
+      <div class="am-grid">
+        <div class="am-card rv" id="amCard">
+          <div class="am-chat-head">
+            <span class="am-avatar" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none"><path d="M50 8a42 42 0 1 1-29.7 12.3" stroke="#35d3dc" stroke-width="9" stroke-linecap="round"/><path d="M14 6l8 22 20-10z" fill="#35d3dc"/><path d="M22 62c10-12 18 4 28-6 8-8 14 2 24-6" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg></span>
+            <div style="flex:1;min-width:140px"><strong>Automagic</strong><small><i></i> Online — chat with me, I’ll build as we go</small></div>
+            <span class="small" id="amStepLabel">Step 1 of 8 · About 2 minutes</span>
+          </div>
+          <div class="am-progress" aria-hidden="true"><span id="amBar" style="width:12.5%"></span></div>
+          <div class="am-thread" id="amThread" aria-label="Your Automagic conversation so far"></div>
+          <div class="am-bubble" id="amBubble" aria-live="polite"></div>
+          <div class="am-answer" id="amAnswer"></div>
+          <div class="am-nav">
+            <button type="button" class="btn btn-ghost" id="amBack">← Back</button>
+            <button type="button" class="btn btn-primary" id="amNext">Continue <span class="arr">→</span></button>
+            <button type="button" class="btn btn-ghost" id="amSkip">Skip this one</button>
+          </div>
+          <p class="small" style="margin-top:14px">This chat is a live preview — your answers stay in this tab and become a brief you can copy. We don’t pull live data from your links yet; we save the links in the brief so we can review them when we build.</p>
+        </div>
+
+        <div class="am-card rv d1">
+          <div class="am-preview-head"><span class="dotlive"></span><strong style="font-family:'Bricolage Grotesque'">Live preview — your site, building itself</strong></div>
+          <div class="am-boom" id="amBoom"><strong>Boom! Your draft just came together ✦</strong><p>That’s your story, your colours, your type, and your #1 action — assembled from a two-minute chat. Copy the brief below and we turn this preview into the real, human-polished site.</p></div>
+          <div class="am-mini" id="amMini">
+            <div class="am-mini-bar" id="amMiniBar" style="background:#062a44"><span id="amMiniBiz" style="font-family:'Bricolage Grotesque';font-weight:800">Your Business</span> <span style="opacity:.85;font-size:.85rem">· Home &nbsp; Services &nbsp; About</span></div>
+            <div class="am-mini-body">
+              <span style="font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-dark)" id="amMiniVibe">Warm &amp; welcoming</span>
+              <h4 id="amMiniHead">Tell your story, beautifully.</h4>
+              <p id="amMiniSub">Answer the interview and watch this headline, colours, and call-to-action update to sound like you.</p>
+              <span class="am-mini-cta" id="amMiniCta" style="background:#0fb9c6">Book Now →</span>
+              <div class="swatches" id="amMiniSwatches" style="margin-top:16px"><i style="background:#062a44"></i><i style="background:#0fb9c6"></i><i style="background:#f0a868"></i></div>
+              <div class="am-blocks">
+                <div class="am-block" id="amBlockStory">＋ Your story section — unlocks when you tell us what you do</div>
+                <div class="am-block" id="amBlockAction">＋ Your action section — unlocks when you pick the #1 action</div>
+                <div class="am-block" id="amBlockFoot">＋ Footer &amp; finishing touches — colours applied site-wide</div>
+              </div>
+            </div>
+          </div>
+          <h3 style="font-size:1rem;margin:18px 0 4px">Three directions, from your answers</h3>
+          <p class="small" style="margin:0">Same story, three feels — tap one and the preview above follows it. Real options, early, instead of one template.</p>
+          <div class="am-directions" role="group" aria-label="Choose a design direction">
+            <button type="button" class="dir-card on" data-dir="bold"><span class="dir-bar" data-dirbar style="background:#062a44"></span><strong>Bold &amp; Direct</strong><span>Dark header, big headline, action up front.</span></button>
+            <button type="button" class="dir-card" data-dir="light"><span class="dir-bar" data-dirbar style="background:#e2f4f6"></span><strong>Light &amp; Airy</strong><span>Bright and open — the REEFRESH home feel.</span></button>
+            <button type="button" class="dir-card" data-dir="warm"><span class="dir-bar" data-dirbar style="background:#f0a868"></span><strong>Warm &amp; Welcoming</strong><span>Accent-led and friendly, hospitality-style.</span></button>
+          </div>
+          <h3 style="font-size:1rem;margin:18px 0 4px">Edit it in plain words</h3>
+          <p class="small" style="margin:0">No settings panels. Type a tweak the way you’d say it — “make the headline friendlier” — and it’s added to your brief for the build.</p>
+          <div class="am-edit">
+            <input type="text" id="amTweak" placeholder="e.g. Make it calmer, add online booking…" aria-label="Describe a tweak in plain words"/>
+            <button type="button" class="btn btn-ghost" id="amTweakBtn" style="padding:11px 18px">Add to Brief</button>
+          </div>
+          <p class="small" id="amTweakNote" style="margin:8px 0 0;font-weight:700;color:var(--teal-dark)"></p>
+          <h3 style="font-size:1.05rem;margin:20px 0 6px">Your Automagic Brief</h3>
+          <p class="small" style="margin:0">Updates as you answer. When you finish, copy it and send it with your enquiry — or paste it into the Contact form.</p>
+          <div class="am-brief" id="amBrief">Your brief will appear here as you answer…</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+            <button type="button" class="btn btn-primary" id="amCopy">Copy My Brief</button>
+            <span id="amCopied" style="font-weight:700;align-self:center"></span>
+            <button type="button" class="btn btn-ghost" data-go="contact">Go to Contact →</button>
+          </div>
+          <h3 style="font-size:1rem;margin:20px 0 2px">Watch it build</h3>
+          <ul class="am-build" id="amBuildList">
+            <li data-build="story"><span class="tick">✓</span> Story &amp; headline — from your chat answers</li>
+            <li data-build="brand"><span class="tick">✓</span> Colours &amp; type — synced across every section</li>
+            <li data-build="action"><span class="tick">✓</span> Your #1 action — front and centre</li>
+            <li data-build="brief"><span class="tick">✓</span> Brief ready — copy it, send it, we polish it human-led</li>
+          </ul>
+          <div class="perf-strip" style="grid-template-columns:1fr 1fr">
+            <div><strong>Why a chat?</strong><span>Talking beats configuring. You answer like you’d talk — we handle structure, wording, and design.</span></div>
+            <div><strong>What happens next?</strong><span>We review your brief + links, then design a human-led first draft in your colours, your type, and your chosen direction.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="perf-strip rv">
+        <div><strong>Start with just a name</strong><span>One answer gets you moving — the interview fills in the rest, step by step, with progress you can see.</span></div>
+        <div><strong>See it as you answer</strong><span>Headline, colours, type, and call-to-action update live beside the questions. No imagining, no surprises.</span></div>
+        <div><strong>Your brand, applied everywhere</strong><span>Pick colours and a type pairing once — the whole preview follows instantly, header to button.</span></div>
+        <div><strong>Built around one action</strong><span>Book, call, shop, visit — every page points at the one thing that turns a visitor into a customer.</span></div>
+      </div>
+
+      <div class="rv" style="max-width:820px;margin-top:38px">
+        <h3 style="font-size:1.35rem">Questions people ask before they start</h3>
+        <details class="faq"><summary>I don’t know my colours or style yet — is that a problem?</summary><p>No — that’s what the interview is for. Try the palettes and type pairings in the live preview, compare the three directions, and pick what feels like your place in person. You can change your mind; nothing is locked in by a preview.</p></details>
+        <details class="faq"><summary>I already have a website. Can Automagic use it?</summary><p>Yes — drop the link in Step 6, along with your Google or Facebook link if you have them. They’re saved in your brief so we can review what’s already out there when we build your refreshed site.</p></details>
+        <details class="faq"><summary>What do I actually need to get started?</summary><p>Just your business name and a line about what you do. Automagic takes about two minutes from there, and the Contact form only asks for your story in your own words — no briefs, specs, or tech knowledge needed.</p></details>
+        <details class="faq"><summary>What happens after I copy my brief?</summary><p>Send it with your enquiry on the Contact page. We review your brief and links, then design a human-led first draft in your colours and chosen direction — you react to something real, instead of approving a blank plan.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <div class="wave-div" aria-hidden="true"><div class="wave-track back"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg></div><div class="wave-track front"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg></div></div>
+  <section style="background:var(--bg2)">
+    <div class="wrap split">
+      <div class="rv">
+        <span class="kicker"><span class="dot"></span> Why REEFRESH?</span>
+        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 16px">A little different, by design.</h2>
+        <p class="lede">We’re not interested in making every business look the same. We’re interested in discovering what makes each one different.</p>
+        <p class="lede">That means asking questions, paying attention to details, and approaching each project with curiosity. We bring an artist’s perspective to website design — visual creativity, plus the practical needs of a modern business.</p>
+        <p class="lede">The result is a collaborative experience focused on creating something that feels right for you. <strong style="color:var(--ink)">We don’t want to reinvent who you are. We want to show the world who you are.</strong></p>
+      </div>
+      <div class="grid g2 rv d1" id="valuesGrid"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="rv" style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap">
+        <div><span class="kicker"><span class="dot"></span> Our work</span>
+        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 10px">Made to be seen.</h2>
+        <p class="lede">Creative concept projects exploring how thoughtful design can bring different businesses — and personalities — to life.</p></div>
+        <button class="btn btn-ghost" data-go="work">View all concept work <span class="arr">→</span></button>
+      </div>
+      <div class="grid g3" style="margin-top:34px" id="homeWork"></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap"><div class="vid-strip rv">
+      <img class="strip-bg still-drift" src="asset-13.jpg" alt="" aria-hidden="true"/>
+      <div class="shade"></div>
+      <div class="copy">
+        <h2>Picture your customers landing here.</h2>
+        <p>That small pause — the <em>oh, this is good</em> feeling — is exactly what a REEFRESH site is built to create for your business. First impressions you don’t have to apologize for. A link you can’t wait to share.</p>
+        <button class="btn btn-primary" data-go="contact" style="margin-top:10px">Let’s Tell Your Story <span class="arr">→</span></button>
+      </div>
+    </div></div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap split">
+      <figure class="photo-frame rv" style="margin:0"><img data-plx src="asset-14.jpg" alt="Aerial view of turquoise ocean waves meeting a sandy Hawaii shoreline"/><figcaption>Born in Hawaii · Inspired by everywhere</figcaption></figure>
+      <div class="rv d1">
+        <span class="kicker"><span class="dot"></span> About the studio</span>
+        <h2 style="font-size:clamp(2rem,4.6vw,3.2rem);margin:18px 0 16px">Creative by nature.<br/>Digital by design.</h2>
+        <p class="lede">REEFRESH is an independent creative web studio born in Hawaii — inspired by the natural world, fascinated by technology, and most excited by the people behind great small businesses.</p>
+        <p class="lede">The makers. The dreamers. The people who care deeply about their craft. Their stories deserve the same creativity that went into building their businesses.</p>
+        <p class="lede"><strong style="color:var(--ink)">Get curious. Find what makes it special. Create something worth seeing.</strong></p>
+        <button class="btn btn-ghost" data-go="about" style="margin-top:8px">More about REEFRESH <span class="arr">→</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="impact">
+    <div class="wrap">
+      <div class="split">
+        <div class="rv">
+          <svg class="coral-mark" viewBox="0 0 100 100" fill="none" stroke="#078794" stroke-width="3" aria-hidden="true"><circle cx="20" cy="80" r="6"/><circle cx="38" cy="58" r="6"/><circle cx="55" cy="78" r="6"/><circle cx="70" cy="50" r="6"/><path d="M20 80V40m0 0c0-10-8-12-8-22m8 22c2-8 10-10 12-18m6 36V30m0 0c-2-8-10-10-11-18m28 66V44m15 6V26"/></svg>
+          <span class="kicker"><span class="dot"></span> Our impact</span>
+          <h2 style="font-size:clamp(1.9rem,4.2vw,2.9rem);margin:18px 0 16px">Good work goes back to <em>the reef.</em></h2>
+          <p class="lede"><strong style="color:var(--ink)">Let’s build a better world</strong> — starting with the businesses around us. Every business we help stand out online gives back: a portion of proceeds from every REEFRESH project supports the protection and restoration of Hawaiʻi’s coral reefs.</p>
+          <p class="lede">That’s how enhancing a business becomes something bigger. Stronger businesses give back; giving back helps heal the reefs; healthier reefs make a better world. The ocean is where this studio draws its eye — the color, the movement, the patience. Giving something back to it isn’t a campaign. It’s just part of being REEFRESH.</p>
+        </div>
+        <figure class="photo-frame rv d1" style="margin:0"><img data-plx src="asset-15.jpg" alt="Coral reef with tropical fish, photographed underwater in Hawaiʻi" loading="lazy"/><figcaption>The reef that inspires the work</figcaption></figure>
+      </div>
+      <div class="grid g3 impact-points">
+        <div class="value rv"><h3>Built into every project</h3><p>Every REEFRESH project contributes — a portion of its proceeds goes toward reef protection and restoration here in Hawaiʻi. No add-on, no upsell; it’s simply part of how the studio works.</p></div>
+        <div class="value rv d1"><h3>Why Hawaiʻi’s reefs</h3><p>Coral reefs shelter the islands’ marine life, soften the force of the surf on our shorelines, and are woven into daily life and culture here. When the reef thrives, the island does too.</p></div>
+        <div class="value rv d2"><h3>Partners, in progress</h3><p>We’re currently exploring partnerships with local conservation organizations. When a partnership is finalized, we’ll name our partner here and share what our projects have contributed.</p></div>
+      </div>
+      <p class="impact-note rv">This commitment sits alongside the work — it never changes what a project costs or what it includes. Supporting the reef is on us.</p>
+    </div>
+  </section>
+
+  <div class="wave-div tint" aria-hidden="true"><div class="wave-track back"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 46 Q180 12 360 46 T720 46 T1080 46 T1440 46 V90 H0 Z" fill="currentColor"/></svg></div><div class="wave-track front"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 Q120 24 240 60 T480 60 T720 60 T960 60 T1200 60 T1440 60 V90 H0 Z" fill="currentColor"/></svg></div></div>
+  <section style="padding-top:0">
+    <div class="wrap"><div class="band rv">
+      <img class="band-vid still-drift" src="asset-16.jpg" alt="" aria-hidden="true"/>
+      <svg class="markbg" viewBox="0 0 100 100" fill="none"><path d="M50 8a42 42 0 1 1-29.7 12.3" stroke="#078794" stroke-width="7" stroke-linecap="round"/><path d="M14 6l8 22 20-10z" fill="#078794"/><path d="M22 62c10-12 18 4 28-6 8-8 14 2 24-6" stroke="#0fb9c6" stroke-width="6" stroke-linecap="round"/></svg>
+      <h2 style="font-size:clamp(2rem,5vw,3.4rem);max-width:16ch">You’ve built something special. Let’s show the world.</h2>
+      <p style="max-width:52ch;margin:16px 0 26px">Tell us about your business, your ideas, and what makes you excited about what you do. We’d love to hear your story — it starts with a conversation, not a commitment.</p>
+      <button class="btn btn-primary" data-go="contact">Start a Conversation <span class="arr">→</span></button>
+    </div></div>
+  </section>
+</div>
+
+<!-- ================= SERVICES ================= -->
+<div class="page" id="page-services">
+  <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> Services</span>
+  <h1 style="margin:18px 0 14px">What we can make <span style="color:var(--teal-dark)">for you.</span></h1>
+  <p class="lede">Four focused services, done properly. No guaranteed rankings, no inflated promises — just beautiful, honest work built around your story. Every project starts the same way: <strong style="color:var(--ink)">Discover → Imagine → Create → Launch.</strong></p></div>
+  <section style="padding-top:36px"><div class="wrap" id="svcDetails"></div>
+  <div class="wrap"><div class="band rv"><img class="band-vid still-drift" src="asset-17.jpg" alt="" aria-hidden="true"/><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Not sure which one fits?</h2><p style="max-width:50ch;margin:14px 0 22px">That’s normal — most people aren’t. Tell us about your business and we’ll recommend the smallest right step, honestly. No pressure, no jargon — just a conversation.</p><button class="btn btn-primary" data-go="contact">Ask Us <span class="arr">→</span></button></div></div></section>
+</div>
+
+<!-- ================= WORK ================= -->
+<div class="page" id="page-work">
+  <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> Our work · Concept designs</span>
+  <h1 style="margin:18px 0 14px">Made to be <span style="color:var(--teal-dark)">seen.</span></h1>
+  <p class="lede">These are <strong style="color:var(--ink)">concept designs</strong> — creative directions we’ve developed to show what’s possible, clearly labeled because they are not completed client projects. No invented clients, results, or testimonials. As real projects launch, they’ll live here alongside the concepts.</p></div>
+  <section style="padding-top:30px"><div class="wrap"><div class="grid g3" id="workGrid"></div>
+  <div id="caseStudies" style="margin-top:40px"></div>
+  <div class="band rv" style="margin-top:44px"><img class="band-vid still-drift" src="asset-18.jpg" alt="" aria-hidden="true"/><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Imagine what we could create for you.</h2><p style="max-width:50ch;margin:14px 0 22px">Your business, your story — designed so people actually feel it. The first step is just a conversation about what you’ve built.</p><button class="btn btn-primary" data-go="contact">Start a Project <span class="arr">→</span></button></div>
+  </div></section>
+</div>
+
+<!-- ================= ABOUT ================= -->
+<div class="page" id="page-about">
+  <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> About REEFRESH</span>
+  <h1 style="margin:18px 0 14px">We see the extraordinary<br/>in the <span style="color:var(--teal-dark)">everyday.</span></h1>
+  <p class="lede">Some of the most interesting businesses aren’t the biggest or the loudest. They’re the ones built with genuine passion, creativity, and care. We created REEFRESH to help those businesses express what makes them special — through art, storytelling, and technology.</p></div>
+  <section style="padding-top:30px"><div class="wrap">
+    <div class="split">
+      <div class="rv"><h2 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:16px">The stories that interest us</h2>
+      <p class="lede">Behind some of the best small businesses are incredible people, interesting stories, and a genuine passion for what they do.</p>
+      <p class="lede">The family restaurant that has perfected its recipes over generations. The artist who has spent years developing a style entirely their own. The entrepreneur who saw an opportunity to do something differently — and built a business around it.</p>
+      <p class="lede">Sometimes, the magic behind a business doesn’t translate online. We want to change that. Not just what they sell — who they are, what they believe in, and why people should care.</p></div>
+      <figure class="photo-frame rv d1" style="margin:0"><img data-plx src="asset-19.jpg" alt="An independent artist painting a large, colorful abstract canvas in her studio"/><figcaption>The makers. The dreamers.</figcaption></figure>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--line);border-radius:26px;padding:30px;margin-top:44px" class="rv">
+      <h3 style="font-size:1.3rem;margin-bottom:14px">What guides every project</h3>
+      <div class="grid g4" id="valuesGrid2"></div>
+    </div>
+    <div class="vid-strip rv" style="margin-top:52px">
+      <img class="strip-bg still-drift" src="asset-20.jpg" alt="" aria-hidden="true"/>
+      <div class="shade"></div>
+      <div class="copy" style="max-width:660px"><h2 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:16px">Born in Hawaii.<br/>Inspired by everywhere.</h2>
+      <p>Our creative perspective is influenced by Hawaii’s natural beauty, artistic culture, and connection to the environment — the movement of water, organic forms, and color that shifts all day long.</p>
+      <p>But great stories aren’t limited by geography. We work with businesses wherever creativity and good ideas take us.</p>
+      <p><strong style="color:var(--ink)">Our mission:</strong> to discover what makes great small businesses special, and bring their stories to life through thoughtful design and creative technology — and to give a little back along the way, to the reef that inspires the work.</p>
+      <button class="btn btn-primary" data-go="contact" style="margin-top:10px">Let’s Tell Your Story <span class="arr">→</span></button></div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ================= CONTACT ================= -->
+<div class="page" id="page-contact">
+  <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> Contact</span>
+  <h1 style="margin:18px 0 14px">Every great project starts<br/>with a <span style="color:var(--teal-dark)">conversation.</span></h1>
+  <p class="lede">Tell us what you’re building, what you’re proud of, and what you’d love your website to become. We’d love to hear about it.</p></div>
+  <section style="padding-top:26px"><div class="wrap split" style="align-items:start">
+    <div class="rv">
+      <h2 style="font-size:1.6rem;margin-bottom:12px">A few honest notes</h2>
+      <div class="value" style="margin-bottom:22px"><h3>No pressure, ever</h3><p>This is a conversation, not a sales funnel. If we’re not the right fit, we’ll say so.</p></div>
+      <div class="value" style="margin-bottom:22px"><h3>People before pixels</h3><p>The more you tell us about the humans behind the business, the better the first ideas will be.</p></div>
+      <div class="value"><h3>Based in Hawai'i, working everywhere</h3><p>REEFRESH is an independent studio in Hawai'i, working with businesses near and far.</p></div>
+    </div>
+    <form id="contactForm" class="rv d1" novalidate>
+      <div class="frow"><div><label for="f-name">Your name *</label><input type="text" id="f-name" required autocomplete="name" placeholder="Your name"/></div>
+      <div><label for="f-email">Email *</label><input type="email" id="f-email" required autocomplete="email" placeholder="you@example.com"/></div></div>
+      <div class="frow"><div><label for="f-biz">Business name *</label><input type="text" id="f-biz" required placeholder="Your business"/></div>
+      <div><label for="f-site">Current website <span style="font-weight:400;color:var(--muted)">(optional)</span></label><input type="url" id="f-site" placeholder="https://…"/></div></div>
+      <label>What are you looking for?</label>
+      <div class="radio-row" role="radiogroup" aria-label="What are you looking for">
+        <label><input type="radio" name="need" value="A new website" checked/><span>A new website</span></label>
+        <label><input type="radio" name="need" value="A website redesign"/><span>A website redesign</span></label>
+        <label><input type="radio" name="need" value="Creative direction or branding"/><span>Creative direction / branding</span></label>
+        <label><input type="radio" name="need" value="Not quite sure yet"/><span>Not quite sure yet</span></label>
+      </div>
+      <label for="f-story">Tell us about your business *</label>
+      <textarea id="f-story" rows="5" required placeholder="What do you do? What makes it special? What are you proud of?"></textarea>
+      <label for="f-budget">Budget range <span style="font-weight:400;color:var(--muted)">(optional — helps us suggest the right scope)</span></label>
+      <select id="f-budget"><option value="">Prefer to discuss</option><option>Under $1,500</option><option>$1,500 – $3,000</option><option>$3,000 – $5,000</option><option>$5,000+</option></select>
+      <p class="small" style="margin-top:16px">This form prepares a ready-to-send summary of your inquiry on this page — it doesn’t send or store anything yet. Copy it and send it however you like; a direct inbox connection is the studio’s next setup step.</p>
+      <button type="submit" class="btn btn-primary" style="margin-top:14px;width:100%;justify-content:center">Let’s Make Something Great <span class="arr">→</span></button>
+      <div id="confirm" role="status">
+        <h3 style="font-size:1.25rem">Mahalo — that’s a great start. 🌊</h3>
+        <p style="margin:8px 0 0">Your project summary is ready below. Copy it and send it our way — we can’t wait to hear the full story.</p>
+        <div id="summary"></div>
+        <button type="button" class="btn btn-primary" id="copyBtn">Copy My Summary</button>
+        <span id="copied" style="font-weight:700;margin-left:10px"></span>
+      </div>
+    </form>
+  </div></section>
+</div>
+</main>
+
+<div class="sticky-cta" aria-label="Quick actions">
+  <button type="button" class="s-primary" data-scrollto="automagic">Try Automagic ✦</button>
+  <button type="button" class="s-ghost" data-go="contact">Start a Project</button>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><span class="logofoot"><img src="asset-21.png" alt="REEFRESH.NET"/></span>
+      <p style="max-width:36ch;margin-top:16px">A creative web design &amp; digital storytelling studio in Hawai'i.</p><p class="foot-tag" style="font-family:'Bricolage Grotesque';letter-spacing:.14em;text-transform:uppercase;font-size:.8rem">Make Waves Online</p><p class="small" style="margin-top:12px;max-width:38ch">A portion of proceeds from every project supports the protection and restoration of Hawaiʻi’s coral reefs.</p></div>
+      <div><h4>Explore</h4><button data-go="home">Home</button><button data-go="services">Services</button><button data-go="work">Our Work</button><button data-go="about">About</button><button data-go="contact">Contact</button></div>
+      <div><h4>Start here</h4><button data-go="contact">Start a Project</button><button data-go="work">See concept work</button><button data-go="services">What we do</button><p class="small" style="margin-top:14px">All portfolio pieces currently shown are clearly labeled concept designs.</p></div>
+    </div>
+    <div style="border-top:1px solid var(--line);margin-top:34px;padding-top:20px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap"><span class="small">© 2026 REEFRESH · reefresh.net</span><span class="small">Let’s Make WAVES.</span></div>
+  </div>
+</footer>
+
+<script>
+var SERVICES=[
+ {n:"01",t:"Website Design & Development",s:"A website built around the one action you want visitors to take — book, call, buy, visit — with your personality in every pixel and a first impression that earns it.",inc:["Custom design built around your story — no off-the-shelf look","Mobile-first, responsive build that works on every screen","One clear call-to-action per page, so visitors never wonder what to do next","Clear structure, fast loading, and foundational SEO basics","Easy-to-update pages you won’t be afraid to touch"],who:"New businesses, or established ones whose website no longer matches who they’ve become.",prob:"A forgettable first impression. Visitors can’t tell what makes you different, so they leave and choose whoever felt clearer."},
+ {n:"02",t:"Website Refreshes",s:"Your business, updated online: clearer words, current visuals, and a shorter path from landing to booking, calling, or visiting.",inc:["A full visual refresh that keeps what already works","Clearer messaging and page structure, mapped to how visitors actually decide","Modern, mobile-friendly layouts","Imagery and typography that feel current — and like you"],who:"Businesses with a site that works, but looks and reads like an earlier version of them.",prob:"Your business grew up; your website didn’t. That gap quietly costs trust before you ever get to talk."},
+ {n:"03",t:"Creative Direction",s:"Colours, type, and imagery chosen once and applied everywhere — so your site, socials, and signage all feel like the same business at a glance.",inc:["A defined color, type, and imagery direction — a pairing, not just a palette","Guidance you can reuse across your site and materials","Mood and concept exploration before anything is built","Consistency that makes a small business look intentional"],who:"Businesses that look different in every place they appear — and feel it.",prob:"Inconsistency reads as carelessness, even when the work itself is excellent."},
+ {n:"04",t:"Digital Storytelling",s:"Words and visuals in your voice that turn ‘we do X’ into a reason to choose you — and a next step that’s obvious when people do.",inc:["Your story, found and shaped — interviews and questions included","Homepage and key-page copy in your voice","Photo and visual direction that supports the words","Messaging that explains why you, specifically"],who:"Businesses whose real magic is obvious in person and invisible online.",prob:"“We do X” sounds like everyone. People choose the business they feel something about."}];
+var STEPS=[["Discover","We get to know your business, your story, your customers, and what makes you different."],["Imagine","We explore creative directions that bring your personality to life through design, imagery, and messaging."],["Create","We transform those ideas into a beautiful, functional website designed around your goals."],["Launch","After review, refinement, and testing, your refreshed online presence is ready to share with the world."]];
+var VALUES=[["Creativity With Purpose","Beautiful design should communicate something meaningful."],["Personality Over Templates","Your business has its own character. Your website should reflect it."],["People Before Pixels","Understanding the people behind a business is where great design begins."],["Art Meets Technology","Imaginative ideas plus modern digital tools — experiences that look beautiful and work beautifully."]];
+var WORKS=[
+ {img:"asset-22.jpg",alt:"Colorful tropical dishes served on banana leaves",title:"The Generational Table",cat:"Concept · Restaurant",desc:"An immersive restaurant website built on beautiful food photography, expressive typography, and a warm, inviting atmosphere — the kind of place you can almost taste before you arrive.",biz:"A family restaurant that has perfected its recipes over generations — unforgettable in person, invisible online.",opp:"A generic template with a PDF menu said nothing about the food, the family, or the feeling of being there.",dir:"Lead with the food: full-bleed photography, a story for signature dishes, and typography with the confidence of the kitchen.",fin:"A homepage that opens like a menu you can’t put down — story, dishes, and reservations in two taps."},
+ {img:"asset-23.jpg",alt:"Artist painting a large colorful abstract canvas",title:"The Artist, Unframed",cat:"Concept · Independent Artist",desc:"An unconventional portfolio emphasizing artistic individuality, motion, and visual storytelling — the work leads, the website gets out of the way, then surprises you.",biz:"An independent artist who has spent years developing a style entirely their own.",opp:"A cramped, chronological grid flattened years of evolution into thumbnails that all looked the same size.",dir:"Organize by series and story, not date. Oversized canvases, generous white space, motion that echoes brushwork.",fin:"A portfolio that feels like walking into the studio — color first, explanation second, personality everywhere."},
+ {img:"asset-24.webp",alt:"Calm, candlelit wellness treatment room",title:"Quiet, By Design",cat:"Concept · Boutique Wellness Studio",desc:"A calm, sophisticated website combining elegant typography, organic design, and intuitive navigation — the exhale starts on the homepage.",biz:"A boutique wellness studio whose physical space is serene — and whose website was anything but.",opp:"Cluttered pages, loud colors, and a booking path with too many steps worked against the calm they sell.",dir:"Restraint as the concept: soft neutrals, slow fades, one clear action per page, booking in as few steps as possible.",fin:"A site that lowers your heart rate a little — and makes booking feel like part of the treatment."}];
+var STYLES=[
+ {img:"asset-25.jpg",url:"concept — restaurant",title:"A table worth traveling for",cap:"Restaurant concept — food first",label:"Concept style 01 — Restaurant · every screen changes together",name:"Restaurant",phoneTitle:"A table, tonight",phoneCap:"Menu + reservations",nextTitle:"The Artist",accent:"#f0a868",site:{theme:"rest",brand:"Aloha Table",domain:"alohastable.com",links:["Menu","Our Story","Visit"],eyebrow:"Family restaurant · Est. 1987",head:"Three generations. One unforgettable table.",sub:"Recipes perfected over decades, told properly — reserve in two taps.",cta:"Book a Table",strip:[["Tonight at the table","Seasonal specials, from the kitchen"],["Three generations","The story behind the recipes"],["Easy to find","Directions & parking, one tap"]]}},
+ {img:"asset-26.jpg",url:"concept — artist portfolio",title:"Color, at full volume",cap:"Artist concept — work leads",label:"Concept style 02 — Artist · every screen changes together",name:"Artist",phoneTitle:"Art, up close",phoneCap:"Series + studio notes",nextTitle:"The Wellness Studio",accent:"#e77fb0",site:{theme:"art",brand:"Studio Unframed",domain:"studiounframed.com",links:["Series","Studio Notes","About"],eyebrow:"Independent artist · New series",head:"Color, at full volume.",sub:"Work organised by series and story — the art leads, the site gets out of the way.",cta:"View the Series",strip:[["Series 04 — Tide Lines","Twelve new works"],["Studio notes","Process, in her own words"],["Studio visits","By appointment"]]}},
+ {img:"asset-27.webp",url:"concept — wellness studio",title:"Quiet, by design",cap:"Wellness concept — calm + simple",label:"Concept style 03 — Wellness · every screen changes together",name:"Wellness",phoneTitle:"Wellness, calmly",phoneCap:"Calm booking, two taps",nextTitle:"The Restaurant",accent:"#8fc7a8",site:{theme:"well",brand:"Stillwater Studio",domain:"stillwaterstudio.com",links:["Treatments","Rituals","Book"],eyebrow:"Boutique wellness studio",head:"Quiet, by design.",sub:"The exhale starts on the homepage — calm pages, booking in two taps.",cta:"Book a Treatment",strip:[["Signature massage","60 · 90 minutes"],["Breathwork circle","Small-group, Sundays"],["Gift stillness","Cards from $50"]]}}];
+/* preload concept images on idle — not during first paint — so the hero
+   video and headline win the network/CPU budget; swaps still hit cache */
+function preloadStyles(){STYLES.forEach(function(s){var im=new Image();im.decoding="async";im.src=s.img;if(im.decode)im.decode().catch(function(){})})}
+if("requestIdleCallback" in window){requestIdleCallback(preloadStyles,{timeout:1800})}else{setTimeout(preloadStyles,900)}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+var OUTCOMES=["So visitors become enquiries, bookings, and sales — not just page views.","So the business you’ve grown into is the one people meet first.","So you look like one intentional business everywhere you appear.","So people feel why you’re different — and choose you for it."];
+document.getElementById("homeServices").innerHTML=SERVICES.map(function(s,i){return '<article class="svc rv'+(i%2?' d1':'')+'"><div class="num">'+s.n+'</div><h3>'+s.t+'</h3><p>'+s.s+'</p><span class="outcome">'+OUTCOMES[i]+'</span><a href="#" data-go="services">Explore this service →</a></article>'}).join("");
+document.getElementById("steps").innerHTML=STEPS.map(function(s,i){return '<div class="step rv'+(i?' d'+Math.min(i,3):'')+'"><div class="n">'+(i+1)+'</div><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div>'}).join("");
+function valuesHTML(){return VALUES.map(function(v){return '<div class="value"><h3>'+v[0]+'</h3><p>'+v[1]+'</p></div>'}).join("")}
+document.getElementById("valuesGrid").innerHTML=valuesHTML();
+document.getElementById("valuesGrid2").innerHTML=valuesHTML();
+/* concept mini-site builders — each concept renders as an actual miniature
+   website build (brand nav, hero, CTA, content strip) inside the mockup
+   frames, in that concept's own colours and layout — never a bare photo.
+   One builder set feeds the hero stage and the work cards. */
+function siteDesk(s){
+  var t=s.site;
+  return '<div class="msite '+t.theme+'" aria-hidden="true"><div class="ms-nav"><strong>'+t.brand+'</strong>'+t.links.map(function(l){return '<span>'+l+'</span>'}).join('')+'<em>'+t.cta+'</em></div><div class="ms-hero"><div class="ms-copy"><span class="ms-eye">'+t.eyebrow+'</span><h6>'+t.head+'</h6><p>'+t.sub+'</p><span class="ms-btn">'+t.cta+' →</span></div><div class="ms-img"><img src="'+s.img+'" alt=""/></div></div><div class="ms-strip">'+t.strip.map(function(c){return '<div><b>'+c[0]+'</b><i>'+c[1]+'</i></div>'}).join('')+'</div></div>';
+}
+function sitePhone(s,card){
+  var t=s.site;
+  return '<div class="msite ph '+t.theme+(card?' card':'')+'" aria-hidden="true"><div class="ms-pnav"><strong>'+t.brand+'</strong><span class="ms-burger"><i></i><i></i><i></i></span></div><div class="ms-pimg"><img src="'+s.img+'" alt=""/></div><div class="ms-pcopy"><h6>'+s.phoneTitle+'</h6><p>'+s.phoneCap+'</p><span class="ms-btn">'+t.cta+'</span></div><div class="ms-prows">'+t.strip.slice(0,2).map(function(c){return '<div><b>'+c[0]+'</b><i>'+c[1]+'</i></div>'}).join('')+'</div></div>';
+}
+function siteThumb(s){
+  var t=s.site;
+  return '<div class="msite th '+t.theme+'" aria-hidden="true"><div class="ms-nav sm"><strong>'+t.brand+'</strong><em>'+t.cta+'</em></div><div class="ms-timg"><img src="'+s.img+'" alt=""/><span class="ms-thead">'+t.head+'</span></div></div>';
+}
+function workCard(w,i,cls){var s=STYLES[i];return '<article class="work-card rv pop '+(cls||"")+'"><div class="mockups"><span class="concept-tag">Concept Design</span><div class="browser"><div class="b-bar"><i></i><i></i><i></i><b>'+s.site.domain+' — concept build</b></div><div class="b-frame">'+siteDesk(s)+'</div></div><div class="phone"><span class="notch"></span><div class="p-frame">'+sitePhone(s,true)+'</div></div></div><div class="body"><span class="cat">'+w.cat+'</span><h3>'+w.title+'</h3><p>'+w.desc+'</p><p class="mock-note">Concept build — shown on desktop + phone</p></div></article>'}
+document.getElementById("homeWork").innerHTML=WORKS.map(function(w,i){return workCard(w,i,i?"d"+i:"")}).join("");
+document.getElementById("workGrid").innerHTML=WORKS.map(function(w,i){return workCard(w,i,i?"d"+i:"")}).join("");
+document.getElementById("caseStudies").innerHTML=WORKS.map(function(w,i){return '<details class="case rv"><summary>'+w.title+' — the concept, unpacked <span style="color:var(--muted);font-size:.85rem;font-family:Outfit">'+w.cat+'</span></summary><div class="inner"><div><h4>The Business</h4><p>'+w.biz+'</p></div><div><h4>The Opportunity</h4><p>'+w.opp+'</p></div><div><h4>The Creative Direction</h4><p>'+w.dir+'</p></div><div><h4>The Finished Experience</h4><p>'+w.fin+'</p></div></div></details>'}).join("");
+document.getElementById("svcDetails").innerHTML=SERVICES.map(function(s){return '<article class="svc-detail rv"><span class="kicker">Service '+s.n+'</span><h2>'+s.t+'</h2><p style="font-size:1.08rem;max-width:65ch">'+s.s+'</p><div class="cols"><div><h4>What it includes</h4><ul>'+s.inc.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ul></div><div><h4>Who it’s for</h4><p>'+s.who+'</p></div><div><h4>The problem it solves</h4><p>'+s.prob+'</p></div></div><p style="margin-top:20px"><button class="btn btn-primary" data-go="contact">Start With This <span class="arr">→</span></button></p></article>'}).join("");
+var words="Let’s Make WAVES ✳ People Before Pixels ✳ Great Stories, Told Well ✳ Proud To Share It ✳ ";
+document.getElementById("marqueeTrack").innerHTML="<span>"+words.replace(/✳/g,'<i>✳</i>')+"</span><span>"+words.replace(/✳/g,'<i>✳</i>')+"</span>";
+
+/* routing — with a tide transition: the veil rises over the screen
+   (transform only, ~420ms), the page swaps while fully covered, then the
+   tide recedes and the new page settles in with its pageIn rise. The swap
+   is guaranteed by a timer even if WAAPI is unavailable, navigation to the
+   current page skips the veil entirely, and reduced-motion swaps instantly
+   with no veil at all. The veil runs once per tap — never during scroll —
+   so it cannot compete with background-video playback. */
+var veilBusy=false,veilEl=document.getElementById("veil"),veilWord=veilEl?veilEl.querySelector(".veil-word"):null;
+function swapPage(page){
+  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active")});
+  var el=document.getElementById("page-"+page); if(el)el.classList.add("active");
+  document.querySelectorAll("nav.main button").forEach(function(b){b.classList.toggle("active",b.dataset.go===page)});
+  document.getElementById("mainnav").classList.remove("open");
+  window.scrollTo({top:0,behavior:"instant"});
+  observeRv();
+  /* background clips start via the viewport observer as they near view */
+  try{history.replaceState(null,"","#"+page)}catch(e){}
+}
+function go(page){
+  var current=document.querySelector(".page.active");
+  if(!current||current.id==="page-"+page){swapPage(page);return}
+  if(reduced||!veilEl||!veilEl.animate||veilBusy){swapPage(page);return}
+  veilBusy=true;
+  var swapped=false;
+  function doSwap(){if(swapped)return;swapped=true;swapPage(page)}
+  var rise=veilEl.animate([
+    {transform:"translateY(104%)"},
+    {transform:"translateY(0%)"}
+  ],{duration:430,easing:"cubic-bezier(.7,0,.3,1)",fill:"forwards"});
+  if(veilWord)veilWord.animate([{opacity:0,transform:"translateY(10px)"},{opacity:1,transform:"translateY(0)"}],{duration:320,delay:180,easing:"ease-out",fill:"forwards"});
+  setTimeout(doSwap,445);
+  var fallDelay=560;
+  setTimeout(function(){
+    var fall=veilEl.animate([
+      {transform:"translateY(0%)"},
+      {transform:"translateY(-104%)"}
+    ],{duration:620,easing:"cubic-bezier(.16,1,.3,1)",fill:"forwards"});
+    if(veilWord)veilWord.animate([{opacity:1},{opacity:0}],{duration:200,easing:"ease-in",fill:"forwards"});
+    function done(){veilEl.style.transform="translateY(104%)";veilBusy=false}
+    if(fall&&fall.finished&&fall.finished.then)fall.finished.then(done).catch(done);else setTimeout(done,680);
+    setTimeout(function(){if(veilBusy)done()},900);
+  },fallDelay);
+  if(rise&&rise.finished)rise.finished.catch(function(){});
+}
+document.addEventListener("click",function(e){var s=e.target.closest("[data-scrollto]");if(s){e.preventDefault();var wasHome=document.getElementById("page-home").classList.contains("active");go("home");document.getElementById("mainnav").classList.remove("open");var target=s.dataset.scrollto;function tryScroll(){var el=document.getElementById(target);if(el&&document.getElementById("page-home").classList.contains("active"))el.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"})}setTimeout(tryScroll,wasHome?60:640);if(!wasHome)setTimeout(tryScroll,1100);return}var t=e.target.closest("[data-go]");if(t){e.preventDefault();go(t.dataset.go)}});
+document.getElementById("burger").addEventListener("click",function(){var n=document.getElementById("mainnav");n.classList.toggle("open");this.setAttribute("aria-expanded",n.classList.contains("open"))});
+
+/* hero style cycler — every screen swaps together: the desktop mockup, the
+   phone mockup (same concept, mobile view), and the up-next preview. All
+   three crossfade with a staggered rise/pop so the change reads as one move. */
+var cur=0,timer=null,barAnim=null,swapBusy=false,reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var CYCLE_MS=4600;
+/* crossfade rig — each screen has two stacked layers, and each layer holds
+   a full miniature website build for one concept. The incoming layer is
+   filled with the next concept's build and faded in over the outgoing one:
+   content is never swapped on a visible layer, so there is no blank flash,
+   no pop, and the frame never moves. All three screens flip in the same
+   frame, and captions crossfade alongside. */
+function xfRig(baseId){
+  return {els:[document.getElementById(baseId),document.getElementById(baseId+"2")],on:0,token:0,cur:null};
+}
+var xfMain=xfRig("mockSite"),xfNext=xfRig("mockNextSite"),xfPhone=xfRig("mockPhoneSite");
+function xfShow(xf,html,key){
+  if(!xf.els[0]||xf.cur===key)return;
+  xf.cur=key;
+  var inc=xf.els[1-xf.on],out=xf.els[xf.on];
+  inc.innerHTML=html;
+  var token=++xf.token,done=false;
+  var flip=function(){
+    if(done||token!==xf.token)return;done=true;
+    inc.classList.add("on");out.classList.remove("on");xf.on=1-xf.on;
+  };
+  /* the concept photos are pre-decoded at init, so the new build is ready
+     immediately; the double-rAF only lets it paint before the fade starts,
+     and the timer is a safety net so a swap can never stall */
+  requestAnimationFrame(function(){requestAnimationFrame(flip)});
+  setTimeout(flip,140);
+}
+function xfPaint(xf,html,key){if(xf.els[0]){xf.els[xf.on].innerHTML=html;xf.cur=key}}
+/* paint the opening builds at once, so the first frame already shows
+   finished concept sites on every screen */
+xfPaint(xfMain,siteDesk(STYLES[0]),"d0");
+xfPaint(xfPhone,sitePhone(STYLES[0]),"p0");
+xfPaint(xfNext,siteThumb(STYLES[1]),"t1");
+var capMain=document.querySelector("#mockMain .cap"),capNext=document.querySelector("#mockNext .cap"),capPhone=document.querySelector("#mockPhone .cap");
+function capSettle(capEl){
+  /* the caption is already showing the NEW text (swapped in the same
+     synchronous update as the image crossfade) — this is only a soft settle,
+     never a fade to blank */
+  if(reduced||!capEl||!capEl.animate)return;
+  capEl.animate([{opacity:.45,transform:"translateY(4px)"},{opacity:1,transform:"translateY(0)"}],{duration:380,easing:"cubic-bezier(.22,1,.36,1)"});
+}
+function setStyle(i,instant){
+  if(swapBusy&&!instant)return;
+  cur=i;var s=STYLES[i],nxt=STYLES[(i+1)%STYLES.length];
+  swapBusy=true;setTimeout(function(){swapBusy=false},700);
+  document.getElementById("stageGlow").style.setProperty("--stage-accent",s.accent);
+  document.getElementById("stage").style.setProperty("--stage-accent",s.accent);
+  /* ONE synchronous update: the image crossfades start and every piece of
+     text — url bar, titles, captions, stage label, active tab — changes in
+     the same frame, so no frame can ever show one concept's words over
+     another's picture, or a blank caption */
+  xfShow(xfMain,siteDesk(s),"d"+i);
+  xfShow(xfPhone,sitePhone(s),"p"+i);
+  xfShow(xfNext,siteThumb(STYLES[(i+1)%STYLES.length]),"t"+((i+1)%STYLES.length));
+  document.getElementById("mockUrl").textContent=s.url;
+  document.getElementById("mockTitle").textContent=s.title;
+  document.getElementById("mockCap").textContent=s.cap;
+  document.getElementById("mockPhoneTitle").textContent=s.phoneTitle;
+  document.getElementById("mockPhoneCap").textContent=s.phoneCap;
+  document.getElementById("mockNextUrl").textContent="next — "+nxt.name.toLowerCase();
+  document.getElementById("mockNextTitle").textContent=s.nextTitle;
+  document.getElementById("stageLabel").textContent=s.label;
+  document.querySelectorAll(".style-tabs button").forEach(function(b,j){b.classList.toggle("on",j===i)});
+  capSettle(capMain);capSettle(capPhone);capSettle(capNext);
+}
+document.querySelectorAll(".style-tabs button").forEach(function(b){b.addEventListener("click",function(){setStyle(+b.dataset.style);restart()})});
+function runBar(){
+  var bar=document.getElementById("cycleBar");
+  if(barAnim)barAnim.cancel();
+  if(reduced||!bar||!bar.animate)return;
+  barAnim=bar.animate([{transform:"scaleX(0)"},{transform:"scaleX(1)"}],{duration:CYCLE_MS,easing:"linear",fill:"forwards"});
+}
+function restart(){if(timer)clearInterval(timer);runBar();if(!reduced)timer=setInterval(function(){setStyle((cur+1)%STYLES.length);runBar()},CYCLE_MS)}
+restart();
+/* pause the cycle while a visitor is hovering or focusing the stage */
+var stageEl=document.getElementById("stage");
+function pauseCycle(){if(timer)clearInterval(timer);if(barAnim)barAnim.pause()}
+function resumeCycle(){if(barAnim)barAnim.play();restart()}
+if(stageEl&&!reduced){
+  stageEl.addEventListener("pointerenter",pauseCycle);
+  stageEl.addEventListener("pointerleave",resumeCycle);
+  stageEl.addEventListener("focusin",pauseCycle);
+  stageEl.addEventListener("focusout",resumeCycle);
+}
+/* stage entrance — the three screens arrive in sequence: up-next slides in,
+   the desktop mockup rises and pops, then the phone swings up last */
+(function stageIn(){
+  if(reduced)return;
+  var seq=[["mockNext",500],["mockMain",640],["mockPhone",820]];
+  seq.forEach(function(pair){
+    var el=document.getElementById(pair[0]);if(!el||!el.animate)return;
+    el.animate([
+      {opacity:0,translate:"0 56px",scale:".9"},
+      {opacity:1,translate:"0 0",scale:"1"}
+    ],{duration:950,delay:pair[1],easing:"cubic-bezier(.22,1,.36,1)",fill:"backwards"});
+  });
+})();
+
+/* before/after */
+var ba=document.getElementById("baBox"),range=document.getElementById("baRange"),baStage=document.getElementById("baStage");
+function setSplit(pct){pct=Math.max(4,Math.min(96,pct));ba.style.setProperty("--split",pct+"%");range.value=Math.round(pct)}
+range.addEventListener("input",function(){setSplit(+range.value)});
+if(baStage){
+  var baDragging=false;
+  function splitFromEvent(e){var r=baStage.getBoundingClientRect();setSplit((e.clientX-r.left)/r.width*100)}
+  baStage.addEventListener("pointerdown",function(e){baDragging=true;try{baStage.setPointerCapture(e.pointerId)}catch(err){}splitFromEvent(e);e.preventDefault()});
+  baStage.addEventListener("pointermove",function(e){if(baDragging)splitFromEvent(e)});
+  ["pointerup","pointercancel"].forEach(function(ev){baStage.addEventListener(ev,function(){baDragging=false})});
+}
+
+/* reveal — IntersectionObserver plus a scroll-position fallback (some webviews
+   under-report intersections), so reveals always play, smoothly and in order */
+var io=null;
+function markIn(e){
+  if(e.classList.contains("in"))return;
+  e.classList.add("in");
+  if(reduced||!e.animate)return;
+  var pop=e.classList.contains("pop");
+  var delay=e.classList.contains("d3")?420:e.classList.contains("d2")?280:e.classList.contains("d1")?140:0;
+  /* siblings in the same grid ride in on the same swell — a small extra
+     stagger by position, capped so a long grid never feels slow */
+  if(e.parentElement){
+    var sibs=[].slice.call(e.parentElement.children).filter(function(c){return c.classList&&c.classList.contains("rv")});
+    var idx=sibs.indexOf(e);
+    if(idx>0)delay+=Math.min(idx*80,240);
+  }
+  /* ocean ease: a long, soft swell in — fast lift, very gentle settle.
+     Transform + opacity only, one WAAPI run per element, ever. */
+  e.animate([
+    {opacity:0,transform:pop?"translateY(56px) scale(.93) rotate(.5deg)":"translateY(38px) scale(.985)"},
+    {opacity:.55,transform:pop?"translateY(10px) scale(.985) rotate(.1deg)":"translateY(8px) scale(.998)",offset:.62},
+    {opacity:1,transform:"translateY(0) scale(1) rotate(0deg)"}
+  ],{duration:pop?1250:1080,delay:delay,easing:"cubic-bezier(.16,1,.3,1)",fill:"backwards"});
+}
+function revealCheck(){
+  var vh=window.innerHeight||800;
+  document.querySelectorAll(".rv:not(.in)").forEach(function(e){var r=e.getBoundingClientRect();if(r.top<vh*1.08&&r.bottom>0)markIn(e)});
+}
+function observeRv(){
+  if(io)io.disconnect();
+  if(reduced||!("IntersectionObserver" in window)){document.querySelectorAll(".rv").forEach(function(e){e.classList.add("in")});return}
+  io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){markIn(en.target);io.unobserve(en.target)}})},{threshold:.01,rootMargin:"0px 0px 12% 0px"});
+  document.querySelectorAll(".rv:not(.in)").forEach(function(e){io.observe(e)});
+  revealCheck();
+}
+observeRv();
+/* the scroll fallback is only a safety net for webviews that under-report
+   intersections (the observer above does the real work), so it runs at a
+   relaxed ~140ms cadence instead of on every scroll frame — per-frame
+   querySelectorAll + rect reads were stealing main-thread time from the
+   background video decoder while scrolling */
+var rvTick=false,rvLast=0;
+window.addEventListener("scroll",function(){
+  if(rvTick)return;rvTick=true;
+  var wait=Math.max(0,140-(Date.now()-rvLast));
+  setTimeout(function(){window.requestAnimationFrame(function(){rvLast=Date.now();revealCheck();rvTick=false})},wait);
+},{passive:true});
+
+/* coral drift is pure CSS (the floaty keyframes) — deliberately not driven
+   from JS, so nothing over the hero video is repainted from scroll code */
+
+/* background video — ONE clip only: the hero wave, the exact file Ian
+   approved standalone on Oct 29 — asset-28.mp4(1280x720, 29.97fps, 9.98s, 3.9 MB, 3.24 Mbps, no B-frames, 1s keyframes,
+   denoised, 2s dissolve crossfade loop; byte-identical to the approved
+   file, never re-encoded).
+   Playback is deliberately PLAIN — the way the standalone file plays:
+   src is in the markup, autoplay/muted/loop/playsinline are native, and
+   no script manages, gates, or retires playback. The manager this
+   replaced was the bug Ian kept hitting: it set the source from JS,
+   started play only via an IntersectionObserver, skipped the video
+   entirely on data-saver/3G connections, and ran a dropped-frame
+   watchdog that permanently removed the video if >45% of frames dropped
+   in the first ~7s — exactly when a phone is busiest loading the page —
+   leaving only the poster still on a 26s drift ("barely moved"). The
+   0.55-opacity blend over that animated still also forced the phone to
+   alpha-composite two full-screen moving layers every frame. Now the
+   video is opaque, the still beneath it is static, and the decorative
+   animations overlapping the hero pause (CSS, body.vid-on) once it is
+   playing, so the decoder gets the frame budget to itself.
+   The other sections keep ocean imagery as stills, so the hero is the
+   only decoder on the page. Reduced-motion keeps the still instead. */
+var heroVid=document.querySelector(".hero-vid");
+if(heroVid){
+  heroVid.removeAttribute("controls");
+  if(reduced){
+    try{heroVid.pause();heroVid.removeAttribute("autoplay")}catch(e){}
+  }else{
+    heroVid.addEventListener("playing",function(){document.body.classList.add("vid-on")});
+    /* one nudge if a webview defers autoplay until interaction — play()
+       on an already-playing muted video is a no-op, never a restart */
+    document.addEventListener("pointerdown",function(){
+      if(heroVid.paused){var p=heroVid.play();if(p&&p.catch)p.catch(function(){})}
+    });
+  }
+}
+
+/* scroll motion — transform/opacity only, with all layout reads batched
+   before all style writes so a scroll frame never interleaves the two
+   (that thrash was stealing main-thread time from video playback
+   mid-scroll). Nothing inside the hero is moved from JS anymore: the
+   hero's waves and coral already drift on compositor-run CSS animations,
+   and writing transforms every scroll frame to elements layered over the
+   hero video forced the phone to repaint the video region continuously —
+   a prime suspect in the scroll-time stutter. JS parallax now applies
+   only below the hero: framed photos (parallax + scale + a gentle tilt),
+   wave dividers sliding at two depths, and the process wave-line
+   travelling with scroll. Runs only while scrolling, then the main
+   thread idles. (Entrance fades/rises/pops are the .rv system above.)
+   Skipped entirely for reduced-motion. */
+if(!reduced){
+  var plxEls=[].slice.call(document.querySelectorAll("[data-plx]"));
+  var frameEls=[].slice.call(document.querySelectorAll(".photo-frame"));
+  var waveDivs=[].slice.call(document.querySelectorAll(".wave-div"));
+  var waveLinePath=document.querySelector(".wave-line path");
+  var tideEl=document.getElementById("tide");
+  var motionTick=false;
+  function motionUpdate(){
+    motionTick=false;
+    var y=window.scrollY||0,vh=window.innerHeight||800;
+    var docH=document.documentElement?document.documentElement.scrollHeight:0;
+    /* reads first — no style writes until every rect is collected */
+    var pJobs=[],fJobs=[],wJobs=[];
+    plxEls.forEach(function(el){
+      var r=el.parentElement.getBoundingClientRect();
+      if(r.bottom<-200||r.top>vh+200)return;
+      pJobs.push({el:el,off:Math.max(-20,Math.min(20,(r.top+r.height/2-vh/2)*-0.06)),d:Math.min(1,Math.abs(r.top+r.height/2-vh/2)/(vh/2))});
+    });
+    frameEls.forEach(function(f){
+      var r=f.getBoundingClientRect();
+      if(r.bottom<-120||r.top>vh+120)return;
+      fJobs.push({el:f,c:(r.top+r.height/2-vh/2)/vh});
+    });
+    waveDivs.forEach(function(dv){
+      var r=dv.getBoundingClientRect();
+      if(r.bottom<-80||r.top>vh+80)return;
+      wJobs.push({el:dv,p:Math.max(0,Math.min(1,(vh-r.top)/(vh+r.height))),tracks:dv.querySelectorAll(".wave-track")});
+    });
+    /* then writes */
+    pJobs.forEach(function(j){j.el.style.translate="0 "+j.off.toFixed(1)+"px";j.el.style.scale=(1.14-j.d*0.05).toFixed(3)});
+    fJobs.forEach(function(j){j.el.style.rotate=(j.c*-1.5).toFixed(2)+"deg"});
+    wJobs.forEach(function(j){
+      if(j.tracks[0])j.tracks[0].style.translate=(-j.p*26).toFixed(1)+"px 0";
+      if(j.tracks[1])j.tracks[1].style.translate=(-j.p*48).toFixed(1)+"px 0";
+    });
+    if(waveLinePath)waveLinePath.style.strokeDashoffset=(-((y*0.25)%14)).toFixed(1);
+    /* tide line: one transform write in the same batched pass — no new
+       scroll listener, no layout reads beyond the height taken above */
+    if(tideEl){var max=docH-vh;tideEl.style.transform="scaleX("+(max>0?Math.max(0,Math.min(1,y/max)):0).toFixed(4)+")"}
+  }
+  window.addEventListener("scroll",function(){if(!motionTick){motionTick=true;window.requestAnimationFrame(motionUpdate)}},{passive:true});
+  window.addEventListener("resize",function(){if(!motionTick){motionTick=true;window.requestAnimationFrame(motionUpdate)}},{passive:true});
+  motionUpdate();
+}
+
+/* contact form */
+document.getElementById("contactForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  var name=document.getElementById("f-name").value.trim(),email=document.getElementById("f-email").value.trim(),biz=document.getElementById("f-biz").value.trim(),story=document.getElementById("f-story").value.trim();
+  if(!name||!email||!biz||!story){document.getElementById("confirm").classList.remove("show");[["f-name",name],["f-email",email],["f-biz",biz],["f-story",story]].forEach(function(p){document.getElementById(p[0]).style.borderColor=p[1]?"":"#d64545"});return}
+  var need=(document.querySelector("input[name=need]:checked")||{}).value||"",site=document.getElementById("f-site").value.trim(),budget=document.getElementById("f-budget").value;
+  var txt="REEFRESH — Project Inquiry\n\nName: "+name+"\nEmail: "+email+"\nBusiness: "+biz+(site?"\nCurrent website: "+site:"")+"\nLooking for: "+need+(budget?"\nBudget range: "+budget:"")+"\n\nAbout the business:\n"+story;
+  document.getElementById("summary").textContent=txt;
+  document.getElementById("confirm").classList.add("show");
+  document.getElementById("confirm").scrollIntoView({behavior:reduced?"auto":"smooth",block:"center"});
+});
+document.getElementById("copyBtn").addEventListener("click",function(){
+  var t=document.getElementById("summary").textContent;
+  function done(){document.getElementById("copied").textContent="Copied ✓"}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(done)}else{done()}
+});
+
+/* AUTOMAGIC interview — in-memory only, builds a copyable brief.
+   Honest scope: no live fetch from links, no auto-generation yet. */
+(function(){
+  var PALETTES=[
+    {id:"ocean",name:"Ocean Reef",note:"Navy + turquoise — the REEFRESH classic",colors:["#062a44","#0fb9c6","#f0a868"]},
+    {id:"sunset",name:"Sunset Coral",note:"Warm, welcoming, food & hospitality",colors:["#7a2e1f","#e86a4a","#f6c177"]},
+    {id:"forest",name:"Forest & Stone",note:"Calm, grounded, wellness & craft",colors:["#1e3a2f","#5a9a7a","#d9c9a3"]},
+    {id:"mono",name:"Clean Minimal",note:"Black, white & one confident accent",colors:["#111111","#35d3dc","#e8e8e8"]}
+  ];
+  var FONTS=[
+    {id:"modern",name:"Modern & Bold",css:"'Bricolage Grotesque',sans-serif",note:"Confident headlines, clean body"},
+    {id:"friendly",name:"Warm & Friendly",css:"'Outfit',sans-serif",note:"Rounded, approachable, easy to read"},
+    {id:"elegant",name:"Elegant & Calm",css:"Georgia,'Times New Roman',serif",note:"Quiet, refined, unhurried"}
+  ];
+  var state={step:0,finished:false,biz:"",what:"",who:"",vibe:"Warm & welcoming",palette:PALETTES[0],customPrimary:"",customAccent:"",fontPair:FONTS[0],direction:"bold",tweak:"",site:"",google:"",facebook:"",cta:"Book Now",extra:""};
+  var steps=[
+    {q:"Aloha! What’s your business called?",h:"Just the name as customers know it — we’ll use it for your headline preview.",type:"text",key:"biz",ph:"e.g. Aloha Table, Kailua"},
+    {q:"In one line, what do you do?",h:"Keep it human: “Family restaurant serving recipes from three generations.”",type:"text",key:"what",ph:"e.g. Boutique wellness studio for busy parents"},
+    {q:"Who is it for?",h:"Your favourite customers — who should feel “this is for me” in 3 seconds?",type:"text",key:"who",ph:"e.g. Locals & visitors who love real, unhurried food"},
+    {q:"What should it feel like?",h:"Pick the vibe closest to your place in person. You can change it anytime.",type:"chips",key:"vibe",opts:["Warm & welcoming","Bold & modern","Calm & minimal","Playful & bright"]},
+    {q:"Pick your colours and type — or create your own.",h:"Tap a palette and a type pairing to preview them live. One choice updates the whole mini-site at once — header, headline, and button together.",type:"palette"},
+    {q:"Drop your links — we’ll save them to your brief.",h:"Old website, Google Business, Facebook / Instagram — any you have. Leave blank if you’re starting fresh. We review these when we build; this preview doesn’t fetch them live yet.",type:"links"},
+    {q:"What’s the #1 thing visitors should do?",h:"One primary action converts best. Everything else supports it.",type:"chips",key:"cta",opts:["Book Now","Call Us","Shop / Buy","Visit Us","Get a Quote"]},
+    {q:"Anything else we should know?",h:"Awards, a signature dish/product, a story detail — anything that makes you, you. (Optional)",type:"textarea",key:"extra",ph:"Tell us the detail regulars love…"}
+  ];
+  var bubble=document.getElementById("amBubble"),answer=document.getElementById("amAnswer"),bar=document.getElementById("amBar"),label=document.getElementById("amStepLabel"),brief=document.getElementById("amBrief");
+  if(!bubble)return;
+  function activeColors(){
+    if(state.customPrimary||state.customAccent){return [state.customPrimary||state.palette.colors[0],state.customAccent||state.palette.colors[1],state.palette.colors[2]]}
+    return state.palette.colors;
+  }
+  function syncPreview(){
+    var c=activeColors();
+    var bar=document.getElementById("amMiniBar"),head=document.getElementById("amMiniHead");
+    /* direction changes the preview's character, not just its colours */
+    if(state.direction==="light"){bar.style.background="#e2f4f6";bar.style.color="#062a44"}
+    else if(state.direction==="warm"){bar.style.background=c[2];bar.style.color="#062a44"}
+    else{bar.style.background=c[0];bar.style.color="#fff"}
+    document.getElementById("amMiniCta").style.background=c[1];
+    if(head){head.style.fontFamily=state.fontPair.css;head.style.fontWeight=state.fontPair.id==="elegant"?"700":"800"}
+    document.getElementById("amMiniBiz").textContent=state.biz||"Your Business";
+    document.getElementById("amMiniVibe").textContent=state.vibe||"Warm & welcoming";
+    head.textContent=state.what?state.what:"Tell your story, beautifully.";
+    document.getElementById("amMiniSub").textContent=state.who?("Made for "+state.who+". "+(state.extra?state.extra:"")):"Answer the interview and watch this headline, colours, and call-to-action update to sound like you.";
+    document.getElementById("amMiniCta").textContent=(state.cta||"Book Now")+" →";
+    document.getElementById("amMiniSwatches").innerHTML=c.map(function(x){return '<i style="background:'+x+'"></i>'}).join("");
+    document.querySelectorAll(".dir-card").forEach(function(d){d.classList.toggle("on",d.dataset.dir===state.direction)});
+    document.querySelectorAll("[data-dirbar]").forEach(function(b,i){b.style.background=[c[0],"#e2f4f6",c[2]][i]||c[0]});
+    var dirName=state.direction==="light"?"Light & Airy":state.direction==="warm"?"Warm & Welcoming":"Bold & Direct";
+    var lines=["REEFRESH — Automagic Brief","","Business: "+(state.biz||"—"),"What they do: "+(state.what||"—"),"For: "+(state.who||"—"),"Vibe: "+(state.vibe||"—"),"Colours: "+activeColors().join(", ")+" ("+(state.customPrimary||state.customAccent?"Custom":"Palette: "+state.palette.name)+")","Type pairing: "+state.fontPair.name+" — "+state.fontPair.note,"Direction: "+dirName,"Primary action: "+(state.cta||"—")];
+    if(state.tweak)lines.push("Plain-words tweak: "+state.tweak);
+    if(state.site)lines.push("Current website: "+state.site);
+    if(state.google)lines.push("Google: "+state.google);
+    if(state.facebook)lines.push("Facebook / social: "+state.facebook);
+    if(state.extra)lines.push("","Good to know: "+state.extra);
+    lines.push("","Next step: REEFRESH reviews this brief + links, then designs a human-led first draft in these colours, this type pairing, and this direction. Links above are saved here for review, not fetched automatically in this preview.");
+    brief.textContent=lines.join("\n");
+    /* assembling blocks + build checklist — the preview visibly builds
+       itself as the chat fills in */
+    var bStory=document.getElementById("amBlockStory"),bAction=document.getElementById("amBlockAction"),bFoot=document.getElementById("amBlockFoot");
+    if(bStory){if(state.what){bStory.classList.add("live");bStory.innerHTML="Your story section<small>"+esc(state.what)+(state.who?" — made for "+esc(state.who):"")+"</small>"}else{bStory.classList.remove("live");bStory.textContent="＋ Your story section — unlocks when you tell us what you do"}}
+    if(bAction){if(state.step>=6||state.finished){bAction.classList.add("live");bAction.innerHTML="Your action section<small>"+(state.cta||"Book Now")+" — one clear next step, on every page</small>"}else{bAction.classList.remove("live");bAction.textContent="＋ Your action section — unlocks when you pick the #1 action"}}
+    if(bFoot){if(state.step>=4||state.finished){bFoot.classList.add("live");bFoot.innerHTML="Footer & finishing touches<small>Colours and type applied site-wide, header to footer</small>"}else{bFoot.classList.remove("live");bFoot.textContent="＋ Footer & finishing touches — colours applied site-wide"}}
+    var checks={story:!!(state.biz&&state.what),brand:state.step>=5||state.finished,action:state.step>=7||state.finished,brief:state.finished};
+    document.querySelectorAll("#amBuildList li").forEach(function(li){li.classList.toggle("done",!!checks[li.dataset.build])});
+  }
+  function answerSummary(i){
+    if(i===0)return state.biz||"";
+    if(i===1)return state.what||"";
+    if(i===2)return state.who||"";
+    if(i===3)return state.vibe||"";
+    if(i===4)return state.palette.name+" · "+state.fontPair.name+(state.customPrimary||state.customAccent?" · custom colours":"");
+    if(i===5){var n=[state.site,state.google,state.facebook].filter(function(x){return x&&x.trim()}).length;return n?n+" link"+(n>1?"s":"")+" saved to my brief":"Starting fresh — no links yet"}
+    if(i===6)return state.cta||"";
+    if(i===7)return state.extra||"Nothing extra — that’s everything";
+    return "";
+  }
+  function buildThread(){
+    var th=document.getElementById("amThread");if(!th)return;
+    var html='<div class="msg a">Aloha! I’m Automagic. Chat with me — no forms, no jargon — and watch your site build itself beside us as we go.</div>';
+    for(var i=0;i<state.step&&i<steps.length;i++){
+      html+='<div class="msg a">'+esc(steps[i].q)+'</div>';
+      var a=answerSummary(i);if(a)html+='<div class="msg u">'+esc(a)+'</div>';
+    }
+    if(state.finished){
+      for(var j=state.step;j<steps.length;j++){
+        html+='<div class="msg a">'+esc(steps[j].q)+'</div>';
+        var a2=answerSummary(j);if(a2)html+='<div class="msg u">'+esc(a2)+'</div>';
+      }
+      html+='<div class="msg boom">Boom! Your draft just came together ✦ Copy your brief below and we’ll take it from preview to real site, human-led.</div>';
+    }
+    th.innerHTML=html;
+    th.scrollTop=th.scrollHeight;
+  }
+  function celebrate(){
+    var boom=document.getElementById("amBoom");if(boom)boom.classList.add("show");
+    if(reduced)return;
+    var card=document.getElementById("amMini");if(!card||!card.animate)return;
+    card.animate([{transform:"scale(1)"},{transform:"scale(1.025)"},{transform:"scale(1)"}],{duration:650,easing:"cubic-bezier(.16,1,.3,1)"});
+    var host=card.parentElement;if(!host)return;
+    var colors=activeColors();
+    for(var i=0;i<14;i++){
+      var d=document.createElement("span");d.className="burst-dot";d.style.background=colors[i%colors.length];d.style.left="50%";d.style.top="12px";host.appendChild(d);
+      var ang=(i/14)*Math.PI*2,dist=70+((i*37)%70);
+      var anim=d.animate([{transform:"translate(0,0) scale(1)",opacity:1},{transform:"translate("+(Math.cos(ang)*dist).toFixed(0)+"px,"+(Math.sin(ang)*dist*.7-24).toFixed(0)+"px) scale(.4)",opacity:0}],{duration:950+((i*53)%350),easing:"cubic-bezier(.16,1,.3,1)"});
+      (function(el,a){function rm(){el.remove()}if(a&&a.finished&&a.finished.then)a.finished.then(rm).catch(rm);setTimeout(rm,1500)})(d,anim);
+    }
+    document.querySelectorAll("#amBuildList li").forEach(function(li,i){li.animate([{transform:"translateX(-8px)",opacity:.4},{transform:"translateX(0)",opacity:1}],{duration:420,delay:i*130,easing:"cubic-bezier(.16,1,.3,1)"})});
+  }
+  function render(){
+    var st=steps[state.step];
+    /* each question arrives on a small swell — same ocean ease as the
+       scroll reveals; skipped entirely for reduced-motion */
+    if(!reduced&&bubble.animate){
+      [bubble,answer].forEach(function(el,i){el.animate([{opacity:.25,transform:"translateY(12px)"},{opacity:1,transform:"translateY(0)"}],{duration:420,delay:i*70,easing:"cubic-bezier(.16,1,.3,1)"})});
+    }
+    label.textContent="Step "+(state.step+1)+" of "+steps.length+(state.step===steps.length-1?" · Final step":" · About 2 minutes");
+    bar.style.width=((state.step+1)/steps.length*100)+"%";
+    bubble.innerHTML="<strong>"+st.q+"</strong><p>"+st.h+"</p>";
+    var backBtn=document.getElementById("amBack");backBtn.disabled=state.step===0;backBtn.style.opacity=state.step===0?".45":"1";
+    document.getElementById("amNext").innerHTML=state.step===steps.length-1?"Finish & See Brief ✓":"Continue <span class=\"arr\">→</span>";
+    if(st.type==="text"){answer.innerHTML='<input type="text" id="amInput" placeholder="'+st.ph+'" value="'+(state[st.key]||"").replace(/"/g,"&quot;")+'" autocomplete="off"/>';var inp=document.getElementById("amInput");inp.addEventListener("input",function(){state[st.key]=inp.value;syncPreview()});inp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();next()}});setTimeout(function(){inp.focus()},80)}
+    else if(st.type==="textarea"){answer.innerHTML='<textarea id="amInput" rows="3" placeholder="'+st.ph+'">'+(state[st.key]||"")+'</textarea>';var ta=document.getElementById("amInput");ta.addEventListener("input",function(){state[st.key]=ta.value;syncPreview()})}
+    else if(st.type==="chips"){answer.innerHTML='<div class="am-chips">'+st.opts.map(function(o){return '<button type="button" data-opt="'+o+'" class="'+(state[st.key]===o?"on":"")+'">'+o+'</button>'}).join("")+'</div>';answer.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){state[st.key]=b.dataset.opt;syncPreview();render()})})}
+    else if(st.type==="palette"){answer.innerHTML='<div class="am-palettes">'+PALETTES.map(function(p){return '<button type="button" class="palette-btn '+(state.palette.id===p.id&&!state.customPrimary?"on":"")+'" data-pal="'+p.id+'"><strong>'+p.name+'</strong><small>'+p.note+'</small><span class="swatches">'+p.colors.map(function(c){return '<i style="background:'+c+'"></i>'}).join("")+'</span></button>'}).join("")+'</div><div class="am-fontrow"><span>Type pairing — headline + body, kept in sync:</span>'+FONTS.map(function(f){return '<button type="button" class="font-btn '+(state.fontPair.id===f.id?"on":"")+'" data-font="'+f.id+'" style="font-family:'+f.css+'">'+f.name+'</button>'}).join("")+'</div><div class="am-custom"><strong style="font-size:.92rem">Create custom:</strong><label>Primary <input type="color" id="amCol1" value="'+(state.customPrimary||state.palette.colors[0])+'"/></label><label>Accent <input type="color" id="amCol2" value="'+(state.customAccent||state.palette.colors[1])+'"/></label><button type="button" class="btn btn-ghost" id="amColReset" style="padding:8px 14px">Reset to palette</button><button type="button" class="btn btn-ghost" id="amShuffle" style="padding:8px 14px">✦ Surprise me</button></div>';document.getElementById("amShuffle").addEventListener("click",function(){state.palette=PALETTES[Math.floor(Math.random()*PALETTES.length)];state.fontPair=FONTS[Math.floor(Math.random()*FONTS.length)];state.customPrimary="";state.customAccent="";syncPreview();render()});answer.querySelectorAll("[data-pal]").forEach(function(b){b.addEventListener("click",function(){state.palette=PALETTES.filter(function(p){return p.id===b.dataset.pal})[0];state.customPrimary="";state.customAccent="";syncPreview();render()})});answer.querySelectorAll("[data-font]").forEach(function(b){b.addEventListener("click",function(){state.fontPair=FONTS.filter(function(f){return f.id===b.dataset.font})[0];syncPreview();render()})});document.getElementById("amCol1").addEventListener("input",function(e){state.customPrimary=e.target.value;syncPreview()});document.getElementById("amCol2").addEventListener("input",function(e){state.customAccent=e.target.value;syncPreview()});document.getElementById("amColReset").addEventListener("click",function(){state.customPrimary="";state.customAccent="";syncPreview();render()})}
+    else if(st.type==="links"){answer.innerHTML='<div class="am-links"><input type="url" id="amSite" placeholder="Current website — https://…" value="'+state.site.replace(/"/g,"&quot;")+'"/><input type="url" id="amGoogle" placeholder="Google Business / Maps link (optional)" value="'+state.google.replace(/"/g,"&quot;")+'"/><input type="url" id="amFb" placeholder="Facebook / Instagram link (optional)" value="'+state.facebook.replace(/"/g,"&quot;")+'"/></div>';[["amSite","site"],["amGoogle","google"],["amFb","facebook"]].forEach(function(p){document.getElementById(p[0]).addEventListener("input",function(e){state[p[1]]=e.target.value;syncPreview()})})}
+    buildThread();
+    syncPreview();
+  }
+  function next(){if(state.step<steps.length-1){state.step++;state.finished=false;render()}else{state.finished=true;buildThread();syncPreview();celebrate();document.getElementById("amBrief").scrollIntoView({behavior:reduced?"auto":"smooth",block:"center"});document.getElementById("amCopied").textContent="Brief ready — copy it below ✓"}}
+  document.getElementById("amNext").addEventListener("click",next);
+  document.getElementById("amBack").addEventListener("click",function(){if(state.step>0){state.finished=false;var b=document.getElementById("amBoom");if(b)b.classList.remove("show");state.step--;render()}});
+  document.getElementById("amSkip").addEventListener("click",function(){if(state.step<steps.length-1){state.step++;render()}});
+  document.getElementById("amCopy").addEventListener("click",function(){var t=brief.textContent;function done(){document.getElementById("amCopied").textContent="Copied ✓"};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(done)}else{done()}});
+  document.querySelectorAll(".dir-card").forEach(function(d){d.addEventListener("click",function(){state.direction=d.dataset.dir;syncPreview()})});
+  var tweakBtn=document.getElementById("amTweakBtn"),tweakIn=document.getElementById("amTweak");
+  function applyTweak(){var v=(tweakIn.value||"").trim();if(!v)return;state.tweak=state.tweak?state.tweak+" · "+v:v;tweakIn.value="";document.getElementById("amTweakNote").textContent="Added to your brief ✓ — we’ll build with that in mind.";syncPreview()}
+  if(tweakBtn)tweakBtn.addEventListener("click",applyTweak);
+  if(tweakIn)tweakIn.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();applyTweak()}});
+  /* hero quick-start — type a business name up top, tap once, and the
+     chat picks it up mid-conversation at the very next question */
+  var heroBiz=document.getElementById("heroBiz"),heroGo=document.getElementById("heroBizGo");
+  function heroStart(){
+    var v=heroBiz?(heroBiz.value||"").trim():"";
+    if(v){state.biz=v;state.step=1;state.finished=false;render()}
+    var el=document.getElementById("automagic");if(el)el.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
+    setTimeout(function(){var inp=document.getElementById("amInput");if(inp)inp.focus()},650);
+  }
+  if(heroGo)heroGo.addEventListener("click",heroStart);
+  if(heroBiz)heroBiz.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();heroStart()}});
+  render();
+})();
+
+/* loader + hash */
+window.addEventListener("load",function(){setTimeout(function(){document.getElementById("loader").classList.add("done")},450)});
+setTimeout(function(){document.getElementById("loader").classList.add("done")},2200);
+var h=(location.hash||"").replace("#","");if(["home","services","work","about","contact"].indexOf(h)>=0)go(h);if(h==="automagic"){setTimeout(function(){var el=document.getElementById("automagic");if(el)el.scrollIntoView()},300)}
+</script>
+</body>
+</html>
