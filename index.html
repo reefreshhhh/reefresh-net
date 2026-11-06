@@ -1341,6 +1341,68 @@ html.js .grow-coral.grown{opacity:var(--co,.15);transform:scale(1) rotate(0deg)}
   .sea-fish{display:none}
   html.js .grow-coral{opacity:var(--co,.15)!important;transform:none!important;transition:none!important}
 }
+/* ============================================================
+   REAL REFERENCES — Bubbaloha, Bloomin' Genius, Set in Stone
+   and Dotto: real brands and sites Ian helped build, shown as
+   REEFRESH references. Typographic covers in each brand's own
+   world — deliberately no fake screenshots, no invented
+   metrics, testimonials, or outcomes. Set in Stone and Dotto
+   carry name-only framing: no category or detail is claimed
+   beyond "real brand & site — helped build" until Ian adds it.
+   ============================================================ */
+.real-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:34px}
+@media(max-width:760px){.real-grid{grid-template-columns:1fr}}
+.real-card{background:var(--card);border:1px solid var(--line);border-radius:26px;overflow:hidden;transition:transform .35s,box-shadow .35s;contain:layout style}
+.real-card:hover{transform:translateY(-7px);box-shadow:var(--shadow)}
+.real-visual{position:relative;height:196px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;overflow:hidden;text-align:center}
+.real-visual::before,.real-visual::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.real-word{position:relative;z-index:2;font-family:"Bricolage Grotesque","Outfit",sans-serif;font-weight:800;font-size:clamp(2rem,4.6vw,2.7rem);line-height:1.02;letter-spacing:-.02em}
+.real-sub{position:relative;z-index:2;display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+.real-bubbles{position:absolute;inset:0;pointer-events:none;z-index:1}
+.real-bubbles i{position:absolute;border-radius:50%;border:2px solid rgba(255,255,255,.85);background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.95),rgba(255,255,255,.18) 62%);display:block}
+.real-bubbles i:nth-child(1){width:64px;height:64px;left:7%;top:16%}
+.real-bubbles i:nth-child(2){width:34px;height:34px;left:19%;bottom:14%}
+.real-bubbles i:nth-child(3){width:88px;height:88px;right:5%;top:8%}
+.real-bubbles i:nth-child(4){width:26px;height:26px;right:20%;bottom:18%}
+.real-bubbles i:nth-child(5){width:44px;height:44px;right:34%;top:12%}
+/* Bubbaloha — sky, ocean and bubbles over Honolulu */
+.real-bubbaloha .real-visual{background:linear-gradient(165deg,#e6f9fd 0%,#aeeaf7 52%,#74d2ec 100%);color:#07405e}
+.real-bubbaloha .real-visual::before{width:340px;height:340px;right:-130px;bottom:-240px;background:rgba(255,255,255,.35)}
+.real-bubbaloha .real-visual::after{width:220px;height:220px;left:-90px;top:-150px;background:rgba(255,255,255,.28)}
+.real-bubbaloha .real-sub{background:rgba(255,255,255,.75);color:#075a7d}
+.real-bubbaloha .real-cat{color:#0782ae}
+/* Bloomin' Genius — blush petals, gold light */
+.real-bloomin .real-visual{background:linear-gradient(155deg,#fff3f6 0%,#fde3ec 48%,#fbeed3 100%);color:#a02c5c}
+.real-bloomin .real-visual::before{width:150px;height:150px;left:-46px;bottom:-70px;background:radial-gradient(circle,#f7b8cf 0%,rgba(247,184,207,0) 68%)}
+.real-bloomin .real-visual::after{width:170px;height:170px;right:-52px;top:-84px;background:radial-gradient(circle,#f6cf7d 0%,rgba(246,207,125,0) 68%)}
+.real-bloomin .real-word{font-style:italic}
+.real-bloomin .real-sub{background:rgba(255,255,255,.8);color:#96650e}
+.real-bloomin .real-cat{color:#c74f87}
+/* Set in Stone — carved stone tones, letterspaced and still */
+.real-stone .real-visual{background:linear-gradient(160deg,#efe9dc 0%,#ddd2ba 58%,#c9bb9c 100%);color:#3d372c}
+.real-stone .real-visual::before{inset:12px;border:1.5px solid rgba(61,55,44,.28);border-radius:6px;background:none}
+.real-stone .real-visual::after{width:100%;height:1px;left:0;top:50%;background:rgba(61,55,44,.14);border-radius:0}
+.real-stone .real-word{text-transform:uppercase;letter-spacing:.1em;font-size:clamp(1.55rem,3.8vw,2.15rem)}
+.real-stone .real-sub{background:rgba(255,255,255,.55);color:#5c5340}
+.real-stone .real-cat{color:#7a6c4f}
+/* Dotto — clean ground, one confident dot */
+.real-dotto .real-visual{background:linear-gradient(160deg,#faf8f3 0%,#efece3 100%);color:#191919}
+.real-dotto .real-visual::before{width:20px;height:20px;right:calc(50% - 86px);top:calc(50% - 34px);background:var(--coral);border-radius:50%}
+.real-dotto .real-visual::after{width:150px;height:150px;left:-60px;bottom:-84px;background:radial-gradient(circle,rgba(15,185,198,.22) 0%,rgba(15,185,198,0) 68%)}
+.real-dotto .real-word{letter-spacing:-.04em}
+.real-dotto .real-sub{background:#191919;color:#fff}
+.real-dotto .real-cat{color:#5c5340}
+.real-body{padding:24px 26px 26px}
+.real-badge{display:inline-flex;align-items:center;gap:7px;background:#e8faf6;border:1px solid var(--teal);color:#075e4d;font-size:.74rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+.real-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#22c07a;flex:0 0 auto}
+.real-body h3{font-size:1.5rem;margin:14px 0 4px;letter-spacing:-.02em}
+.real-cat{display:block;font-weight:700;font-size:.85rem;letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}
+.real-body p{color:var(--muted);margin:0;line-height:1.6}
+.real-note{margin-top:14px;font-size:.88rem;font-weight:600;color:var(--teal-dark)}
+/* divider between the real references and the concept work */
+.concept-divider{margin-top:56px;border-top:1px solid var(--line);padding-top:34px;max-width:760px}
+.concept-divider h3{font-size:clamp(1.5rem,3.4vw,2rem);margin:14px 0 8px}
+.concept-divider p{color:var(--muted);margin:0;max-width:62ch}
 </style>
 </head>
 <body>
@@ -1789,10 +1851,16 @@ html.js .grow-coral.grown{opacity:var(--co,.15);transform:scale(1) rotate(0deg)}
   <section>
     <div class="wrap">
       <div class="rv" style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap">
-        <div><span class="kicker"><span class="dot"></span> Our work</span>
-        <h2 style="font-size:clamp(2.2rem,5vw,3.5rem);margin:18px 0 10px">Made to be seen.</h2>
-        <p class="lede">Concept reef neighbors — three illustrative businesses, three personalities, showing how different strengths could feed each other. Concept designs only: not real members, clients, or results.</p></div>
-        <button class="btn btn-ghost" data-go="work">View all concept work <span class="arr">→</span></button>
+        <div><span class="kicker"><span class="dot"></span> Our work · Real references</span>
+        <h2 style="font-size:clamp(2.2rem,5vw,3.5rem);margin:18px 0 10px">Real brands. Real sites.</h2>
+        <p class="lede">These four are real — brands and sites Ian has helped build, presented here as references in REEFRESH’s own name. Each card says what the brand actually is, and nothing it doesn’t: no invented results, no borrowed claims.</p></div>
+        <button class="btn btn-ghost" data-go="work">See all our work <span class="arr">→</span></button>
+      </div>
+      <div class="real-grid" id="homeReal"></div>
+      <div class="concept-divider rv">
+        <span class="kicker"><span class="dot"></span> Concept explorations</span>
+        <h3>Style concepts — illustrative only.</h3>
+        <p>The three builds below are concept designs — illustrative businesses showing design directions and how different strengths could feed each other in the reef. They are not real members, clients, or completed projects; the real work is above.</p>
       </div>
       <div class="grid g3" style="margin-top:34px" id="homeWork"></div>
     </div>
@@ -1867,10 +1935,22 @@ html.js .grow-coral.grown{opacity:var(--co,.15);transform:scale(1) rotate(0deg)}
 
 <!-- ================= WORK ================= -->
 <div class="page" id="page-work">
-  <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> Our work · Concept designs</span>
+  <div class="wrap pagehead rv in"><span class="kicker"><span class="dot"></span> Our work · Real references</span>
   <h1 style="margin:18px 0 14px">Made to be <span style="color:var(--teal-dark)">seen.</span></h1>
-  <p class="lede"><strong style="color:var(--ink)">Concept designs — and concept reef neighbours.</strong> Three illustrative businesses showing how different strengths could feed each other in the reef. Labeled honestly: not completed client projects, not real members, no invented clients or results. Real projects will live here as they launch.</p></div>
-  <section style="padding-top:30px"><div class="wrap"><div class="grid g3" id="workGrid"></div>
+  <p class="lede"><strong style="color:var(--ink)">Real first.</strong> Bubbaloha, Bloomin’ Genius, Set in Stone and Dotto are real brands and sites Ian has helped build — presented here as REEFRESH references, with only what’s known about each one and no invented metrics, testimonials or outcomes. Below them, our concept explorations stay clearly labeled as concepts, so what’s real and what’s illustrative is never blurred.</p></div>
+  <section style="padding-top:30px"><div class="wrap">
+  <div class="rv" style="max-width:760px">
+    <span class="kicker"><span class="dot"></span> References · Real work</span>
+    <h2 style="font-size:clamp(1.9rem,4.4vw,2.7rem);margin:16px 0 10px">Brands Ian has helped build.</h2>
+    <p class="lede">Four real brands, four real sites — the references behind REEFRESH, in REEFRESH’s own name.</p>
+  </div>
+  <div class="real-grid" id="workReal"></div>
+  <div class="concept-divider rv">
+    <span class="kicker"><span class="dot"></span> Concept explorations</span>
+    <h3>Concept designs — illustrative only.</h3>
+    <p>Three illustrative businesses showing design directions and how different strengths could feed each other in the reef. Labeled honestly: not completed client projects, not real members, no invented clients or results.</p>
+  </div>
+  <div class="grid g3" id="workGrid"></div>
   <div id="caseStudies" style="margin-top:40px"></div>
   <div class="band rv" style="margin-top:44px"><img class="band-vid still-drift" src="asset-18.jpg" alt="" aria-hidden="true"/><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Imagine your place in the reef.</h2><p style="max-width:50ch;margin:14px 0 22px">Your business, in the reef — given a fresh perspective the world can feel. It starts with talk story.</p><button class="btn btn-primary" data-go="contact">Start a Project <span class="arr">→</span></button></div>
   </div></section>
@@ -1955,7 +2035,7 @@ html.js .grow-coral.grown{opacity:var(--co,.15);transform:scale(1) rotate(0deg)}
       <div><span class="logofoot"><img src="asset-21.png" alt="Reefresh"/></span>
       <p style="max-width:36ch;margin-top:16px">A reef system in Hawai'i — tools, online homes, and shine to help small businesses grow together.</p><p class="foot-tag" style="font-family:'Bricolage Grotesque';letter-spacing:.14em;text-transform:uppercase;font-size:.8rem">Make Waves Online</p><p class="small" style="margin-top:12px;max-width:38ch">A portion of proceeds from every project supports the protection and restoration of Hawaiʻi’s coral reefs.</p><p class="small" style="margin-top:10px;max-width:38ch">Like fish in the sea, nobody here swims alone — the current is each other, and it carries all of us.</p></div>
       <div><h4>Explore</h4><button data-go="home">Home</button><button data-go="services">Services</button><button data-go="work">Our Work</button><button data-go="about">About</button><button data-go="contact">Contact</button></div>
-      <div><h4>Start here</h4><button data-go="contact">Start talk story</button><button data-go="work">Meet concept neighbours</button><button data-go="services">Tools to shine</button><p class="small" style="margin-top:14px">All portfolio pieces currently shown are clearly labeled concept designs.</p></div>
+      <div><h4>Start here</h4><button data-go="contact">Start talk story</button><button data-go="work">See real work &amp; concepts</button><button data-go="services">Tools to shine</button><p class="small" style="margin-top:14px">Real references are labeled as real work; concept designs are labeled as concepts — never mixed.</p></div>
     </div>
     <div class="foot-giant" aria-hidden="true">REE<b>FRESH</b></div>
     <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:20px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap"><span class="small">© 2026 REEFRESH</span><span class="small">Let’s Make WAVES.</span></div>
@@ -2006,6 +2086,26 @@ function siteThumb(s){
   return '<div class="msite th '+t.theme+'" aria-hidden="true"><div class="ms-nav sm"><strong>'+t.brand+'</strong><em>'+t.cta+'</em></div><div class="ms-timg"><img src="'+s.img+'" alt=""/><span class="ms-thead">'+t.head+'</span></div></div>';
 }
 function workCard(w,i,cls){var s=STYLES[i];return '<article class="work-card rv pop '+(cls||"")+'"><div class="mockups"><span class="concept-tag">Concept Design</span><div class="browser"><div class="b-bar"><i></i><i></i><i></i><b>'+s.site.domain+' — concept build</b></div><div class="b-frame">'+siteDesk(s)+'</div></div><div class="phone"><span class="notch"></span><div class="p-frame">'+sitePhone(s,true)+'</div></div></div><div class="body"><span class="cat">'+w.cat+'</span><h3>'+w.title+'</h3><p>'+w.desc+'</p><div class="neighbor-line"><strong>In the reef (illustrative):</strong> Gives '+w.gives+'. Gets '+w.gets+'.</div><p class="mock-note">Concept build — shown on desktop + phone</p></div></article>'}
+/* REAL REFERENCES — real brands and sites Ian helped build, presented as
+   REEFRESH references. Copy discipline: Bubbaloha and Bloomin' Genius use
+   only grounded detail already established elsewhere in Ian's projects.
+   Set in Stone and Dotto were supplied as names only, so their cards claim
+   nothing beyond the name and "real brand & site — helped build": no
+   invented category, location, features, metrics, testimonials or results,
+   and no external links (none were supplied or verified). Covers are
+   typographic, in each brand's own world — never fake screenshots. */
+var REALWORKS=[
+ {theme:"bubbaloha",word:"Bubbaloha",sub:"Honolulu · Bubbles & Sky",cat:"Children’s Bubble Entertainment · Honolulu",desc:"A bubble-themed children’s entertainment brand in Honolulu — playful, parent-facing, and built around the sky. Its site carries a live Bubble Weather forecast for Magic Island Thursdays, so families can check the conditions before bubble time.",note:"Live Bubble Weather · Magic Island Thursdays"},
+ {theme:"bloomin",word:"Bloomin’ Genius",sub:"Beautiful flowers. Brilliantly reimagined.",cat:"Sustainable Floral Subscription Marketplace",desc:"A sustainable floral subscription marketplace reimagining an original family flower shop. At its heart is The Bloom Club — a monthly surprise bouquet — alongside gifting and a florist network built to let nothing beautiful go to waste.",note:"The Bloom Club · Gifting · Florist network"},
+ {theme:"stone",word:"Set in Stone",sub:"Real Brand · Real Site",cat:"Brand & Site — Helped Build",desc:"A real brand and site Ian helped build, included here as a reference in REEFRESH’s own name.",note:"Real work — reference"},
+ {theme:"dotto",word:"Dotto",sub:"Real Brand · Real Site",cat:"Brand & Site — Helped Build",desc:"A real brand and site Ian helped build, included here as a reference in REEFRESH’s own name.",note:"Real work — reference"}];
+function realCard(r,i,cls){
+  var bubbles=r.theme==="bubbaloha"?'<span class="real-bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>':"";
+  return '<article class="real-card real-'+r.theme+' rv pop '+(cls||"")+'"><div class="real-visual" aria-hidden="true">'+bubbles+'<span class="real-word">'+r.word+'</span><span class="real-sub">'+r.sub+'</span></div><div class="real-body"><span class="real-badge">Real Work · Helped Build</span><h3>'+r.word+'</h3><span class="real-cat">'+r.cat+'</span><p>'+r.desc+'</p><p class="real-note">'+r.note+'</p></div></article>';
+}
+var homeRealEl=document.getElementById("homeReal"),workRealEl=document.getElementById("workReal");
+if(homeRealEl)homeRealEl.innerHTML=REALWORKS.map(function(r,i){return realCard(r,i,i?"d"+(i%3):"")}).join("");
+if(workRealEl)workRealEl.innerHTML=REALWORKS.map(function(r,i){return realCard(r,i,i?"d"+(i%3):"")}).join("");
 document.getElementById("homeWork").innerHTML=WORKS.map(function(w,i){return workCard(w,i,i?"d"+i:"")}).join("");
 document.getElementById("workGrid").innerHTML=WORKS.map(function(w,i){return workCard(w,i,i?"d"+i:"")}).join("");
 document.getElementById("caseStudies").innerHTML=WORKS.map(function(w,i){return '<details class="case rv"><summary>'+w.title+' — the concept, unpacked <span style="color:var(--muted);font-size:.85rem;font-family:Outfit">'+w.cat+'</span></summary><div class="inner"><div><h4>The Business</h4><p>'+w.biz+'</p></div><div><h4>The Opportunity</h4><p>'+w.opp+'</p></div><div><h4>The Creative Direction</h4><p>'+w.dir+'</p></div><div><h4>The Finished Experience</h4><p>'+w.fin+'</p></div><div><h4>In the Reef — Illustrative</h4><p>Gives: '+w.gives+'. Gets: '+w.gets+'. Concept neighbours only — not a real network or membership.</p></div></div></details>'}).join("");
